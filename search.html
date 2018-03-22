@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>DocAnalyer Results</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+</head>
+<body class="main" ng-app="myApp">
+    <div class="menu" ng-controller="sideMenu">
+        <h2>DocAnalyser</h2>
+        <br/>
+        <div class="dropdown" ng-controller="dropdownMenu">
+            <button class="dropdown-button">Change View</button>
+            <div class="dropdown-content">
+                <p>Chronicle</p>
+                <p>Analyze</p>
+            </div>
+        </div>
+        <div id="keywords" ng-controller="keywordsMenu">
+            <h3>Keywords</h3>
+            <form class="checkboxes" action="" method="POST">
+                <input type="checkbox" name="keyword1" checked/> keyword 1<br/>
+                <input type="checkbox" name="keyword2" checked/> keyword 2<br/>
+                <input type="checkbox" name="keyword3" checked/> keyword 3<br/>
+                <input type="checkbox" name="keyword4" /> keyword 4<br/>
+                <input type="checkbox" name="keyword5" /> keyword 5<br/>
+                <input type="checkbox" name="keyword6" /> keyword 6<br/>   
+            </form>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <div id="topics" ng-controller="topicsMenu">
+            <h3>Source Topics</h3>
+            <form class="checkboxes" action="" method="POST">
+                    <input type="checkbox" name="topic1" checked/> source topic 1<br/>
+                    <input type="checkbox" name="topic2" checked/> source topic 2<br/>
+                    <input type="checkbox" name="topic3" checked/> source topic 3<br/>
+                    <input type="checkbox" name="source topic 4" /> source topic 4<br/>
+                    <input type="checkbox" name="source topic 5" /> source topic 5<br/>
+                    <input type="checkbox" name="source topic 6" /> source topic 6<br/>
+                    <input type="checkbox" name="source topic 7" /> source topic 7<br/>
+                    <input type="checkbox" name="source topic 8" /> source topic 8<br/>
+                    <input type="checkbox" name="source topic 9" /> source topic 9<br/>
+                    <input type="checkbox" name="source topic 10" /> source topic 10<br/>
+                    <input type="checkbox" name="source topic 11" /> source topic 11<br/>
+                    <input type="checkbox" name="source topic 12" /> source topic 12<br/>
+                    <input type="checkbox" name="source topic 13" /> source topic 13<br/>
+                    <input type="checkbox" name="source topic 14" /> source topic 14<br/>
+                    <input type="checkbox" name="source topic 15" /> source topic 15<br/>
+                    <input type="checkbox" name="source topic 16" /> source topic 16<br/>
+                    <input type="checkbox" name="source topic 17" /> source topic 17<br/>
+                </form>
+        </div>
+        <br/>
+        <p class="copy"><span id="copyright">&copy;</span> by Mario Kubek</p>
+    </div>
+	<div id="search" ng-controller="searchInput">
+        <iframe id="hidden-frame" name="hidden-frame" style="display:none" src="about:blank"></iframe>
+        <form id="searchbox_003813809171160788124:z54qpilp6j4" target="hidden-frame" method="post" action="search.html?form=1">
+            <input value="003813809171160788124:z54qpilp6j4" name="cx" type="hidden"/>
+            <input id="q" type="text" name="q"/>
+            <input id="customSearch" type="submit" value="Search" onClick="changeUrl('q', 'q')"/>
+        </form>
+	</div>
+    <div class="results" ng-controller="searchResults">
+          <gcse:searchresults-only gname="searchOnlyCSE"></gcse:searchresults-only>
+    </div>
+    </body>
+    </html>
