@@ -1,0 +1,22 @@
+
+<div id="keywords" ng-controller="KeywordsMenuCtrl">
+	<h3>Keywords</h3>
+	<form class="checkboxes" action="" method="POST">
+		<label ng-repeat="(keyword,enabled) in keywords"> <input
+			type="checkbox" ng-model="keywords[keyword]" ng-change="change()" />
+			{{keyword}} <br />
+		</label>
+	</form>
+</div>
+<br />
+<br />
+<br />
+<div id="topics" ng-controller="TopicsMenuCtrl">
+	<h3>Source Topics</h3>
+	<form class="checkboxes" action="" method="POST">
+		<label ng-repeat="(topic,enabled) in topics"> <input
+			type="checkbox" ng-model="topics[topic]" ng-change="change()" />
+			{{topic}} <br />
+		</label>
+	</form>
+</div>
