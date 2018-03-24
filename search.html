@@ -10,7 +10,6 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 <script src="https://unpkg.com/@uirouter/angularjs@1.0.7/release/angular-ui-router.min.js"></script>
-<script type="text/javascript" src="script.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 </head>
 <body class="main" ng-app="myApp">
@@ -20,8 +19,8 @@
 		<div class="dropdown">
 			<button class="dropdown-button">Change View</button>
 			<div class="dropdown-content" ng-controller="DropdownMenuCtrl">
-				<input type="button" value="Analyze" ng-click="changeView('analyze')" /> <br />
-				<input type="button" value="Chronicle" ng-click="changeView('chronicle')" />
+				<input type="button" value="Analyze" ng-click="changeView('analyze')"/><br/>
+				<input type="button" value="Chronicle" ng-click="changeView('chronicle')"/>
 			</div>
 		</div>
 		<div ui-view></div>
@@ -40,7 +39,7 @@
 			<input value="003813809171160788124:z54qpilp6j4" name="cx"
 				type="hidden" /> <input ng-model="queryInput" id="q" type="text"
 				name="q" ng-change="change()" /> <input id="customSearch"
-				name="customSearch" type="submit" value="Search"
+				name="customSearch" type="button" value="Search"
 				ng-click="" />
 		</form>
 	</div>

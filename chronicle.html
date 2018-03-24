@@ -1,1 +1,9 @@
-<p>chronicle view</p>
+<div id="pastQueries" ng-controller="PastQueriesMenuCtrl">
+	<h3>Past Queries</h3>
+	<form class="checkboxes" action="" method="POST">
+		<label ng-repeat="(query,enabled) in pastQueries"> <input
+			type="checkbox" ng-model="pastQueries[query]" ng-change="change()" />
+			{{query}} <br />
+		</label>
+	</form>
+</div>
