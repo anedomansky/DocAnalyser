@@ -1,6 +1,6 @@
 var app = angular.module('myApp',  ['ui.router']);
 
-app.config(function($stateProvider) {
+app.config(['$stateProvider', function($stateProvider) {
 
 	$stateProvider
 	.state('analyze', {
@@ -11,10 +11,18 @@ app.config(function($stateProvider) {
 		templateUrl: 'chronicle.html'
 	})
 	.state('default', {
-		url: '',
-		templateUrl : 'analyze.html'
+		url: '?query&a&h',
+		controller: 'RequestCtrl',
+		template : 'view'
 	});
-});
+}]);
+
+app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', function($scope, $state, $stateParams) {
+	alert($stateParams);
+	alert($stateParams.query);
+	alert($state.params);
+	alert($state.params.query);
+}]);
 
 app.service('TopicsService', function() {
 	this.topics = {topic1: true, topic2: true};
@@ -41,7 +49,6 @@ app.service('KeywordsService', function() {
 		return selectedKeywords;
 	}
 });
-
 
 app.controller('SideMenuCtrl', function($scope) {
 
