@@ -35,28 +35,4 @@ function getParameterByName(name) {
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-// Add or modify querystring
-function changeUrl(key,value) {
-	// Get query string value
-    var searchUrl=location.search;
-    var arrVal = new Array();
-    arrVal = document.getElementById(value).value.split(" ");
-    var val = arrVal.join("%");
-    var urlValue='?'+key+'='+val;
-    if(searchUrl.indexOf(key)== "-1") {
-      window.history.replaceState({state:1, rand: Math.random()}, '', urlValue);
-    }
-    else {
-      window.history.pushState({state:1, rand: Math.random()}, '', urlValue);
-    }
-	objQueryString.key=val;
-	sendAjaxReq(objQueryString);
-}
-
-// Used to display data in webpage from ajax
-function sendAjaxReq(objQueryString) {
-	$.post('search.php', objQueryString, function(data) {
-		// alert(data);
-	})
-}
 
