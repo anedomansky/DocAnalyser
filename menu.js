@@ -13,19 +13,39 @@ app.config(['$stateProvider', function($stateProvider) {
 	.state('default', {
 		url: '?query&a&h',
 		controller: 'RequestCtrl',
-		template : 'view'
+		templateUrl : 'analyze.html'
 	});
 }]);
 
-app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', function($scope, $state, $stateParams) {
-	alert($stateParams);
-	alert($stateParams.query);
-	alert($state.params);
-	alert($state.params.query);
+app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', 'KeywordsService', 'TopicsService',
+	function($scope, $state, $stateParams, KeywordsService, TopicsService) {
+	$scope.toObject = function(arr) {
+		var rv = {};
+		for (var i = 0,len=arr.length; i<len; ++i)
+			if (arr[i] !== undefined) rv[arr[i]] = false;
+		return rv;
+	}
+	var keywords = [];
+	var topics = [];
+	var keywordsObj = {};
+	var topicsObj = {};
+	//fill table with keywords:
+	keywords = $stateParams.query.split(";");
+	keywordsObj = $scope.toObject(keywords);
+	KeywordsService.setKeywords(keywordsObj);
+	//fill table with topics:
+	topics = $stateParams.a.split(";");
+	topicsObj = $scope.toObject(topics);
+	TopicsService.setTopics(topicsObj);
+	
+
 }]);
 
 app.service('TopicsService', function() {
-	this.topics = {topic1: true, topic2: true};
+	this.topics = {};
+	this.setTopics = function(topics) {
+		this.topics = topics;
+	}
 	this.selectedTopics = function() {
 		var selectedTopics = "";
 		for (var topicName in this.topics) {
@@ -38,7 +58,10 @@ app.service('TopicsService', function() {
 });
 
 app.service('KeywordsService', function() {
-	this.keywords = {keyword1: true, keyword2: true};
+	this.keywords = {};
+	this.setKeywords = function(keywords) {
+		this.keywords = keywords;
+	}
 	this.selectedKeywords = function() {
 		var selectedKeywords = "";
 		for (var keywordName in this.keywords) {
@@ -108,51 +131,14 @@ app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsServic
 		}, 0);
 	});
 
-	
+
 	//
 	// TODO: if/else for different states + queryInput
 	//
-	
+
 
 	//user manually change the queryInput:
 	$scope.change = function() {
-	}
-
-	// Define variable
-	var objQueryString={};
-  
-	// Get querystring value
-	function getParameterByName(name) {
-		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-		results = regex.exec(location.search);
-		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-	}
-
-	// Funktioniert nicht mehr, weil wahrscheinlich der StateProvider (ui-route) die URL immer automatisch
-	// zurücksetzt.
-	$scope.changeUrl = function() {
-		//$event.stopPropagation();
-		var arrVal = [];
-		var val = "";
-		var urlValue = "";
-		arrVal = $scope.queryInput.split(" ");
-		val = arrVal.join("%");
-		urlValue ='?'+ 'q' +'='+ val;
-		if(searchUrl.indexOf(key)== "-1") {
-			window.history.replaceState({state:1, rand: Math.random()}, '', urlValue);
-		}
-		else {
-			window.history.pushState({state:1, rand: Math.random()}, '', urlValue);
-		}
-		objQueryString.key=val;
-		$scope.sendAjaxReq(objQueryString);
-	}
-	// Used to display data in webpage from ajax
-	$scope.sendAjaxReq = function(objQueryString) {
-		$.post('search.html', objQueryString, function(data) {
-			// alert(data);
-		})
 	}
 });
 
@@ -168,33 +154,32 @@ app.controller('SearchResultsCtrl', function($scope) {
 
 
 
-//
-//	Setup for the Custom Google Search
-//
-// Hook a callback into the rendered Google Search
+
+//Setup for the Custom Google Search
+
+//Hook a callback into the rendered Google Search
 window.__gcse = {
-	callback: googleCSELoaded
-  }; 
-  function googleCSELoaded() {
+		callback: googleCSELoaded
+}; 
+function googleCSELoaded() {
 	// The hook 
 	$("#customSearch").click(function() {
-	  var searchText = $("#q").val();
-	  console.log(searchText);
-	  var element = google.search.cse.element.getElement('searchOnlyCSE');
-	  element.execute(searchText);
+		var searchText = $("#q").val();
+		console.log(searchText);
+		var element = google.search.cse.element.getElement('searchOnlyCSE');
+		element.execute(searchText);
 	})
-  }
-  
-  // Custom Google Search
-  (function() {
-	  var cx = '003813809171160788124:z54qpilp6j4';
-	  var gcse = document.createElement('script');
-	  gcse.type = 'text/javascript';
-	  gcse.async = true;
-	  gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
-	  var s = document.getElementsByTagName('script')[0];
-	  s.parentNode.insertBefore(gcse, s);
-	})();
-  
-  
-  
+}
+
+//Custom Google Search
+(function() {
+	var cx = '003813809171160788124:z54qpilp6j4';
+	var gcse = document.createElement('script');
+	gcse.type = 'text/javascript';
+	gcse.async = true;
+	gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(gcse, s);
+})();
+
+
