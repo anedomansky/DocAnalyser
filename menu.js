@@ -19,25 +19,39 @@ app.config(['$stateProvider', function($stateProvider) {
 
 app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', 'KeywordsService', 'TopicsService',
 	function($scope, $state, $stateParams, KeywordsService, TopicsService) {
-	$scope.toObject = function(arr) {
+
+	/** Functions */
+	/* convert array to Object */
+	$scope.arrToObject = function(arr) {
 		var rv = {};
-		for (var i = 0,len=arr.length; i<len; ++i)
-			if (arr[i] !== undefined) rv[arr[i]] = false;
+		for (var i = 0,len=arr.length; i<len; ++i) {
+			if (arr[i] !== undefined) {
+				rv[arr[i]] = false;
+			}
+		}
 		return rv;
 	}
-	var keywords = [];
-	var topics = [];
-	var keywordsObj = {};
-	var topicsObj = {};
-	//fill table with keywords:
-	keywords = $stateParams.query.split(";");
-	keywordsObj = $scope.toObject(keywords);
-	KeywordsService.setKeywords(keywordsObj);
-	//fill table with topics:
-	topics = $stateParams.a.split(";");
-	topicsObj = $scope.toObject(topics);
-	TopicsService.setTopics(topicsObj);
-	
+	/* Get the request parameters from the url and place them as keywords and topics */
+	$scope.processRequestParameter = function() {
+		var keywords = [];
+		var topics = [];
+		var keywordsObj = {};
+		var topicsObj = {};
+		// fill table with keywords:
+		keywords = $stateParams.a.split(";");
+		keywordsObj = $scope.arrToObject(keywords);
+		KeywordsService.setKeywords(keywordsObj);
+		// fill table with topics:
+		topics = $stateParams.h.split(";");
+		topicsObj = $scope.arrToObject(topics);
+		TopicsService.setTopics(topicsObj);
+		// preselect the top 4 keywords
+		for (var i = 0; i<4; i++) {
+			keywordsObj[keywords[i]] = true;
+		}
+	}
+	/* End Functions */
+	$scope.processRequestParameter();
 
 }]);
 
@@ -131,14 +145,44 @@ app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsServic
 		}, 0);
 	});
 
-
-	//
-	// TODO: if/else for different states + queryInput
-	//
-
-
 	//user manually change the queryInput:
 	$scope.change = function() {
+	}
+	// Define variable
+		var objQueryString={};
+	  
+		// Get querystring value
+		function getParameterByName(name) {
+			name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+			var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+			results = regex.exec(location.search);
+			return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+		}
+
+		// Funktioniert nicht mehr, weil wahrscheinlich der StateProvider (ui-route) die URL immer automatisch
+		// zurücksetzt.
+		$scope.changeUrl = function() {
+			//$event.stopPropagation();
+			var arrVal = [];
+			var val = "";
+			var urlValue = "";
+			arrVal = $scope.queryInput.split(" ");
+			val = arrVal.join("%");
+			urlValue ='?'+ 'q' +'='+ val;
+			if(searchUrl.indexOf(key)== "-1") {
+				window.history.replaceState({state:1, rand: Math.random()}, '', urlValue);
+			}
+			else {
+				window.history.pushState({state:1, rand: Math.random()}, '', urlValue);
+			}
+			objQueryString.key=val;
+			$scope.sendAjaxReq(objQueryString);
+		}
+		// Used to display data in webpage from ajax
+		$scope.sendAjaxReq = function(objQueryString) {
+			$.post('search.html', objQueryString, function(data) {
+				// alert(data);
+			})
 	}
 });
 

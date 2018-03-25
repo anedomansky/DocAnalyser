@@ -1,0 +1,24 @@
+---Analyse Ansicht---
+Muss:
+1. Fehlerbehandlung (Alle möglichen Urls behandeln/berücksichtigen)
+(Tom)2. Keywords/Topics werden durch manuelle Sucheingaben selektiert/deselektiert
+(Tom)3. Benutzerhilfe (ähnlich der Originalseite ein ? Tooltip mit Informationen zu den Keywords/Topics)
+4. Google Suche beim ersten Laden der Seite ausführen (siehe menu.js -> SearchResultsCtrl)
+
+Weniger wichtig:
+1. Benutzerhilfe / Google Such API auch deutsch umstellen können (evtl. Balken oben rechts, neben DocAnalyser, ein kleiner "Flaggen" Button,
+um die gewünschte Sprache auszuwählen)
+2. Den fixen Balken in der Breite verändern können
+3. Keywords/Topics Tabelle in der Höhe verändern können
+
+---Chronik Ansicht---
+Muss:
+1. Suchlauf speichern
+2. Suchläufe gemäß Filteroption anzeigen. Suchlauf durch Url des analysierten Inhalts (z.b www.wikipedia.org/mathematik) erkennbar
+2. Keywords/Topics beim Laden einer Suche aktualisieren
+3. Filteroption ähnlich der Firefox Chronik Sidebar. Filterung nach "Heute, Gestern, Letzte 7 Tage, Monat, älter als x Monate..."
+4. automatische Speicherung der Suchläufe aktivieren/deaktivieren
+
+
+Weniger wichtig:
+1. Chronik durchsuchen mit Begriffen (Suchleiste, wo man Begriffe eingeben kann, die in der Url enthalten sein müssen)
