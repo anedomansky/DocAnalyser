@@ -148,68 +148,38 @@ app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsServic
 	//user manually change the queryInput:
 	$scope.change = function() {
 	}
-	// Define variable
-		var objQueryString={};
-	  
-		// Get querystring value
-		function getParameterByName(name) {
-			name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-			var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-			results = regex.exec(location.search);
-			return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-		}
-
-		// Funktioniert nicht mehr, weil wahrscheinlich der StateProvider (ui-route) die URL immer automatisch
-		// zurücksetzt.
-		$scope.changeUrl = function() {
-			//$event.stopPropagation();
-			var arrVal = [];
-			var val = "";
-			var urlValue = "";
-			arrVal = $scope.queryInput.split(" ");
-			val = arrVal.join("%");
-			urlValue ='?'+ 'q' +'='+ val;
-			if(searchUrl.indexOf(key)== "-1") {
-				window.history.replaceState({state:1, rand: Math.random()}, '', urlValue);
-			}
-			else {
-				window.history.pushState({state:1, rand: Math.random()}, '', urlValue);
-			}
-			objQueryString.key=val;
-			$scope.sendAjaxReq(objQueryString);
-		}
-		// Used to display data in webpage from ajax
-		$scope.sendAjaxReq = function(objQueryString) {
-			$.post('search.html', objQueryString, function(data) {
-				// alert(data);
-			})
-	}
 });
 
-app.controller('SearchResultsCtrl', function($scope) {
-	// TO DO: google suche beim laden der seite ausführen.
-	// Funktioniert noch nicht, weil wahrscheinlich vor der Suche alle Komponenten fertig geladen sein müssen
+// Does not do anything at the moment
+/* app.controller('SearchResultsCtrl', function($scope) {
 	$scope.init = function() {
 		setTimeout(function() {
 			angular.element(document.querySelector('#customSearch')).click();
 		}, 0);
 	}
-});
+}); */
 
 
 
+// Setup for the Custom Google Search
 
-//Setup for the Custom Google Search
-
-//Hook a callback into the rendered Google Search
+// Hook callback into the rendered Google Search
 window.__gcse = {
-		callback: googleCSELoaded
+	callback: googleCSELoaded
 }; 
 function googleCSELoaded() {
-	// The hook 
+	// initial search after the page is loaded for the first time
+	var searchText = $("#q").val();
+	console.log(searchText);
+	google.search.cse.element.render({gname:'searchOnlyCSE', div:'results', tag:'searchresults-only', attributes:{linkTarget:''}});
+	var element = google.search.cse.element.getElement('searchOnlyCSE');
+	element.execute(searchText);
+
+	// triggers every following search
 	$("#customSearch").click(function() {
 		var searchText = $("#q").val();
 		console.log(searchText);
+		google.search.cse.element.render({gname:'searchOnlyCSE', div:'results', tag:'searchresults-only', attributes:{linkTarget:''}});
 		var element = google.search.cse.element.getElement('searchOnlyCSE');
 		element.execute(searchText);
 	})
@@ -225,5 +195,3 @@ function googleCSELoaded() {
 	var s = document.getElementsByTagName('script')[0];
 	s.parentNode.insertBefore(gcse, s);
 })();
-
-
