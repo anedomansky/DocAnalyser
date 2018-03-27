@@ -50,7 +50,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', 'KeywordsServ
 			keywordsObj[keywords[i]] = true;
 		}
 	}
-	/* End Functions */
+	/** End Functions */
 	$scope.processRequestParameter();
 
 }]);
@@ -69,10 +69,19 @@ app.service('TopicsService', function() {
 		}
 		return selectedTopics;
 	}
+
+	this.getAll = function() {	
+		return Object.keys(this.topics);
+	}
+
+	this.changeStatus = function(topic) {
+		this.topics[topic] = !this.topics[topic];
+	}
 });
 
 app.service('KeywordsService', function() {
 	this.keywords = {};
+
 	this.setKeywords = function(keywords) {
 		this.keywords = keywords;
 	}
@@ -85,6 +94,15 @@ app.service('KeywordsService', function() {
 		}
 		return selectedKeywords;
 	}
+
+	this.getAll = function() {	
+		return Object.keys(this.keywords);
+	}
+
+	this.changeStatus = function(keyword) {
+		this.keywords[keyword] = !this.keywords[keyword];
+	}
+
 });
 
 app.service('PastQueriesService', function() {
@@ -134,38 +152,83 @@ app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsServic
 	$scope.topicsService = TopicsService;
 	$scope.keywordsService = KeywordsService;
 	$scope.pastQueriesService = PastQueriesService;
-	$scope.queryInput = "";
+	$scope.queryInputTemplate = ""; // buffer for search bar
+	$scope.queryInput = ""; // search bar
+	$scope.queryInputArr = []; // search bar items as array
+	$scope.selectedTerms = [];
+	$scope.diff = [];
+	
+	/** Functions */
+	$scope.onlyUnique = function(value, index, self) {
+	    return self.indexOf(value) === index;
+	}
+	
+	$scope.symmetricDifference = function(a1, a2) {
+		var result = [];
+		for (var i = 0; i < a1.length; i++) {
+			if (a2.indexOf(a1[i]) === -1) { // new difference found
+				result.push(a1[i]);
+			}
+		}
+		for (i = 0; i < a2.length; i++) {
+			if (a1.indexOf(a2[i]) === -1) {
+				result.push(a2[i]);
+			}
+		}
+		return result;
+	}
+	/** End Functions */
 
+	/** Angular Functions */
+	
+	/* keywords/topics were selected or deselected */
 	$scope.$watchGroup(['keywordsService.selectedKeywords()', 'topicsService.selectedTopics()'], function(newValues) {
 		// newValues array contains the current values of the watch expressions
-		$scope.queryInput = newValues[0] + newValues[1];
-		$scope.queryInput = $scope.queryInput.slice(0, -1); // remove last whitespace
+		$scope.unique = newValues.filter( $scope.onlyUnique ); //
+		$scope.queryInputTemplate = $scope.unique[0];
+		$scope.queryInputTemplate = $scope.queryInputTemplate.slice(0, -1); // remove last whitespace
+		
+		$scope.queryInput = $scope.queryInputTemplate; // show new query
 		setTimeout(function() {
-			angular.element(document.querySelector('#customSearch')).click();
+			angular.element(document.querySelector('#customSearch')).click(); // execute google search
 		}, 0);
+		$scope.selectedKeywords = newValues[0].split(" ");
+		$scope.selectedTopics = newValues[1].split(" ");
+		$scope.selectedTerms = $scope.selectedKeywords.concat($scope.selectedTopics);
 	});
-
-	//user manually change the queryInput:
+	
+	/*user manually change the queryInput */
 	$scope.change = function() {
+		$scope.queryInputArr = $scope.queryInput.split(" ");
+
+		$scope.diff = $scope.symmetricDifference($scope.queryInputArr, $scope.selectedTerms);
+
+		for(var i = 0; i < $scope.diff.length; i++) {
+			// term must be keyword or topic
+			if (KeywordsService.getAll().indexOf($scope.diff[i]) > 0) { // it is a keyword
+				KeywordsService.changeStatus($scope.diff[i]);
+			}
+			if (TopicsService.getAll().indexOf($scope.diff[i]) > 0) { // it is a topic
+				TopicsService.changeStatus($scope.diff[i]);
+			}
+		}
+		/** End Angular Functions */
 	}
+
+	$scope.change(); // call function to select topics that are also keywords
 });
 
-// Does not do anything at the moment
-/* app.controller('SearchResultsCtrl', function($scope) {
-	$scope.init = function() {
-		setTimeout(function() {
-			angular.element(document.querySelector('#customSearch')).click();
-		}, 0);
-	}
-}); */
+//Does not do anything at the moment
+app.controller('SearchResultsCtrl', function($scope) {
+});
 
 
 
-// Setup for the Custom Google Search
+//Setup for the Custom Google Search
 
-// Hook callback into the rendered Google Search
+//Hook callback into the rendered Google Search
 window.__gcse = {
-	callback: googleCSELoaded
+		callback: googleCSELoaded
 }; 
 function googleCSELoaded() {
 	// initial search after the page is loaded for the first time

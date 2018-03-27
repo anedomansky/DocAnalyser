@@ -1,8 +1,12 @@
 ---Analyse Ansicht---
 Muss:
 1. Fehlerbehandlung (Alle mï¿½glichen Urls behandeln/berï¿½cksichtigen)
-(Tom)2. Keywords/Topics werden durch manuelle Sucheingaben selektiert/deselektiert
+(Tom)2. Keywords/Topics werden durch manuelle Sucheingaben deselektiert
+2.1 Bug oder Feature?: Wenn man den ersten Buchstaben eines Keywords/Topic löscht, wird automatisch der komplette Begriff gelöscht und deselektiert.
 (Tom)3. Benutzerhilfe (ï¿½hnlich der Originalseite ein ? Tooltip mit Informationen zu den Keywords/Topics)
+(Tom)4. Wenn ein Keyword gleichzeitig ein Topic ist oder umgekehrt ist, dann treten einige Probleme auf:
+4.1 Wenn eines von beiden selektiert/deselektiert wird, muss die Änderung auch auf den anderen durchgeführt werden,
+da sonst einige Bugs für/bei Punkt 2. ausgelöst werden.
 
 Weniger wichtig:
 1. Benutzerhilfe / Google Such API auch deutsch umstellen kï¿½nnen (evtl. Balken oben rechts, neben DocAnalyser, ein kleiner "Flaggen" Button,
