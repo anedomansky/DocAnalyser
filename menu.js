@@ -35,10 +35,16 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', 'KeywordsServ
 	$scope.processRequestParameter = function() {
 		var keywords = [];
 		var topics = [];
+		var topKeywords = [];
 		var keywordsObj = {};
 		var topicsObj = {};
 		// fill table with keywords:
 		keywords = $stateParams.a.split(";");
+		// fill most important keywords:
+		for (var i=0; i<4; i++) {
+			topKeywords.push(keywords[i]);
+		}
+		KeywordsService.setTopKeywords(topKeywords);
 		keywordsObj = $scope.arrToObject(keywords);
 		KeywordsService.setKeywords(keywordsObj);
 		// fill table with topics:
@@ -77,11 +83,17 @@ app.service('TopicsService', function() {
 	this.changeStatus = function(topic) {
 		this.topics[topic] = !this.topics[topic];
 	}
+
+	this.setStatus = function(topic, status) {
+		this.topics[topic] = status;
+	}
 });
 
 app.service('KeywordsService', function() {
-	this.keywords = {};
+	this.keywords = {}; // all keywords
+	this.topKeywords = []; // top 4 keywords
 
+	/** Functions */
 	this.setKeywords = function(keywords) {
 		this.keywords = keywords;
 	}
@@ -103,6 +115,19 @@ app.service('KeywordsService', function() {
 		this.keywords[keyword] = !this.keywords[keyword];
 	}
 
+	this.setStatus = function(keyword, status) {
+		this.keywords[keyword] = status;
+	}
+	
+	this.getTopKeywords = function() {
+		return this.topKeywords;
+	}
+	
+	this.setTopKeywords = function(topKeywords) {
+		this.topKeywords = topKeywords;
+	}
+	
+	/** End Functions */
 });
 
 app.service('PastQueriesService', function() {
@@ -130,15 +155,40 @@ app.controller('DropdownMenuCtrl', ['$scope', '$state',
 	}
 }]);
 
-app.controller('KeywordsMenuCtrl', function($scope, KeywordsService) {
+app.controller('KeywordsMenuCtrl', function($scope, KeywordsService, TopicsService) {
 	$scope.keywords = KeywordsService.keywords;
-	$scope.change = function() {
+
+	// user clicked a checkbox:
+	$scope.clicked = function(keyword) {
+		if (TopicsService.getAll().indexOf(keyword) > 0) { //selected keyword is also a topic
+			var status = $scope.keywords[keyword];
+			TopicsService.setStatus(keyword, status);
+		}
 	}
+
+	/* initialization */
+	$scope.init = function() {
+		// The objects are already set to true, but if the keywords are topics at the same time,
+		// they must also be manually clicked to transfer the object status of the keywords to the topics
+		$scope.topKeywords = KeywordsService.getTopKeywords();
+		for(var i=0; i<4; i++) {
+			$scope.clicked($scope.topKeywords[i]);
+		}
+	}
+	
+	$scope.init();
+		
 });
 
-app.controller('TopicsMenuCtrl', function($scope, TopicsService) {
+app.controller('TopicsMenuCtrl', function($scope, TopicsService, KeywordsService) {
 	$scope.topics = TopicsService.topics;
-	$scope.change = function() {
+
+	// user clicked a checkbox:
+	$scope.clicked = function(topic) {
+		if (KeywordsService.getAll().indexOf(topic) > 0) { //selected topic is also a keyword
+			var status = $scope.topics[topic];
+			KeywordsService.setStatus(topic, status);
+		}
 	}
 });
 
@@ -157,21 +207,21 @@ app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsServic
 	$scope.queryInputArr = []; // search bar items as array
 	$scope.selectedTerms = [];
 	$scope.diff = [];
-	
+
 	/** Functions */
 	$scope.onlyUnique = function(value, index, self) {
-	    return self.indexOf(value) === index;
+		return self.indexOf(value) === index;
 	}
-	
+
 	$scope.symmetricDifference = function(a1, a2) {
 		var result = [];
 		for (var i = 0; i < a1.length; i++) {
-			if (a2.indexOf(a1[i]) === -1) { // new difference found
+			if (a2.indexOf(a1[i]) === -1 && result.indexOf(a1[i]) === -1) { // new difference found
 				result.push(a1[i]);
 			}
 		}
 		for (i = 0; i < a2.length; i++) {
-			if (a1.indexOf(a2[i]) === -1) {
+			if (a1.indexOf(a2[i]) === -1 && result.indexOf(a2[i]) === -1) {
 				result.push(a2[i]);
 			}
 		}
@@ -180,14 +230,14 @@ app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsServic
 	/** End Functions */
 
 	/** Angular Functions */
-	
+
 	/* keywords/topics were selected or deselected */
 	$scope.$watchGroup(['keywordsService.selectedKeywords()', 'topicsService.selectedTopics()'], function(newValues) {
 		// newValues array contains the current values of the watch expressions
 		$scope.unique = newValues.filter( $scope.onlyUnique ); //
 		$scope.queryInputTemplate = $scope.unique[0];
 		$scope.queryInputTemplate = $scope.queryInputTemplate.slice(0, -1); // remove last whitespace
-		
+
 		$scope.queryInput = $scope.queryInputTemplate; // show new query
 		setTimeout(function() {
 			angular.element(document.querySelector('#customSearch')).click(); // execute google search
@@ -196,7 +246,7 @@ app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsServic
 		$scope.selectedTopics = newValues[1].split(" ");
 		$scope.selectedTerms = $scope.selectedKeywords.concat($scope.selectedTopics);
 	});
-	
+
 	/*user manually change the queryInput */
 	$scope.change = function() {
 		$scope.queryInputArr = $scope.queryInput.split(" ");
@@ -215,14 +265,16 @@ app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsServic
 		/** End Angular Functions */
 	}
 
-	$scope.change(); // call function to select topics that are also keywords
+	//$scope.change(); // call function to select topics that are also keywords
 });
 
 //Does not do anything at the moment
 app.controller('SearchResultsCtrl', function($scope) {
+	$scope.init = function() {
+	}
+
+	$scope.init();
 });
-
-
 
 //Setup for the Custom Google Search
 

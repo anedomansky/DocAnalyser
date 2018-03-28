@@ -1,8 +1,8 @@
 <div id="keywords" ng-controller="KeywordsMenuCtrl">
 	<h3>Keywords</h3>
 	<form class="checkboxes" action="" method="POST">
-		<label ng-repeat="(keyword,enabled) in keywords"> <input
-			type="checkbox" ng-model="keywords[keyword]" ng-change="change()" />
+		<label ng-repeat="(keyword,enabled) in keywords"> <input id="keywordsCheckboxes" name="keywordCheckboxes"
+			type="checkbox" ng-model="keywords[keyword]" ng-click="clicked(keyword)" />
 			{{keyword}} <br />
 		</label>
 	</form>
@@ -14,7 +14,7 @@
 	<h3>Source Topics</h3>
 	<form class="checkboxes" action="" method="POST">
 		<label ng-repeat="(topic,enabled) in topics"> <input
-			type="checkbox" ng-model="topics[topic]" ng-change="change()" />
+			type="checkbox" ng-model="topics[topic]" ng-click="clicked(topic)" />
 			{{topic}} <br />
 		</label>
 	</form>
