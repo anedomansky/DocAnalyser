@@ -3,17 +3,13 @@ keywords/Topics = Begriffe
 ---Analyse Ansicht---
 Muss:
 1. Fehlerbehandlung (Alle mï¿½glichen Urls behandeln/berï¿½cksichtigen)
-(Tom)2. Bug: Wenn man den ersten Buchstaben eines Keywords/Topic löscht, wird automatisch der komplette Begriff gelöscht und deselektiert,
-weil die Suchleiste direkt abhängig vom Status der Begriffe ist. => Führt teilweise zu sehr komischen Verhalten (Gib z.b bei mathe/wikipedia "Jahr" ein).
-Suchleiste darf nicht mehr direkt von dem Status der Begriffe abhängig sein.
-Grobe Lösungsideen willkommen. :D 
-3. Benutzerhilfe (ï¿½hnlich der Originalseite ein ? Tooltip mit Informationen zu den Keywords/Topics)
+(Tom)2. Benutzerhilfe (ï¿½hnlich der Originalseite ein ? Tooltip mit Informationen zu den Begriffen)
 
 Weniger wichtig:
 1. Benutzerhilfe / Google Such API auch deutsch umstellen kï¿½nnen (evtl. Balken oben rechts, neben DocAnalyser, ein kleiner "Flaggen" Button,
 um die gewï¿½nschte Sprache auszuwï¿½hlen)
 2. Den fixen Balken in der Breite verï¿½ndern kï¿½nnen
-3. Keywords/Topics Tabelle in der Hï¿½he verï¿½ndern kï¿½nnen
+3. Begriffe Tabelle in der Hï¿½he verï¿½ndern kï¿½nnen
 
 ---Chronik Ansicht---
 Muss:

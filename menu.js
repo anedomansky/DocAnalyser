@@ -17,50 +17,8 @@ app.config(['$stateProvider', function($stateProvider) {
 	});
 }]);
 
-app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', 'KeywordsService', 'TopicsService',
-	function($scope, $state, $stateParams, KeywordsService, TopicsService) {
 
-	/** Functions */
-	/* convert array to Object */
-	$scope.arrToObject = function(arr) {
-		var rv = {};
-		for (var i = 0,len=arr.length; i<len; ++i) {
-			if (arr[i] !== undefined) {
-				rv[arr[i]] = false;
-			}
-		}
-		return rv;
-	}
-	/* Get the request parameters from the url and place them as keywords and topics */
-	$scope.processRequestParameter = function() {
-		var keywords = [];
-		var topics = [];
-		var topKeywords = [];
-		var keywordsObj = {};
-		var topicsObj = {};
-		// fill table with keywords:
-		keywords = $stateParams.a.split(";");
-		// fill most important keywords:
-		for (var i=0; i<4; i++) {
-			topKeywords.push(keywords[i]);
-		}
-		KeywordsService.setTopKeywords(topKeywords);
-		keywordsObj = $scope.arrToObject(keywords);
-		KeywordsService.setKeywords(keywordsObj);
-		// fill table with topics:
-		topics = $stateParams.h.split(";");
-		topicsObj = $scope.arrToObject(topics);
-		TopicsService.setTopics(topicsObj);
-		// preselect the top 4 keywords
-		for (var i = 0; i<4; i++) {
-			keywordsObj[keywords[i]] = true;
-		}
-	}
-	/** End Functions */
-	$scope.processRequestParameter();
-
-}]);
-
+/** Begin Angular Services */
 app.service('TopicsService', function() {
 	this.topics = {};
 	this.setTopics = function(topics) {
@@ -118,15 +76,15 @@ app.service('KeywordsService', function() {
 	this.setStatus = function(keyword, status) {
 		this.keywords[keyword] = status;
 	}
-	
+
 	this.getTopKeywords = function() {
 		return this.topKeywords;
 	}
-	
+
 	this.setTopKeywords = function(topKeywords) {
 		this.topKeywords = topKeywords;
 	}
-	
+
 	/** End Functions */
 });
 
@@ -143,6 +101,52 @@ app.service('PastQueriesService', function() {
 	}
 });
 
+/** End Angular Services */
+
+/** Begin Angular Controllers */
+app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', 'KeywordsService', 'TopicsService',
+	function($scope, $state, $stateParams, KeywordsService, TopicsService) {
+
+	/** Functions */
+	/* convert array to Object */
+	$scope.arrToObject = function(arr) {
+		var rv = {};
+		for (var i = 0,len=arr.length; i<len; ++i) {
+			if (arr[i] !== undefined) {
+				rv[arr[i]] = false;
+			}
+		}
+		return rv;
+	}
+	/* Get the request parameters from the url and place them as keywords and topics */
+	$scope.processRequestParameter = function() {
+		var keywords = [];
+		var topics = [];
+		var topKeywords = [];
+		var keywordsObj = {};
+		var topicsObj = {};
+		// fill table with keywords:
+		keywords = $stateParams.a.split(";");
+		// fill most important keywords:
+		for (var i=0; i<4; i++) {
+			topKeywords.push(keywords[i]);
+		}
+		KeywordsService.setTopKeywords(topKeywords);
+		keywordsObj = $scope.arrToObject(keywords);
+		KeywordsService.setKeywords(keywordsObj);
+		// fill table with topics:
+		topics = $stateParams.h.split(";");
+		topicsObj = $scope.arrToObject(topics);
+		TopicsService.setTopics(topicsObj);
+		// preselect the top 4 keywords
+		for (var i = 0; i<4; i++) {
+			keywordsObj[keywords[i]] = true;
+		}
+	}
+	/** End Functions */
+	$scope.processRequestParameter();
+
+}]);
 
 app.controller('SideMenuCtrl', function($scope) {
 
@@ -155,15 +159,19 @@ app.controller('DropdownMenuCtrl', ['$scope', '$state',
 	}
 }]);
 
-app.controller('KeywordsMenuCtrl', function($scope, KeywordsService, TopicsService) {
+app.controller('KeywordsMenuCtrl', function($scope, $rootScope, KeywordsService, TopicsService) {
 	$scope.keywords = KeywordsService.keywords;
 
 	// user clicked a checkbox:
 	$scope.clicked = function(keyword) {
+		var status = $scope.keywords[keyword];
+
 		if (TopicsService.getAll().indexOf(keyword) > 0) { //selected keyword is also a topic
-			var status = $scope.keywords[keyword];
 			TopicsService.setStatus(keyword, status);
 		}
+		//notify SearchInputCtrl:
+		$rootScope.$broadcast('selectedTermsChanged', { term: keyword, status: status });
+
 	}
 
 	/* initialization */
@@ -175,20 +183,23 @@ app.controller('KeywordsMenuCtrl', function($scope, KeywordsService, TopicsServi
 			$scope.clicked($scope.topKeywords[i]);
 		}
 	}
-	
+
 	$scope.init();
-		
+
 });
 
-app.controller('TopicsMenuCtrl', function($scope, TopicsService, KeywordsService) {
+app.controller('TopicsMenuCtrl', function($scope, $rootScope, TopicsService, KeywordsService) {
 	$scope.topics = TopicsService.topics;
 
 	// user clicked a checkbox:
 	$scope.clicked = function(topic) {
+		var status = $scope.topics[topic];
+		
 		if (KeywordsService.getAll().indexOf(topic) > 0) { //selected topic is also a keyword
-			var status = $scope.topics[topic];
 			KeywordsService.setStatus(topic, status);
 		}
+		//notify SearchInputCtrl:
+		$rootScope.$broadcast('selectedTermsChanged', { term: keyword, status: status });
 	}
 });
 
@@ -198,10 +209,9 @@ app.controller('PastQueriesMenuCtrl', function($scope, PastQueriesService) {
 	}
 });
 
-app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsService, PastQueriesService) {
+app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsService) {
 	$scope.topicsService = TopicsService;
 	$scope.keywordsService = KeywordsService;
-	$scope.pastQueriesService = PastQueriesService;
 	$scope.queryInputTemplate = ""; // buffer for search bar
 	$scope.queryInput = ""; // search bar
 	$scope.queryInputArr = []; // search bar items as array
@@ -231,17 +241,31 @@ app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsServic
 
 	/** Angular Functions */
 
-	/* keywords/topics were selected or deselected */
+	/* a term was selected or deselected */
+	$scope.$on('selectedTermsChanged', function(event, args) {
+		var status = args.status; // true for selected; false for deselected
+		var term = args.term; // keyword/topic
+		if (status) { // add term to search bar
+			if ($scope.queryInput.length === 0) { // first term
+				$scope.queryInput += term;
+			}
+			else {
+				$scope.queryInput += " " + term;
+			}
+		}
+		else { //remove term from search bar
+			var regex = " " + term;
+			var re = new RegExp(regex,"g");
+			$scope.queryInput = $scope.queryInput.replace(re,"");
+		}
+	});
+	
+	/* terms were selected or deselected */
 	$scope.$watchGroup(['keywordsService.selectedKeywords()', 'topicsService.selectedTopics()'], function(newValues) {
-		// newValues array contains the current values of the watch expressions
-		$scope.unique = newValues.filter( $scope.onlyUnique ); //
-		$scope.queryInputTemplate = $scope.unique[0];
-		$scope.queryInputTemplate = $scope.queryInputTemplate.slice(0, -1); // remove last whitespace
-
-		$scope.queryInput = $scope.queryInputTemplate; // show new query
 		setTimeout(function() {
 			angular.element(document.querySelector('#customSearch')).click(); // execute google search
 		}, 0);
+		// newValues array contains the current values of the watch expressions
 		$scope.selectedKeywords = newValues[0].split(" ");
 		$scope.selectedTopics = newValues[1].split(" ");
 		$scope.selectedTerms = $scope.selectedKeywords.concat($scope.selectedTopics);
@@ -275,6 +299,8 @@ app.controller('SearchResultsCtrl', function($scope) {
 
 	$scope.init();
 });
+
+/** End Angular Controllers */
 
 //Setup for the Custom Google Search
 
