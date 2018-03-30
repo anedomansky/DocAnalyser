@@ -4,19 +4,18 @@ app.config(['$stateProvider', function($stateProvider) {
 
 	$stateProvider
 	.state('analyze', {
-		templateUrl: 'analyze.html'
+		templateUrl: './app/components/analyze/analyze.html'
 	})
 
 	.state('chronicle', {
-		templateUrl: 'chronicle.html'
+		templateUrl: './app/components/chronicle/chronicle.html'
 	})
 	.state('default', {
 		url: '?query&a&h',
 		controller: 'RequestCtrl',
-		templateUrl : 'analyze.html'
+		templateUrl : './app/components/analyze/analyze.html'
 	});
 }]);
-
 
 /** Begin Angular Services */
 app.service('TopicsService', function() {

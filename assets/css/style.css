@@ -1,6 +1,6 @@
 
 .main {
-    background: url("textured_paper.png") repeat;
+    background: url("../img/textured_paper.png") repeat;
     font-family: "Calibri", sans-serif;
     margin-top: 80px;
     margin-left: 400px;
@@ -40,7 +40,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     z-index: 1;
     overflow-y: scroll;
-    background: url("blu_stripes.png") repeat;
+    background: url("../img/blu_stripes.png") repeat;
     background-color: #0099ff;
 }
 
@@ -73,7 +73,7 @@
     height: 250px;
     overflow-y: scroll;
     z-index: 1;
-    background: url("textured_paper.png") repeat;
+    background: url("../img/textured_paper.png") repeat;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -85,7 +85,7 @@
     height: 250px;
     overflow-y: scroll;
     z-index: 1;
-    background: url("textured_paper.png") repeat;
+    background: url("../img/textured_paper.png") repeat;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -97,7 +97,7 @@
     height: 500px;
     overflow-y: scroll;
     z-index: 1;
-    background: url("textured_paper.png") repeat;
+    background: url("../img/textured_paper.png") repeat;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
