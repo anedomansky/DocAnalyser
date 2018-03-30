@@ -194,12 +194,12 @@ app.controller('TopicsMenuCtrl', function($scope, $rootScope, TopicsService, Key
 	// user clicked a checkbox:
 	$scope.clicked = function(topic) {
 		var status = $scope.topics[topic];
-		
+
 		if (KeywordsService.getAll().indexOf(topic) > 0) { //selected topic is also a keyword
 			KeywordsService.setStatus(topic, status);
 		}
 		//notify SearchInputCtrl:
-		$rootScope.$broadcast('selectedTermsChanged', { term: keyword, status: status });
+		$rootScope.$broadcast('selectedTermsChanged', { term: topic, status: status });
 	}
 });
 
@@ -245,8 +245,9 @@ app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsServic
 	$scope.$on('selectedTermsChanged', function(event, args) {
 		var status = args.status; // true for selected; false for deselected
 		var term = args.term; // keyword/topic
+		var queryLength = $scope.queryInput.length;
 		if (status) { // add term to search bar
-			if ($scope.queryInput.length === 0) { // first term
+			if (queryLength === 0) { // first term
 				$scope.queryInput += term;
 			}
 			else {
@@ -254,12 +255,28 @@ app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsServic
 			}
 		}
 		else { //remove term from search bar
-			var regex = " " + term;
-			var re = new RegExp(regex,"g");
-			$scope.queryInput = $scope.queryInput.replace(re,"");
+			var regex = term + "(\$| )";
+			var regExp;
+			var index = $scope.queryInput.search(regex); // first occurrence of the term
+			if (index) { // it is not the first term in the search bar
+				regex = " " + regex;
+				regExp = new RegExp(regex,"g");
+				var lastIndex = $scope.queryInput.lastIndexOf(term);
+				if (lastIndex + term.length === queryLength) {
+					// it is the last term in the search bar
+					$scope.queryInput = $scope.queryInput.replace(regExp,"");
+				}
+				else {
+					$scope.queryInput = $scope.queryInput.replace(regExp," ");
+				}
+			}
+			else { // it is the first term in the search bar
+				regExp = new RegExp(regex,"g");
+				$scope.queryInput = $scope.queryInput.replace(regExp,"");
+			}
 		}
 	});
-	
+
 	/* terms were selected or deselected */
 	$scope.$watchGroup(['keywordsService.selectedKeywords()', 'topicsService.selectedTopics()'], function(newValues) {
 		setTimeout(function() {
