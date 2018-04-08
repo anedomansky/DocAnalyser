@@ -10,19 +10,25 @@ app.config(['$stateProvider', function($stateProvider) {
 	.state('chronicle', {
 		templateUrl: './app/components/chronicle/chronicle.html'
 	})
-	.state('default', {
+
+	.state('help', {
+	    templateUrl: './app/components/help/help.html'
+    })
+
+	.state('init', {
 		url: '?query&a&h',
 		controller: 'RequestCtrl',
-		templateUrl : './app/components/analyze/analyze.html'
 	});
 }]);
 
 /** Begin Angular Services */
 app.service('TopicsService', function() {
 	this.topics = {};
+
 	this.setTopics = function(topics) {
 		this.topics = topics;
-	}
+	};
+
 	this.selectedTopics = function() {
 		var selectedTopics = "";
 		for (var topicName in this.topics) {
@@ -31,19 +37,19 @@ app.service('TopicsService', function() {
 			}
 		}
 		return selectedTopics;
-	}
+	};
 
-	this.getAll = function() {	
+	this.getAll = function() {
 		return Object.keys(this.topics);
-	}
+	};
 
 	this.changeStatus = function(topic) {
 		this.topics[topic] = !this.topics[topic];
-	}
+	};
 
 	this.setStatus = function(topic, status) {
 		this.topics[topic] = status;
-	}
+	};
 });
 
 app.service('KeywordsService', function() {
@@ -53,7 +59,8 @@ app.service('KeywordsService', function() {
 	/** Functions */
 	this.setKeywords = function(keywords) {
 		this.keywords = keywords;
-	}
+	};
+
 	this.selectedKeywords = function() {
 		var selectedKeywords = "";
 		for (var keywordName in this.keywords) {
@@ -62,27 +69,27 @@ app.service('KeywordsService', function() {
 			}
 		}
 		return selectedKeywords;
-	}
+	};
 
 	this.getAll = function() {	
 		return Object.keys(this.keywords);
-	}
+	};
 
 	this.changeStatus = function(keyword) {
 		this.keywords[keyword] = !this.keywords[keyword];
-	}
+	};
 
 	this.setStatus = function(keyword, status) {
 		this.keywords[keyword] = status;
-	}
+	};
 
 	this.getTopKeywords = function() {
 		return this.topKeywords;
-	}
+	};
 
 	this.setTopKeywords = function(topKeywords) {
 		this.topKeywords = topKeywords;
-	}
+	};
 
 	/** End Functions */
 });
@@ -103,8 +110,8 @@ app.service('PastQueriesService', function() {
 /** End Angular Services */
 
 /** Begin Angular Controllers */
-app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', 'KeywordsService', 'TopicsService',
-	function($scope, $state, $stateParams, KeywordsService, TopicsService) {
+app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 'KeywordsService', 'TopicsService',
+	function($scope, $state, $stateParams, $location, KeywordsService, TopicsService) {
 
 	/** Functions */
 	/* convert array to Object */
@@ -141,11 +148,23 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', 'KeywordsServ
 		for (var i = 0; i<4; i++) {
 			keywordsObj[keywords[i]] = true;
 		}
-	}
+        $location.url($location.path()); // remove request param from url
+        $state.go('analyze');
+	};
 	/** End Functions */
 	$scope.processRequestParameter();
 
 }]);
+
+app.controller('HelpCtrl', function($scope) {
+    $scope.showHelp = function() {
+        $scope.popoverIsVisible = true;
+    };
+
+    $scope.hideHelp = function () {
+        $scope.popoverIsVisible = false;
+    };
+});
 
 app.controller('SideMenuCtrl', function($scope) {
 
@@ -218,9 +237,6 @@ app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsServic
 	$scope.diff = [];
 
 	/** Functions */
-	$scope.onlyUnique = function(value, index, self) {
-		return self.indexOf(value) === index;
-	}
 
 	$scope.symmetricDifference = function(a1, a2) {
 		var result = [];
@@ -243,37 +259,23 @@ app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsServic
 	/* a term was selected or deselected */
 	$scope.$on('selectedTermsChanged', function(event, args) {
 		var status = args.status; // true for selected; false for deselected
-		var term = args.term; // keyword/topic
+		var selectedTerm = args.term; // keyword or topic
 		var queryLength = $scope.queryInput.length;
+		var query = $scope.queryInput.split(/\s+/);
+		if (queryLength === 0 ) {
+			query.pop(); // remove first whitespace character
+		}
 		if (status) { // add term to search bar
-			if (queryLength === 0) { // first term
-				$scope.queryInput += term;
-			}
-			else {
-				$scope.queryInput += " " + term;
-			}
+            query.push(selectedTerm);
 		}
-		else { //remove term from search bar
-			var regex = term + "(\$| )";
-			var regExp;
-			var index = $scope.queryInput.search(regex); // first occurrence of the term
-			if (index) { // it is not the first term in the search bar
-				regex = " " + regex;
-				regExp = new RegExp(regex,"g");
-				var lastIndex = $scope.queryInput.lastIndexOf(term);
-				if (lastIndex + term.length === queryLength) {
-					// it is the last term in the search bar
-					$scope.queryInput = $scope.queryInput.replace(regExp,"");
-				}
-				else {
-					$scope.queryInput = $scope.queryInput.replace(regExp," ");
+		else { // remove every occurrence of the term from the search bar
+			for (var i= queryLength - 1; i >= 0; i--) {
+				if (query[i] === selectedTerm) {
+					query.splice(i, 1);
 				}
 			}
-			else { // it is the first term in the search bar
-				regExp = new RegExp(regex,"g");
-				$scope.queryInput = $scope.queryInput.replace(regExp,"");
-			}
 		}
+        $scope.queryInput = query.join(" ");
 	});
 
 	/* terms were selected or deselected */
