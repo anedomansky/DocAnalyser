@@ -11,19 +11,77 @@ app.config(['$stateProvider', function($stateProvider) {
 		templateUrl: './app/components/chronicle/chronicle.html'
 	})
 
-	.state('help', {
-	    templateUrl: './app/components/help/help.html'
-    })
-
 	.state('init', {
 		url: '?query&a&h',
 		controller: 'RequestCtrl',
+
+	})
+
+	.state('emptyKeywordsTopics', {
+		url: '?query',
+		views: {
+			'': {
+				templateUrl: './app/components/errors/noData.html'
+			},
+			'emptyKeywordsTopics': {
+				templateUrl: './app/components/errors/emptyKeywordsTopics.html'
+			}
+		}
+
+	})
+
+	.state('timeout', {
+		url: '?query=&error=network timeout',
+		// url: '{query:.?}{error:network timeout}',
+		views: {
+			'': {
+				templateUrl: './app/components/errors/noData.html'
+			},
+			'timeout': {
+				templateUrl: './app/components/errors/timeout.html'
+			}
+		}
+	})
+
+	.state('exception', {
+		url: '?query=&error=exception occurred',
+		// url: '{query:.?}{error:exeption occurred}',
+		views: {
+			'': {
+				templateUrl: './app/components/errors/noData.html'
+			},
+			'exception': {
+				templateUrl: './app/components/errors/exception.html'
+			}
+		}
 	});
 }]);
 
 /** Begin Angular Services */
-app.service('TopicsService', function() {
+
+app.service('LocalStorageService', function($window) {
+
+    this.saveTimestamp = function(timestamp) {
+        $window.localStorage.setItem('timestamp', timestamp);
+    };
+
+    this.getTimestamp = function()  {
+        return $window.localStorage.getItem('timestamp');
+    };
+
+});
+
+app.service('TopicsService', function($window) {
 	this.topics = {};
+
+	this.saveLocal = function() {
+	    $window.localStorage.setItem('topics', this.getAll().toString());
+    };
+
+	this.getLocal = function() {
+	    var savedTopics = $window.localStorage.getItem('topics');
+	    //window.alert(savedTopics);
+    };
 
 	this.setTopics = function(topics) {
 		this.topics = topics;
@@ -153,6 +211,8 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
 	};
 	/** End Functions */
 	$scope.processRequestParameter();
+	TopicsService.saveLocal();
+	TopicsService.getLocal();
 
 }]);
 
@@ -318,6 +378,16 @@ app.controller('SearchResultsCtrl', function($scope) {
 	}
 
 	$scope.init();
+
+});
+
+// Does not work properly yet...
+app.controller('ErrorCtrl', function($scope, $state) {
+	if($state.is('emptyKeywordsTopics')) {
+		$scope.hideResults = true;
+	}
+
+
 });
 
 /** End Angular Controllers */
