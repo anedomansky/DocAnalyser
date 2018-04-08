@@ -176,3 +176,12 @@ span#copyright {
 .results {
 	float: left;
 }
+
+.popover {
+    position: absolute;
+    z-index: 100;
+}
+
+.help {
+    background-color: white;
+}
