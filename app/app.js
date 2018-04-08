@@ -266,7 +266,9 @@ app.controller('SearchInputCtrl', function($scope, TopicsService, KeywordsServic
 			query.pop(); // remove first whitespace character
 		}
 		if (status) { // add term to search bar
-            query.push(selectedTerm);
+		    if (query.indexOf(selectedTerm) === -1) { // no duplicate terms
+                query.push(selectedTerm);
+            }
 		}
 		else { // remove every occurrence of the term from the search bar
 			for (var i= queryLength - 1; i >= 0; i--) {
