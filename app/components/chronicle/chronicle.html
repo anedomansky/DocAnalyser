@@ -1,10 +1,12 @@
-<div id="pastQueries" ng-controller="PastQueriesMenuCtrl">
+<div id="pastQueries">
 	<h3>Past Queries</h3>
-	<form class="checkboxes" action="" method="POST">
-		<label ng-repeat="(query,enabled) in pastQueries"> <input
-			type="checkbox" ng-model="pastQueries[query]" ng-change="change()" />
-			{{query}} <br />
-		</label>
-	</form>
+    <ul ng-controller="PastQueriesMenuCtrl">
+        <li ng-repeat="query in queries">
+            {{query.url}}
+            <button ng-click="loadQuery(query)">Load</button>
+        </li>
+    </ul>
 </div>
+<br />
+<button ng-controller="PastQueriesMenuCtrl" ng-click="clearHistory()">Clear History</button>
 <ui-view></ui-view> <!-- AngularJS Bugfix; needed to use $stateParams -->

@@ -2,25 +2,36 @@ Glossar:
 keywords/Topics = Begriffe
 ---Analyse Ansicht---
 Muss:
-1. Fehlerbehandlung (Alle m�glichen Urls behandeln/ber�cksichtigen)
+1. Fehlerbehandlung (Alle möglichen Urls behandeln/berücksichtigen)
     -> hide the .results-class
-(Tom)2. Benutzerhilfe (�hnlich der Originalseite ein ? Tooltip mit Informationen zu den Begriffen)
+2. Benutzerhilfe (ähnlich der Originalseite ein ? Tooltip mit Informationen zu den Begriffen)
+    -> (Alex) CSS
 
 Weniger wichtig:
-1. Benutzerhilfe / Google Such API auch deutsch umstellen k�nnen (evtl. Balken oben rechts, neben DocAnalyser, ein kleiner "Flaggen" Button,
-um die gew�nschte Sprache auszuw�hlen)
-2. Den fixen Balken in der Breite ver�ndern k�nnen
-3. Begriffe Tabelle in der H�he ver�ndern k�nnen
+(Alex) 1. Benutzerhilfe / Google Such API auch nach deutsch umstellen können (evtl. Balken oben rechts, neben DocAnalyser, ein kleiner "Flaggen" Button,
+um die gewünschte Sprache auszuwählen)
+(Alex) 2. Den fixen Balken in der Breite verändern können
+(Alex) 3. Begriffe Tabelle in der Höhe verändern können
 
 ---Chronik Ansicht---
 Muss:
-1. Suchlauf speichern
-2. Suchl�ufe gem�� Filteroption anzeigen. Suchlauf durch Url des analysierten Inhalts (z.b www.wikipedia.org/mathematik) erkennbar
-2. Keywords/Topics beim Laden einer Suche aktualisieren
-3. Filteroption �hnlich der Firefox Chronik Sidebar. Filterung nach "Heute, Gestern, Letzte 7 Tage, Monat, �lter als x Monate..."
-4. automatische Speicherung der Suchl�ufe aktivieren/deaktivieren
+(Tom) 1. Suchlauf speichern
+    -> Prototyp fertig
+(Alex) 2. Suchläufe gemäß Filteroption anzeigen. Orientierung an die Firefox Chronik Sidebar (Heute, Gestern, Letzte 7 Tage...)
+    -> https://www.w3schools.com/angular/angular_filters.asp
+    -> https://codeutopia.net/blog/2014/11/10/angularjs-best-practices-avoid-using-ng-repeats-index/
+    -> In einem query Objekt gibt es die Property date, die ein Date() Objekt enthält, welches beim Laden der Seite
+    erstellt wird ( siehe $scope.poulateLocalStorage() in app.js ).
+    -> https://www.w3schools.com/jsref/jsref_obj_date.asp
+(Tom) 3. Keywords/Topics beim Laden einer Suche aktualisieren
+    -> Suchleiste sofort (in der Chronik Ansicht) aktualisieren (Top 4 Keywords einfügen)
+    -> Google Suche sofort ausführen
+(Tom) 4. automatische Speicherung der Suchläufe aktivieren/deaktivieren (Button unter/neben "Clear History")
+(Alex, Ja ich hasse CSS :D ) 5. CSS
+    -> Vorschlag: Auch ähnlich der Firefox Chronik Sidebar, also die gefilterten URLs untereinander anzeigen;
+    Die komplette Url ist ein Button; Button aber als solches nicht sichtbar, erst wenn man mit der Maus drüber schwebt
 
 
 Weniger wichtig:
-1. Chronik durchsuchen mit Begriffen (Suchleiste, wo man Begriffe eingeben kann, die in der Url enthalten sein m�ssen)
+1. Chronik durchsuchen mit Begriffen (Suchleiste, wo man Begriffe eingeben kann, die in der Url enthalten sein müssen)
 2. favicon
