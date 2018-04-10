@@ -59,7 +59,7 @@ app.config(['$stateProvider', function ($stateProvider) {
 
 /** Begin Angular Services */
 
-app.service('ConverterService', function() {
+app.service('ConverterService', function () {
 
     /* convert array to Keywords/Topics Object */
     this.arrToObject = function (arr) {
@@ -73,7 +73,7 @@ app.service('ConverterService', function() {
     }
 });
 
-app.service('TopicsService', function ($window) {
+app.service('TopicsService', function () {
     this.topics = {};
 
     /** Functions */
@@ -107,7 +107,7 @@ app.service('TopicsService', function ($window) {
     /** End Functions */
 });
 
-app.service('KeywordsService', function ($window) {
+app.service('KeywordsService', function ($rootScope) {
     this.keywords = {}; // all keywords
     this.topKeywords = []; // top 4 keywords
 
@@ -121,6 +121,16 @@ app.service('KeywordsService', function ($window) {
         for (var keywordName in this.keywords) {
             if (this.keywords[keywordName]) {
                 selectedKeywords += keywordName + " ";
+            }
+        }
+        return selectedKeywords;
+    };
+
+    this.selectedKeywordsAsArr = function () {
+        var selectedKeywords = [];
+        for (var keywordName in this.keywords) {
+            if (this.keywords[keywordName]) {
+                selectedKeywords.push(keywordName);
             }
         }
         return selectedKeywords;
@@ -148,6 +158,7 @@ app.service('KeywordsService', function ($window) {
 
     /** End Functions */
 });
+
 
 /** End Angular Services */
 
@@ -185,16 +196,25 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             // get the url of the analysed web file
             url = $stateParams.url;
             $location.url($location.path()); // remove request param from url
-            $scope.populateLocalStorage(keywordsObj,topicsObj, url);
+            $scope.populateLocalStorage(keywordsObj, topicsObj, url);
             $state.go('analyze');
         };
 
         $scope.populateLocalStorage = function (keywords, topics, url) {
-            var currentDate = new Date();
-            var newQuery = LocalStorageService.newQuery(currentDate,keywords,topics, url);
-            LocalStorageService.loadQueries();
-            LocalStorageService.addQuery(newQuery);
-            LocalStorageService.saveQueries();
+            if (LocalStorageService.storageAvailable('localStorage')) {
+                // LocalStorage is available
+                var currentDate = new Date();
+                var newQuery = LocalStorageService.newQuery(currentDate, keywords, topics, url);
+                LocalStorageService.loadQueries();
+                LocalStorageService.addQuery(newQuery);
+                LocalStorageService.saveQueries();
+            }
+            else {
+                // LocalStorage is not available
+                // TO DO: fancy error message to the user
+                window.alert("Your Browser does not support local storage." +
+                    "The chronicle view is therefore not available.");
+            }
 
         };
 
@@ -226,10 +246,17 @@ app.controller('DropdownMenuCtrl', ['$scope', '$state',
 
 app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, KeywordsService, TopicsService) {
     $scope.keywords = KeywordsService.keywords;
+    $scope.keywordsService = KeywordsService.keywords;
+
+    /* a query is loaded (from the Chronicle View) */
+    $scope.$on('queryLoaded', function () {
+        $rootScope.$broadcast('clearQueryInput', ""); // clear current search terms
+        $scope.init(); // 'click' the top 4 Keywords => put them into the search bar
+    });
 
     // user clicked a checkbox:
     $scope.clicked = function (keyword) {
-        var status = $scope.keywords[keyword];
+        var status = KeywordsService.keywords[keyword];
 
         if (TopicsService.getAll().indexOf(keyword) > 0) { //selected keyword is also a topic
             TopicsService.setStatus(keyword, status);
@@ -237,7 +264,7 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, KeywordsService
         //notify SearchInputCtrl:
         $rootScope.$broadcast('selectedTermsChanged', {term: keyword, status: status});
 
-    }
+    };
 
     /* initialization */
     $scope.init = function () {
@@ -247,7 +274,7 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, KeywordsService
         for (var i = 0; i < 4; i++) {
             $scope.clicked($scope.topKeywords[i]);
         }
-    }
+    };
 
     $scope.init();
 
@@ -271,7 +298,6 @@ app.controller('TopicsMenuCtrl', function ($scope, $rootScope, TopicsService, Ke
 app.controller('SearchInputCtrl', function ($scope, TopicsService, KeywordsService) {
     $scope.topicsService = TopicsService;
     $scope.keywordsService = KeywordsService;
-    $scope.queryInputTemplate = ""; // buffer for search bar
     $scope.queryInput = ""; // search bar
     $scope.queryInputArr = []; // search bar items as array
     $scope.selectedTerms = [];
@@ -296,6 +322,11 @@ app.controller('SearchInputCtrl', function ($scope, TopicsService, KeywordsServi
     /** End Functions */
 
     /** Angular Functions */
+
+    /* clear the queryInput */
+    $scope.$on('clearQueryInput', function () {
+        $scope.queryInput = "";
+    });
 
     /* a term was selected or deselected */
     $scope.$on('selectedTermsChanged', function (event, args) {
@@ -350,7 +381,6 @@ app.controller('SearchInputCtrl', function ($scope, TopicsService, KeywordsServi
         /** End Angular Functions */
     }
 
-    //$scope.change(); // call function to select topics that are also keywords
 });
 
 //Does not do anything at the moment
@@ -396,7 +426,6 @@ function googleCSELoaded() {
     // triggers every following search
     $("#customSearch").click(function () {
         var searchText = $("#q").val();
-        console.log(searchText);
         google.search.cse.element.render({
             gname: 'searchOnlyCSE',
             div: 'results',

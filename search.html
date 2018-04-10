@@ -16,7 +16,7 @@
 <div class="menu" ng-controller="SideMenuCtrl">
     <h2>DocAnalyser</h2>
     <br/>
-    <div class="dropdown">
+    <div class="dropdown" ng-controller="KeywordsMenuCtrl"> <!-- TO DO: Better fix for broadcast -->
         <button class="dropdown-button">Change View</button>
         <div class="dropdown-content" ng-controller="DropdownMenuCtrl">
             <input type="button" value="Analyze" ng-click="changeView('analyze')"/> <br/>

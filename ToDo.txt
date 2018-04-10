@@ -1,5 +1,14 @@
 Glossar:
 keywords/Topics = Begriffe
+---Generell---
+Muss:
+1. Scrollt man im fixen Balken links herunter sind die Buttons verbuggt/verschoben (CSS Problem)
+2. Manche Begriffe werden nicht richtig selektiert.
+    Bsp: wikipedia/mathematik -> Wissenschaft wird nicht automatisch als Source Topic selektiert, aber als Keyword
+    Ist Wissenschaft nicht das erste Source Topic, wird es richtig selektiert.
+    Vermutung: Die ersten Checkboxen von Keywords und Source Topics buggen rum; Kriegen die eventuell das Click Signal nicht,
+    weil die zu früh rendern?
+
 ---Analyse Ansicht---
 Muss:
 1. Fehlerbehandlung (Alle möglichen Urls behandeln/berücksichtigen)
@@ -17,6 +26,9 @@ um die gewünschte Sprache auszuwählen)
 Muss:
 (Tom) 1. Suchlauf speichern
     -> Prototyp fertig
+    -> Alternative suchen für broadcast und listener
+    -> Alternative für das Deklarieren des KeywordsMenuCtrl in der search.html
+    (KeywordsMenuCtrl ist in der Chronicle View nicht ansprechbar, weil er nicht im $scope ist / in einer anderen ui-view)
 (Alex) 2. Suchläufe gemäß Filteroption anzeigen. Orientierung an die Firefox Chronik Sidebar (Heute, Gestern, Letzte 7 Tage...)
     -> https://www.w3schools.com/angular/angular_filters.asp
     -> https://codeutopia.net/blog/2014/11/10/angularjs-best-practices-avoid-using-ng-repeats-index/
@@ -30,8 +42,10 @@ Muss:
 (Alex, Ja ich hasse CSS :D ) 5. CSS
     -> Vorschlag: Auch ähnlich der Firefox Chronik Sidebar, also die gefilterten URLs untereinander anzeigen;
     Die komplette Url ist ein Button; Button aber als solches nicht sichtbar, erst wenn man mit der Maus drüber schwebt
+(Tom) 5. Beim Betätigen von "Clear History", die Chronik Ansicht sofort aktualisieren => Alle Query Einträge sofort weg
 
 
 Weniger wichtig:
 1. Chronik durchsuchen mit Begriffen (Suchleiste, wo man Begriffe eingeben kann, die in der Url enthalten sein müssen)
 2. favicon
+3. Fehlermeldung, wenn Browser Local Storage nicht unterstützt
