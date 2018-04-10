@@ -196,7 +196,11 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             // get the url of the analysed web file
             url = $stateParams.url;
             $location.url($location.path()); // remove request param from url
-            $scope.populateLocalStorage(keywordsObj, topicsObj, url);
+            // check if the user has activated the chronicle function
+            LocalStorageService.loadChronicleStatus();
+            if (LocalStorageService.getChronicleStatus() > 0) {
+                $scope.populateLocalStorage(keywordsObj, topicsObj, url);
+            }
             $state.go('analyze');
         };
 
@@ -413,7 +417,6 @@ window.__gcse = {
 function googleCSELoaded() {
     // initial search after the page is loaded for the first time
     var searchText = $("#q").val();
-    console.log(searchText);
     google.search.cse.element.render({
         gname: 'searchOnlyCSE',
         div: 'results',

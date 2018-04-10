@@ -39,6 +39,9 @@ Muss:
     -> Suchleiste sofort (in der Chronik Ansicht) aktualisieren (Top 4 Keywords einfügen)
     -> Google Suche sofort ausführen
 (Tom) 4. automatische Speicherung der Suchläufe aktivieren/deaktivieren (Button unter/neben "Clear History")
+    -> angefangen...
+    -> Bei Deaktivierung und neuladen -> Bereits gespeicherte Suchläufe trotzdem anzeigen?
+    -> Bei Aktivierung -> sofort gespeicherte Suchläufe wieder anzeigen
 (Alex, Ja ich hasse CSS :D ) 5. CSS
     -> Vorschlag: Auch ähnlich der Firefox Chronik Sidebar, also die gefilterten URLs untereinander anzeigen;
     Die komplette Url ist ein Button; Button aber als solches nicht sichtbar, erst wenn man mit der Maus drüber schwebt

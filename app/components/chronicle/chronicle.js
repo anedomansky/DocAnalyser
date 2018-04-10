@@ -1,6 +1,7 @@
 angular.module('myApp').service('LocalStorageService', function ($window) {
 
     this.queries = []; // contains all saved queries after the page is loaded
+    this.chronicleStatus = ""; // indicates whether the chronicle function is activated or deactivated
 
     this.addQuery = function (query) {
         this.queries.push(query);
@@ -8,7 +9,15 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
 
     this.getQueries = function () {
         return this.queries;
-    }
+    };
+
+    this.setChronicleStatus = function (chronicleStatus) {
+        this.chronicleStatus = chronicleStatus;
+    };
+
+    this.getChronicleStatus = function () {
+        return this.chronicleStatus;
+    };
 
     /* Create a new query object
     * NOTE: Prototype; few properties are still missing */
@@ -21,10 +30,20 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
         $window.localStorage.setItem('queries', JSON.stringify(this.queries));
     };
 
+    this.saveChronicleStatus = function () {
+        $window.localStorage.setItem('chronicleStatus', this.chronicleStatus);
+    };
+
     /* Load all saved queries and store them in this.queries */
     this.loadQueries = function () {
         if ($window.localStorage.getItem('queries')) { // queries must not be empty
             this.queries = JSON.parse($window.localStorage.getItem('queries')) || [];
+        }
+    };
+
+    this.loadChronicleStatus = function () {
+        if ($window.localStorage.getItem('chronicleStatus')) {
+            this.chronicleStatus = $window.localStorage.getItem('chronicleStatus');
         }
     };
 
@@ -72,6 +91,14 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
                                                                     KeywordsService, TopicsService) {
 
     $scope.queries = LocalStorageService.getQueries();
+    $scope.chronicleStatus = true;
+    $scope.statusTable = {
+        true: 1,
+        false: 0,
+        0: false,
+        1: true
+        // TO DO: default case?
+    };
 
     /** Functions */
     /* Load a query:
@@ -84,6 +111,7 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
         $rootScope.$broadcast('queryLoaded', ""); // Roughly speaking for the google search
     };
 
+    /* user clicked the Clear History button */
     $scope.clearHistory = function () {
         if (LocalStorageService.clearQueries()) {
         }
@@ -91,5 +119,26 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
             window.alert("something went wrong!");
         }
     };
+
+    /* user clicked the activate/deactivate History button */
+    $scope.changeChronicleStatus = function () {
+        $scope.chronicleStatus = !$scope.chronicleStatus;
+        LocalStorageService.setChronicleStatus($scope.statusTable[$scope.chronicleStatus]);
+        LocalStorageService.saveChronicleStatus();
+    };
+
+    /* initialization stuff */
+    $scope.init = function () {
+        var status = LocalStorageService.getChronicleStatus();
+        if (typeof status !== "undefined") {
+            $scope.chronicleStatus = $scope.statusTable[status]; // load and set the chronicle status
+        }
+        else {
+            console.log("something went wrong! can not load the chronicle status. In $scope.init");
+        }
+    };
+
     /** End Functions */
+
+    $scope.init();
 });
