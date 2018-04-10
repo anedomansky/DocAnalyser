@@ -14,7 +14,9 @@
 </head>
 <body class="main" ng-app="myApp">
 <div class="menu" ng-controller="SideMenuCtrl">
-    <h2>DocAnalyser</h2>
+    <div ng-controller="HelpCtrl" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()"><h2>DocAnalyser</h2>
+        <div class="popover" ng-show="popoverIsVisible"><div ng-include="'./app/components/help/help.html'"></div></div>
+    </div>
     <br/>
     <div class="dropdown" ng-controller="KeywordsMenuCtrl"> <!-- TO DO: Better fix for broadcast -->
         <button class="dropdown-button">Change View</button>

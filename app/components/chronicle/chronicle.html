@@ -1,5 +1,5 @@
 <div id="pastQueries">
-    <h3>Past Queries</h3>
+	<h3>Past Queries</h3>
     <ul ng-controller="PastQueriesMenuCtrl">
         <li ng-repeat="query in queries">
             {{query.url}}
@@ -7,7 +7,7 @@
         </li>
     </ul>
 </div>
-<br/>
+<br />
 <button ng-controller="PastQueriesMenuCtrl" ng-click="clearHistory()">Clear History</button>
 <br />
 <input id="chronicleStatus" type="button" value="{{chronicleStatus

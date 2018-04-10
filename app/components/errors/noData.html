@@ -1,13 +1,17 @@
 <div id="keywords">
-	<h3>Keywords</h3>
+	<div ng-controller="HelpCtrl" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()"><h3>Keywords</h3>
+        <div class="popover" ng-show="popoverIsVisible"><div ng-include="'./app/components/help/helpKeywords.html'"></div></div>
+    </div>
     <br/>
-    <h3 class="noData">No keywords found...</h3>
+    <h4 class="noData">No keywords found...</h4>
 </div>
 <br />
 <br />
 <br />
 <div id="topics">
-	<h3>Source Topics</h3>
+	<div ng-controller="HelpCtrl" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()"><h3>Source Topics</h3>
+        <div class="popover" ng-show="popoverIsVisible"><div ng-include="'./app/components/help/helpTopics.html'"></div></div>
+    </div>
     <br/>
-    <h3 class="noData">No topics found...</h3>
+    <h4 class="noData">No topics found...</h4>
 </div>

@@ -33,12 +33,11 @@
 .menu {
     top: 0px;
     left: 0;
-    color: white;
+    /* color: white; */
     height: 100%;
     position: fixed;
     width: 350px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    z-index: 1;
     overflow-y: scroll;
     background: url("../img/blu_stripes.png") repeat;
     background-color: #0099ff;
@@ -57,7 +56,6 @@
 .menu input[type="button"]:hover {
     background-color: #4c8ffa;
 }
-
 
 .menu h2 {
     color: white;
@@ -179,9 +177,29 @@ span#copyright {
 
 .popover {
     position: absolute;
-    z-index: 100;
+    display: inline-block;
+    z-index: 1;
 }
 
+/* tooltip-arrow */
+.popover .help::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%; /* arrow at the top of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+}
+
+/* tooltip-text */
 .help {
     background-color: white;
+    display: block;
+    text-align: justify;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 5px;
 }
