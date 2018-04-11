@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ui.router']);
+var app = angular.module('myApp', ['ui.router', 'ngCookies']);
 
 app.config(['$stateProvider', function ($stateProvider) {
 
@@ -14,7 +14,6 @@ app.config(['$stateProvider', function ($stateProvider) {
         .state('init', {
             url: '?a&h&url',
             controller: 'RequestCtrl',
-
         })
 
         .state('emptyKeywordsTopics', {
@@ -56,6 +55,21 @@ app.config(['$stateProvider', function ($stateProvider) {
             }
         });
 }]);
+
+/* Maybe later needed; requires ngRoute
+app.run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
+    var original = $location.path;
+    $location.path = function (path, reload) {
+        if (reload === false) {
+            var lastRoute = $route.current;
+            var un = $rootScope.$on('$locationChangeSuccess', function () {
+                $route.current = lastRoute;
+                un();
+            });
+        }
+        return original.apply($location, [path]);
+    };
+}]);*/
 
 /** Begin Angular Services */
 
@@ -107,7 +121,7 @@ app.service('TopicsService', function () {
     /** End Functions */
 });
 
-app.service('KeywordsService', function ($rootScope) {
+app.service('KeywordsService', function () {
     this.keywords = {}; // all keywords
     this.topKeywords = []; // top 4 keywords
 
@@ -201,7 +215,23 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             if (LocalStorageService.getChronicleStatus() > 0) {
                 $scope.populateLocalStorage(keywordsObj, topicsObj, url);
             }
+            else {
+                $scope.loadLocaleStorage();
+            }
             $state.go('analyze');
+        };
+
+        $scope.loadLocaleStorage = function () {
+            if (LocalStorageService.storageAvailable('localStorage')) {
+                // LocalStorage is available
+                LocalStorageService.loadQueries();
+            }
+            else {
+                // LocalStorage is not available
+                // TO DO: fancy error message to the user
+                window.alert("Your Browser does not support local storage." +
+                    "The chronicle view is therefore not available.");
+            }
         };
 
         $scope.populateLocalStorage = function (keywords, topics, url) {
@@ -299,7 +329,7 @@ app.controller('TopicsMenuCtrl', function ($scope, $rootScope, TopicsService, Ke
     }
 });
 
-app.controller('SearchInputCtrl', function ($scope, TopicsService, KeywordsService) {
+app.controller('SearchInputCtrl', function ($scope, $location, TopicsService, KeywordsService) {
     $scope.topicsService = TopicsService;
     $scope.keywordsService = KeywordsService;
     $scope.queryInput = ""; // search bar
@@ -382,17 +412,14 @@ app.controller('SearchInputCtrl', function ($scope, TopicsService, KeywordsServi
                 TopicsService.changeStatus($scope.diff[i]);
             }
         }
-        /** End Angular Functions */
-    }
+    };
+
+    /** End Angular Functions */
 
 });
 
 //Does not do anything at the moment
 app.controller('SearchResultsCtrl', function ($scope) {
-    $scope.init = function () {
-    }
-
-    $scope.init();
 
 });
 
@@ -401,7 +428,6 @@ app.controller('ErrorCtrl', function ($scope, $state) {
     if ($state.is('emptyKeywordsTopics')) {
         $scope.hideResults = true;
     }
-
 
 });
 

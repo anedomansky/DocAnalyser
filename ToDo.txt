@@ -13,8 +13,7 @@ Muss:
 Muss:
 1. Fehlerbehandlung (Alle möglichen Urls behandeln/berücksichtigen)
     -> hide the .results-class
-2. Benutzerhilfe (ähnlich der Originalseite ein ? Tooltip mit Informationen zu den Begriffen)
-    -> (Alex) CSS
+(Tom) 2. Browser Funktionen nutzbar machen (Reload, Back, Forward)
 
 Weniger wichtig:
 (Alex) 1. Benutzerhilfe / Google Such API auch nach deutsch umstellen können (evtl. Balken oben rechts, neben DocAnalyser, ein kleiner "Flaggen" Button,
@@ -33,22 +32,15 @@ Muss:
     -> https://www.w3schools.com/angular/angular_filters.asp
     -> https://codeutopia.net/blog/2014/11/10/angularjs-best-practices-avoid-using-ng-repeats-index/
     -> In einem query Objekt gibt es die Property date, die ein Date() Objekt enthält, welches beim Laden der Seite
-    erstellt wird ( siehe $scope.poulateLocalStorage() in app.js ).
+    erstellt wird ( siehe $scope.populateLocalStorage() in app.js ).
     -> https://www.w3schools.com/jsref/jsref_obj_date.asp
-(Tom) 3. Keywords/Topics beim Laden einer Suche aktualisieren
-    -> Suchleiste sofort (in der Chronik Ansicht) aktualisieren (Top 4 Keywords einfügen)
-    -> Google Suche sofort ausführen
-(Tom) 4. automatische Speicherung der Suchläufe aktivieren/deaktivieren (Button unter/neben "Clear History")
-    -> angefangen...
-    -> Bei Deaktivierung und neuladen -> Bereits gespeicherte Suchläufe trotzdem anzeigen?
-    -> Bei Aktivierung -> sofort gespeicherte Suchläufe wieder anzeigen
 (Alex, Ja ich hasse CSS :D ) 5. CSS
     -> Vorschlag: Auch ähnlich der Firefox Chronik Sidebar, also die gefilterten URLs untereinander anzeigen;
     Die komplette Url ist ein Button; Button aber als solches nicht sichtbar, erst wenn man mit der Maus drüber schwebt
-(Tom) 5. Beim Betätigen von "Clear History", die Chronik Ansicht sofort aktualisieren => Alle Query Einträge sofort weg
 
 
 Weniger wichtig:
 1. Chronik durchsuchen mit Begriffen (Suchleiste, wo man Begriffe eingeben kann, die in der Url enthalten sein müssen)
 2. favicon
 3. Fehlermeldung, wenn Browser Local Storage nicht unterstützt
+    -> technische funktion bereits in app.js -> RequestCtrl

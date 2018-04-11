@@ -1,16 +1,18 @@
-<div id="pastQueries">
-	<h3>Past Queries</h3>
-    <ul ng-controller="PastQueriesMenuCtrl">
-        <li ng-repeat="query in queries">
-            {{query.url}}
-            <button ng-click="loadQuery(query)">Load</button>
-        </li>
-    </ul>
+<div ng-controller="PastQueriesMenuCtrl">
+    <div id="pastQueries">
+        <h3>Past Queries</h3>
+        <ul>
+            <li ng-repeat="query in queries">
+                {{query.url}}
+                <button ng-click="loadQuery(query)">Load</button>
+            </li>
+        </ul>
+    </div>
+    <br/>
+    <button ng-click="clearHistory()">Clear History</button>
+    <br/>
+    <input id="chronicleStatus" type="button" value="{{chronicleStatus
+       && 'Deactivate History' || 'Activate History'}}"
+           ng-click="changeChronicleStatus()"/>
 </div>
-<br />
-<button ng-controller="PastQueriesMenuCtrl" ng-click="clearHistory()">Clear History</button>
-<br />
-<input id="chronicleStatus" type="button" value="{{chronicleStatus
-       && 'Deactivate History' || 'Activate History'}}" ng-controller="PastQueriesMenuCtrl"
-       ng-click="changeChronicleStatus()"/>
 <ui-view></ui-view> <!-- AngularJS Bugfix; needed to use $stateParams -->

@@ -51,9 +51,11 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
     this.clearQueries = function () {
         var ret = true;
         $window.localStorage.removeItem('queries');
-        this.queries = [];
         if ($window.localStorage.getItem('queries')) {
             ret = false;
+        }
+        else {
+            this.queries = [];
         }
         return ret;
     };
@@ -90,8 +92,8 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
 angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $rootScope, LocalStorageService,
                                                                     KeywordsService, TopicsService) {
 
-    $scope.queries = LocalStorageService.getQueries();
-    $scope.chronicleStatus = true;
+    $scope.queries = LocalStorageService.getQueries(); // array of queries
+    $scope.chronicleStatus = true; // Contains the status of the chronicle function
     $scope.statusTable = {
         true: 1,
         false: 0,
@@ -101,6 +103,7 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
     };
 
     /** Functions */
+
     /* Load a query:
      * set loaded keywords, topics, top 4 keywords and perform a google search */
     $scope.loadQuery = function (query) {
@@ -113,11 +116,10 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
 
     /* user clicked the Clear History button */
     $scope.clearHistory = function () {
-        if (LocalStorageService.clearQueries()) {
-        }
-        else {
+        if (!LocalStorageService.clearQueries()) {
             window.alert("something went wrong!");
         }
+        $scope.queries = LocalStorageService.getQueries(); // updates data binding; nothing happens if clear failed
     };
 
     /* user clicked the activate/deactivate History button */
