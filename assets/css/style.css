@@ -6,14 +6,21 @@
     margin-left: 400px;
 }
 
-.main input[name="q"] {
+.main textarea[name="q"] {
+    font-family: "Calibri", sans-serif;
+    resize: horizontal;
+    overflow: auto;
+    min-width: 25%;
+    max-width: 90%;
     width: 50%;
-    padding: 10px 10px 10px 10px;
+    height: auto;
+    float: left;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    white-space: nowrap;
 }
 
 .main input#customSearch {
-    padding: 10px 10px 10px 10px;
+    padding: 15px 10px 15px 10px;
     border: none;
     background-color: #4c8ffa;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -27,7 +34,7 @@
 }
 
 .main #search {
-	padding: 10px 10px 30px 10px;
+    padding: 10px 10px 30px 10px;
 }
 
 .menu {
@@ -64,6 +71,8 @@
 }
 
 .menu div#keywords {
+    resize: vertical;
+    min-height: 110px;
     padding: 5px 30px;
     border: none;
     width: 225px;
@@ -76,6 +85,8 @@
 }
 
 .menu div#topics {
+    resize: vertical;
+    min-height: 110px;
     padding: 5px 30px;
     border: none;
     width: 225px;
@@ -88,6 +99,8 @@
 }
 
 .menu div#pastQueries {
+    resize: vertical;
+    min-height: 110px;
     padding: 5px 30px;
     border: none;
     width: 225px;
@@ -103,7 +116,7 @@
     color: black;
     text-align: center;
     margin-top: 3px;
-    
+
 }
 
 .menu .copy {
@@ -143,25 +156,25 @@
 
 .dropdown-content {
     display: none;
-    position: fixed; 
+    position: absolute;
     background-color: #f9f9f9;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     margin-left: 125px;
-    top: 129px;
+    top: 37px;
 }
 
 .dropdown-content p {
     color: black;
     padding: 12px 16px;
-    display: block; 
+    display: block;
     margin-bottom: 10px;
     font-size: 14px;
 }
 
 .dropdown:hover .dropdown-content{
     display: block;
-} 
+}
 
 span#copyright {
     font-size: 20px;
@@ -172,7 +185,7 @@ span#copyright {
 }
 
 .results {
-	float: left;
+    float: left;
 }
 
 .popover {

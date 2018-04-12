@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ui.router']);
+var app = angular.module('myApp', ['ui.router', 'ngRoute']);
 
 app.config(['$stateProvider', function ($stateProvider) {
 
@@ -55,21 +55,6 @@ app.config(['$stateProvider', function ($stateProvider) {
             }
         });
 }]);
-
-/* Maybe later needed; requires ngRoute
-app.run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
-    var original = $location.path;
-    $location.path = function (path, reload) {
-        if (reload === false) {
-            var lastRoute = $route.current;
-            var un = $rootScope.$on('$locationChangeSuccess', function () {
-                $route.current = lastRoute;
-                un();
-            });
-        }
-        return original.apply($location, [path]);
-    };
-}]);*/
 
 /** Begin Angular Services */
 
@@ -177,6 +162,7 @@ app.service('KeywordsService', function () {
 /** End Angular Services */
 
 /** Begin Angular Controllers */
+
 app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 'KeywordsService', 'TopicsService',
     'LocalStorageService', 'ConverterService', function ($scope, $state, $stateParams, $location, KeywordsService,
                                                          TopicsService, LocalStorageService, ConverterService) {
@@ -255,6 +241,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
         /** End Functions */
         $scope.processRequestParameter();
 
+
     }]);
 
 app.controller('HelpCtrl', function ($scope) {
@@ -267,7 +254,7 @@ app.controller('HelpCtrl', function ($scope) {
     };
 });
 
-app.controller('SideMenuCtrl', function ($scope) {
+app.controller('SideMenuCtrl', function () {
 
 });
 
@@ -353,10 +340,29 @@ app.controller('SearchInputCtrl', function ($scope, $location, TopicsService, Ke
             }
         }
         return result;
-    }
+    };
+
+    $scope.changeUrl = function () {
+        $location.path('/' + $scope.queryInput + '/', false); // change url without reloading
+    };
+
     /** End Functions */
 
     /** Angular Functions */
+
+    /* url has changed -> back or previous button pressed */
+    $scope.$on('$locationChangeSuccess', function (scope, next, current) {
+
+        if (next !== current) { // new url must be different
+            var path = $location.path(); // get current path; like = /search_term_1 search_term_2/
+            path = path.slice(1); // remove first char (/)
+            path = path.slice(0, -1); // remove last char (/)
+            if (path !== $scope.queryInput) {
+                $scope.queryInput = path; // sync queryInput with url
+                $scope.change(); // sync checkboxes with queryInput
+            }
+        }
+    });
 
     /* clear the queryInput */
     $scope.$on('clearQueryInput', function () {
@@ -399,6 +405,7 @@ app.controller('SearchInputCtrl', function ($scope, $location, TopicsService, Ke
         //window.alert("selectedTerms = " + $scope.selectedTerms.toString());
     });
 
+
     /*user manually change the queryInput */
     $scope.change = function () {
         $scope.queryInputArr = $scope.queryInput.split(" ");
@@ -414,6 +421,10 @@ app.controller('SearchInputCtrl', function ($scope, $location, TopicsService, Ke
                 TopicsService.changeStatus($scope.diff[i]);
             }
         }
+    };
+
+    $scope.click = function () {
+        $scope.changeUrl(); // change url without reloading
     };
 
     /** End Angular Functions */
@@ -434,6 +445,34 @@ app.controller('ErrorCtrl', function ($scope, $state) {
 });
 
 /** End Angular Controllers */
+
+/** Angular Run Block */
+
+app.run(['$route', '$rootScope', '$location', '$window', function ($route, $rootScope, $location) {
+    var original = $location.path;
+    $location.path = function (path, reload) {
+        if (reload === false) {
+            var lastRoute = $route.current;
+            var un = $rootScope.$on('$locationChangeSuccess', function () {
+                $route.current = lastRoute;
+                un();
+            });
+        }
+        return original.apply($location, [path]);
+    };
+
+    /* Maybe needed later; only work if changes on the page were made */
+    /*
+    window.onbeforeunload = function (event) {
+        console.log("called");
+        window.location.search += '&param=42';
+        return undefined;
+    };
+    */
+
+}]);
+
+/** End Angular Run Block */
 
 //Setup for the Custom Google Search
 

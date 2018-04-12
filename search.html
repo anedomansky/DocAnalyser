@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-cookies.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
 
 
     <script type="text/javascript" src="app/app.js"></script>
@@ -35,17 +35,13 @@
     </p>
 </div>
 <div id="search" ng-controller="SearchInputCtrl">
-    <iframe id="hidden-frame" name="hidden-frame" style="display: none"
-            src="about:blank"></iframe>
-    <form id="searchbox_003813809171160788124:z54qpilp6j4"
+    <iframe id="hidden-frame" name="hidden-frame" style="display: none" src="about:blank"></iframe>
+    <form class="searchBox" id="searchbox_003813809171160788124:z54qpilp6j4"
           name="customSearchForm" target="hidden-frame" method="post"
           action="search.html?form=1">
-        <input value="003813809171160788124:z54qpilp6j4" name="cx"
-               type="hidden"/> <input ng-model="queryInput" id="q" type="text"
-                                      name="q" ng-change="change()"/> <input id="customSearch"
-                                                                             name="customSearch" type="button"
-                                                                             value="Search"
-                                                                             ng-click=""/>
+        <input value="003813809171160788124:z54qpilp6j4" name="cx" type="hidden"/>
+        <textarea ng-model="queryInput" id="q" name="q" cols="20" rows="1" ng-change="change()"></textarea>
+        <input id="customSearch" name="customSearch" type="button" value="Search" ng-click="click()"/>
     </form>
 </div>
 <div ui-view="emptyKeywordsTopics"></div>
