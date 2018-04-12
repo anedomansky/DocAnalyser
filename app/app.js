@@ -291,9 +291,9 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, KeywordsService
     // user clicked a checkbox:
     $scope.clicked = function (keyword) {
         var status = KeywordsService.keywords[keyword];
-
-        if (TopicsService.getAll().indexOf(keyword) > 0) { //selected keyword is also a topic
+        if (TopicsService.getAll().indexOf(keyword) > -1) { //selected keyword is also a topic
             TopicsService.setStatus(keyword, status);
+            //window.alert("keyword = " + keyword + " status = " + status);
         }
         //notify SearchInputCtrl:
         $rootScope.$broadcast('selectedTermsChanged', {term: keyword, status: status});
@@ -321,8 +321,9 @@ app.controller('TopicsMenuCtrl', function ($scope, $rootScope, TopicsService, Ke
     $scope.clicked = function (topic) {
         var status = $scope.topics[topic];
 
-        if (KeywordsService.getAll().indexOf(topic) > 0) { //selected topic is also a keyword
+        if (KeywordsService.getAll().indexOf(topic) > -1) { //selected topic is also a keyword
             KeywordsService.setStatus(topic, status);
+            //window.alert("topic = " + topic + " status = " + status);
         }
         //notify SearchInputCtrl:
         $rootScope.$broadcast('selectedTermsChanged', {term: topic, status: status});
@@ -395,6 +396,7 @@ app.controller('SearchInputCtrl', function ($scope, $location, TopicsService, Ke
         $scope.selectedKeywords = newValues[0].split(" ");
         $scope.selectedTopics = newValues[1].split(" ");
         $scope.selectedTerms = $scope.selectedKeywords.concat($scope.selectedTopics);
+        //window.alert("selectedTerms = " + $scope.selectedTerms.toString());
     });
 
     /*user manually change the queryInput */
@@ -405,10 +407,10 @@ app.controller('SearchInputCtrl', function ($scope, $location, TopicsService, Ke
 
         for (var i = 0; i < $scope.diff.length; i++) {
             // term must be keyword or topic
-            if (KeywordsService.getAll().indexOf($scope.diff[i]) > 0) { // it is a keyword
+            if (KeywordsService.getAll().indexOf($scope.diff[i]) > -1) { // it is a keyword
                 KeywordsService.changeStatus($scope.diff[i]);
             }
-            if (TopicsService.getAll().indexOf($scope.diff[i]) > 0) { // it is a topic
+            if (TopicsService.getAll().indexOf($scope.diff[i]) > -1) { // it is a topic
                 TopicsService.changeStatus($scope.diff[i]);
             }
         }

@@ -3,11 +3,6 @@ keywords/Topics = Begriffe
 ---Generell---
 Muss:
 1. Scrollt man im fixen Balken links herunter sind die Buttons verbuggt/verschoben (CSS Problem)
-2. Manche Begriffe werden nicht richtig selektiert.
-    Bsp: wikipedia/mathematik -> Wissenschaft wird nicht automatisch als Source Topic selektiert, aber als Keyword
-    Ist Wissenschaft nicht das erste Source Topic, wird es richtig selektiert.
-    Vermutung: Die ersten Checkboxen von Keywords und Source Topics buggen rum; Kriegen die eventuell das Click Signal nicht,
-    weil die zu früh rendern?
 
 ---Analyse Ansicht---
 Muss:
@@ -32,7 +27,7 @@ Muss:
     -> https://www.w3schools.com/angular/angular_filters.asp
     -> https://codeutopia.net/blog/2014/11/10/angularjs-best-practices-avoid-using-ng-repeats-index/
     -> In einem query Objekt gibt es die Property date, die ein Date() Objekt enthält, welches beim Laden der Seite
-    erstellt wird ( siehe $scope.populateLocalStorage() in app.js ).
+    erstellt wurde ( siehe $scope.populateLocalStorage() in app.js ).
     -> https://www.w3schools.com/jsref/jsref_obj_date.asp
 (Alex, Ja ich hasse CSS :D ) 5. CSS
     -> Vorschlag: Auch ähnlich der Firefox Chronik Sidebar, also die gefilterten URLs untereinander anzeigen;
