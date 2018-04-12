@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ui.router', 'ngCookies']);
+var app = angular.module('myApp', ['ui.router']);
 
 app.config(['$stateProvider', function ($stateProvider) {
 
