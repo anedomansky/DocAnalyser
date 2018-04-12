@@ -1,8 +1,9 @@
 <div ng-controller="PastQueriesMenuCtrl">
     <div id="pastQueries">
+        <label>Search: <input ng-model="searchText"></label>
         <h3>Past Queries</h3>
         <ul>
-            <li ng-repeat="query in queries">
+            <li ng-repeat="query in queries | filter: searchText">
                 {{query.url}}
                 <button ng-click="loadQuery(query)">Load</button>
             </li>

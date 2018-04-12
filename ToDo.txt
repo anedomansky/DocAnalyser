@@ -40,7 +40,6 @@ Muss:
 
 
 Weniger wichtig:
-1. Chronik durchsuchen mit Begriffen (Suchleiste, wo man Begriffe eingeben kann, die in der Url enthalten sein müssen)
-2. favicon
-3. Fehlermeldung, wenn Browser Local Storage nicht unterstützt
+1. favicon
+2. Fehlermeldung, wenn Browser Local Storage nicht unterstützt
     -> technische funktion bereits in app.js -> RequestCtrl

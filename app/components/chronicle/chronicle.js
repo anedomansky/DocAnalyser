@@ -94,6 +94,7 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
 
     $scope.queries = LocalStorageService.getQueries(); // array of queries
     $scope.chronicleStatus = true; // Contains the status of the chronicle function
+    $scope.searchText = "";
     $scope.statusTable = {
         true: 1,
         false: 0,
