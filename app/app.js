@@ -4,10 +4,11 @@ app.config(['$stateProvider', function ($stateProvider) {
 
     $stateProvider
         .state('analyze', {
-            templateUrl: './app/components/analyze/analyze.html'
+            templateUrl: './app/components/analyze/analyze.html',
         })
 
         .state('chronicle', {
+            url: '/chronicle',
             templateUrl: './app/components/chronicle/chronicle.html'
         })
 
@@ -258,12 +259,24 @@ app.controller('SideMenuCtrl', function () {
 
 });
 
-app.controller('DropdownMenuCtrl', ['$scope', '$state',
-    function ($scope, $state) {
-        $scope.changeView = function (destination) {
-            $state.go(destination);
+app.controller('DropdownMenuCtrl', function ($scope, $state, $location) {
+
+    /* user clicks on a drop down menu entry */
+    $scope.changeView = function (destination) {
+        switch (destination) {
+            case 'chronicle':
+                $state.go(destination);
+                break;
+            case 'analyze':
+                var queryInput = angular.element(document.querySelector('#q')).val(); // get current queryInput
+                $state.go(destination);
+                $location.path('/search/' + queryInput, false);
+                break;
+            default:
+                $state.go('exception'); // error occurred
         }
-    }]);
+    }
+});
 
 app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, KeywordsService, TopicsService) {
     $scope.keywords = KeywordsService.keywords;
@@ -317,7 +330,8 @@ app.controller('TopicsMenuCtrl', function ($scope, $rootScope, TopicsService, Ke
     }
 });
 
-app.controller('SearchInputCtrl', function ($scope, $location, TopicsService, KeywordsService) {
+app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, TopicsService, KeywordsService, $state,
+                                            LocalStorageService) {
     $scope.topicsService = TopicsService;
     $scope.keywordsService = KeywordsService;
     $scope.queryInput = ""; // search bar
@@ -343,23 +357,29 @@ app.controller('SearchInputCtrl', function ($scope, $location, TopicsService, Ke
     };
 
     $scope.changeUrl = function () {
-        $location.path('/' + $scope.queryInput + '/', false); // change url without reloading
+        $location.path('/search/' + $scope.queryInput, false); // change url without reloading
     };
 
     /** End Functions */
 
     /** Angular Functions */
 
-    /* url has changed -> back or previous button pressed */
+    /* url has changed -> maybe back or previous button was pressed */
     $scope.$on('$locationChangeSuccess', function (scope, next, current) {
 
         if (next !== current) { // new url must be different
-            var path = $location.path(); // get current path; like = /search_term_1 search_term_2/
-            path = path.slice(1); // remove first char (/)
-            path = path.slice(0, -1); // remove last char (/)
-            if (path !== $scope.queryInput) {
-                $scope.queryInput = path; // sync queryInput with url
-                $scope.change(); // sync checkboxes with queryInput
+            var path = $location.path(); // get current path
+
+            // user must be in analyze view and his last page must not be the chronicle view:
+            if ($state.is('analyze') && !(path.lastIndexOf('/chronicle', 0) === 0)) {
+                path = path.slice(8); // remove '/search/' from path
+                if (path !== $scope.queryInput) { // only sync if path and queryInput are different
+                    $scope.queryInput = path; // sync queryInput with url
+                    $scope.change(); // sync checkboxes with queryInput
+                }
+            }
+            else if ($state.is('chronicle')) { // disable browser button for chronicle view
+                $location.path('/chronicle', false); // redirect to same page
             }
         }
     });
@@ -424,12 +444,15 @@ app.controller('SearchInputCtrl', function ($scope, $location, TopicsService, Ke
     };
 
     $scope.click = function () {
-        $scope.changeUrl(); // change url without reloading
+        if ($state.is('analyze')) { // change the url only in the analyze view
+            $scope.changeUrl(); // change url without reloading
+        }
     };
 
     /** End Angular Functions */
 
-});
+})
+;
 
 //Does not do anything at the moment
 app.controller('SearchResultsCtrl', function ($scope) {

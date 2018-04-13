@@ -8,8 +8,8 @@ Muss:
 1. Fehlerbehandlung (Alle möglichen Urls behandeln/berücksichtigen)
     -> hide the .results-class
 (Tom) 2. Browser Funktionen nutzbar machen (Reload, Back, Forward)
--> Back, Forward teilweise fertig. Probleme in Verbindung mit dem Laden der Chronik Ansicht
-
+-> Back, Forward fertig. Sollte nochmal richtig getestet werden.
+-> Reload wahrscheinlich nur mit temporären Cookies möglich -> besser Kubek fragen
 Weniger wichtig:
 (Alex) 1. Benutzerhilfe / Google Such API auch nach deutsch umstellen können (evtl. Balken oben rechts, neben DocAnalyser, ein kleiner "Flaggen" Button,
 um die gewünschte Sprache auszuwählen)
@@ -18,7 +18,6 @@ um die gewünschte Sprache auszuwählen)
 ---Chronik Ansicht---
 Muss:
 (Tom) 1. Suchlauf speichern
-    -> Prototyp fertig
     -> Alternative suchen für broadcast und listener
     -> Alternative für das Deklarieren des KeywordsMenuCtrl in der search.html
     (KeywordsMenuCtrl ist in der Chronicle View nicht ansprechbar, weil er nicht im $scope ist / in einer anderen ui-view)
