@@ -32,7 +32,6 @@ app.config(['$stateProvider', function ($stateProvider) {
 
         .state('timeout', {
             url: '?query=&error=network timeout',
-            // url: '{query:.?}{error:network timeout}',
             views: {
                 '': {
                     templateUrl: './app/components/errors/noData.html'
@@ -45,7 +44,6 @@ app.config(['$stateProvider', function ($stateProvider) {
 
         .state('exception', {
             url: '?query=&error=exception occurred',
-            // url: '{query:.?}{error:exeption occurred}',
             views: {
                 '': {
                     templateUrl: './app/components/errors/noData.html'

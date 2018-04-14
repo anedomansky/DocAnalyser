@@ -13,7 +13,6 @@ Muss:
 Weniger wichtig:
 (Alex) 1. Benutzerhilfe / Google Such API auch nach deutsch umstellen können (evtl. Balken oben rechts, neben DocAnalyser, ein kleiner "Flaggen" Button,
 um die gewünschte Sprache auszuwählen)
-(Alex) 2. Den fixen Balken (linker Abschnitt, der scrollbar ist) in der Breite verändern können
 
 ---Chronik Ansicht---
 Muss:
@@ -33,6 +32,9 @@ Muss:
 
 
 Weniger wichtig:
-(Alex) 1. favicon
-2. Fehlermeldung, wenn Browser Local Storage nicht unterstützt
+1. Fehlermeldung, wenn Browser Local Storage nicht unterstützt
     -> technische funktion bereits in app.js -> RequestCtrl
+
+Am Ende:
+    (Alex)-> Cross-Browser-Testing??
+    (Alex, Tom)-> Dokumentation(Kommentare)

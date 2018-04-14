@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DocAnalyer Results</title>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
@@ -34,6 +35,7 @@
         <span id="copyright">&copy;</span> by Mario Kubek
     </p>
 </div>
+
 <div id="search" ng-controller="SearchInputCtrl">
     <iframe id="hidden-frame" name="hidden-frame" style="display: none" src="about:blank"></iframe>
     <form class="searchBox" id="searchbox_003813809171160788124:z54qpilp6j4"
@@ -44,10 +46,12 @@
         <input id="customSearch" name="customSearch" type="button" value="Search" ng-click="click()"/>
     </form>
 </div>
-<div ui-view="emptyKeywordsTopics"></div>
-<div ui-view="timeout"></div>
-<div ui-view="exception"></div>
-<div ng-controller="ErrorCtrl">
+<div id="resultsError" ng-controller="ErrorCtrl">
+    <div ui-view="emptyKeywordsTopics"></div>
+    <div ui-view="timeout"></div>
+    <div ui-view="exception"></div>
+
+
     <div class="results" ng-controller="SearchResultsCtrl" ng-hide="hideResults">
         <gcse:searchresults-only gname="searchOnlyCSE"></gcse:searchresults-only>
     </div>
