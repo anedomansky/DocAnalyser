@@ -9,6 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-cookies.js"></script>
 
 
     <script type="text/javascript" src="app/app.js"></script>
@@ -40,7 +41,7 @@
           name="customSearchForm" target="hidden-frame" method="post"
           action="search.html?form=1">
         <input value="003813809171160788124:z54qpilp6j4" name="cx" type="hidden"/>
-        <textarea ng-model="queryInput" id="q" name="q" cols="20" rows="1" ng-change="change()"></textarea>
+        <textarea ng-model="searchBar.input" id="q" name="q" cols="20" rows="1" ng-change="change()"></textarea>
         <input id="customSearch" name="customSearch" type="button" value="Search" ng-click="click()"/>
     </form>
 </div>
