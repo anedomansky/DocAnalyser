@@ -46,7 +46,7 @@
     overflow: auto;
     height: 100%;
     position: fixed;
-    width: 20%;
+    width: 23%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     overflow-y: scroll;
     background: url("../img/blu_stripes.png") repeat;
@@ -188,7 +188,7 @@ span#copyright {
 
 #resultsError {
     box-sizing: border-box;
-    width: 80%;
+    width: 77%;
     float: right;
     position: relative;
 }
