@@ -18,7 +18,6 @@ um die gewünschte Sprache auszuwählen)
 ---Chronik Ansicht---
 Muss:
 (Tom) 1. Suchlauf speichern
-    -> Alternative suchen für broadcast und listener
     -> Alternative für das Deklarieren des KeywordsMenuCtrl in der search.html
     (KeywordsMenuCtrl ist in der Chronicle View nicht ansprechbar, weil er nicht im $scope ist / in einer anderen ui-view)
 (Alex) 2. Suchläufe gemäß Filteroption anzeigen. Orientierung an die Firefox Chronik Sidebar (Heute, Gestern, Letzte 7 Tage...)
