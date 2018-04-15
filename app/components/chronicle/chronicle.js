@@ -112,7 +112,7 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
         TopicsService.setTopics(query.topics);
         var topKeywords = KeywordsService.selectedKeywordsAsArr();
         KeywordsService.setTopKeywords(topKeywords);
-        $rootScope.$broadcast('queryLoaded', ""); // Roughly speaking for the google search
+        $rootScope.$emit('queryLoaded', ""); // Roughly speaking for the google search
     };
 
     /* user clicked the Clear History button */

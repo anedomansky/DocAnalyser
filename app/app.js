@@ -1,9 +1,10 @@
-var app = angular.module('myApp', ['ui.router', 'ngRoute']);
+var app = angular.module('myApp', ['ui.router', 'ngRoute', 'ngCookies']);
 
 app.config(['$stateProvider', function ($stateProvider) {
 
     $stateProvider
         .state('analyze', {
+            url: '/search/:searchTerms',
             templateUrl: './app/components/analyze/analyze.html',
         })
 
@@ -157,14 +158,29 @@ app.service('KeywordsService', function () {
     /** End Functions */
 });
 
+app.service('SearchBarService', function () {
+    this.searchBar = {input: ""};
+
+    /** Functions */
+    this.setInput = function (input) {
+        this.searchBar.input = input;
+    };
+
+    this.getSearchBar = function () {
+        return this.searchBar;
+    };
+
+    /** End Functions */
+});
+
 
 /** End Angular Services */
 
 /** Begin Angular Controllers */
 
 app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 'KeywordsService', 'TopicsService',
-    'LocalStorageService', 'ConverterService', function ($scope, $state, $stateParams, $location, KeywordsService,
-                                                         TopicsService, LocalStorageService, ConverterService) {
+    'LocalStorageService', 'ConverterService', '$cookies', function ($scope, $state, $stateParams, $location, KeywordsService,
+                                                                     TopicsService, LocalStorageService, ConverterService, $cookies) {
 
         /** Functions */
         /* Get the request parameters from the url and place them as keywords and topics */
@@ -194,16 +210,17 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             }
             // get the url of the analysed web file
             url = $stateParams.url;
+            $scope.setCookie($location.url()); // stores url for reload purposes
             $location.url($location.path()); // remove request param from url
             // check if the user has activated the chronicle function
             LocalStorageService.loadChronicleStatus();
             if (LocalStorageService.getChronicleStatus() > 0) {
-                $scope.populateLocalStorage(keywordsObj, topicsObj, url);
+                $scope.populateLocalStorage(keywordsObj, topicsObj, url); // save current terms
             }
             else {
-                $scope.loadLocaleStorage();
+                $scope.loadLocaleStorage(); // just load saved queries
             }
-            $state.go('analyze');
+            $state.go('analyze', {searchTerms: topKeywords.join(" ")}); // show terms
         };
 
         $scope.loadLocaleStorage = function () {
@@ -237,11 +254,35 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
 
         };
 
+        /* saves a cookie with the actual url;
+        * is used for the browser reload button */
+        $scope.setCookie = function (url) {
+            var expireDate = new Date();
+            expireDate.setDate(expireDate.getDate() + 1);
+            $cookies.put('reloadInfo', url, {expires: expireDate});
+        };
+
         /** End Functions */
         $scope.processRequestParameter();
 
 
     }]);
+
+app.controller('ReloadCtrl', function ($scope, $cookies, $state, $location) {
+    /* Prototype for Reloading; Does nothing at the moment */
+    $scope.reload = function () {
+        if ($state.is('analyze') || $state.is('chronicle')) {
+            window.alert("called");
+            $scope.reloadCookie = $cookies.get('reloadInfo');
+            if (angular.isDefined($scope.reloadCookie)) {
+                $location.path('', false);
+                $location.url($scope.reloadCookie.slice(1));
+            }
+        }
+    };
+
+    //$scope.reload();
+});
 
 app.controller('HelpCtrl', function ($scope) {
     $scope.showHelp = function () {
@@ -257,7 +298,7 @@ app.controller('SideMenuCtrl', function () {
 
 });
 
-app.controller('DropdownMenuCtrl', function ($scope, $state, $location) {
+app.controller('DropdownMenuCtrl', function ($scope, $state, SearchBarService) {
 
     /* user clicks on a drop down menu entry */
     $scope.changeView = function (destination) {
@@ -266,9 +307,7 @@ app.controller('DropdownMenuCtrl', function ($scope, $state, $location) {
                 $state.go(destination);
                 break;
             case 'analyze':
-                var queryInput = angular.element(document.querySelector('#q')).val(); // get current queryInput
-                $state.go(destination);
-                $location.path('/search/' + queryInput, false);
+                $state.go(destination, {searchTerms: SearchBarService.getSearchBar().input});
                 break;
             default:
                 $state.go('exception'); // error occurred
@@ -276,13 +315,13 @@ app.controller('DropdownMenuCtrl', function ($scope, $state, $location) {
     }
 });
 
-app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, KeywordsService, TopicsService) {
+app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, KeywordsService, TopicsService, SearchBarService) {
     $scope.keywords = KeywordsService.keywords;
     $scope.keywordsService = KeywordsService.keywords;
 
     /* a query is loaded (from the Chronicle View) */
-    $scope.$on('queryLoaded', function () {
-        $rootScope.$broadcast('clearQueryInput', ""); // clear current search terms
+    $rootScope.$on('queryLoaded', function () {
+        SearchBarService.setInput("");
         $scope.init(); // 'click' the top 4 Keywords => put them into the search bar
     });
 
@@ -294,7 +333,7 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, KeywordsService
             //window.alert("keyword = " + keyword + " status = " + status);
         }
         //notify SearchInputCtrl:
-        $rootScope.$broadcast('selectedTermsChanged', {term: keyword, status: status});
+        $rootScope.$emit('selectedTermsChanged', {term: keyword, status: status});
 
     };
 
@@ -324,16 +363,16 @@ app.controller('TopicsMenuCtrl', function ($scope, $rootScope, TopicsService, Ke
             //window.alert("topic = " + topic + " status = " + status);
         }
         //notify SearchInputCtrl:
-        $rootScope.$broadcast('selectedTermsChanged', {term: topic, status: status});
+        $rootScope.$emit('selectedTermsChanged', {term: topic, status: status});
     }
 });
 
-app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, TopicsService, KeywordsService, $state,
-                                            LocalStorageService) {
+app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, TopicsService, KeywordsService,
+                                            SearchBarService, $state) {
     $scope.topicsService = TopicsService;
     $scope.keywordsService = KeywordsService;
-    $scope.queryInput = ""; // search bar
-    $scope.queryInputArr = []; // search bar items as array
+    $scope.searchBar = SearchBarService.getSearchBar(); // search bar
+    $scope.searchBarArr = []; // search bar items as array
     $scope.selectedTerms = [];
     $scope.diff = [];
 
@@ -355,7 +394,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
     };
 
     $scope.changeUrl = function () {
-        $location.path('/search/' + $scope.queryInput, false); // change url without reloading
+        $location.path('/search/' + $scope.searchBar.input, false); // change url without reloading
     };
 
     /** End Functions */
@@ -363,7 +402,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
     /** Angular Functions */
 
     /* url has changed -> maybe back or previous button was pressed */
-    $scope.$on('$locationChangeSuccess', function (scope, next, current) {
+    $rootScope.$on('$locationChangeSuccess', function (scope, next, current) {
 
         if (next !== current) { // new url must be different
             var path = $location.path(); // get current path
@@ -371,9 +410,9 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             // user must be in analyze view and his last page must not be the chronicle view:
             if ($state.is('analyze') && !(path.lastIndexOf('/chronicle', 0) === 0)) {
                 path = path.slice(8); // remove '/search/' from path
-                if (path !== $scope.queryInput) { // only sync if path and queryInput are different
-                    $scope.queryInput = path; // sync queryInput with url
-                    $scope.change(); // sync checkboxes with queryInput
+                if (path !== $scope.searchBar.input) { // only sync if path and search bar input are different
+                    SearchBarService.setInput(path); // sync search bar input with url
+                    $scope.change(); // sync checkboxes with search bar
                 }
             }
             else if ($state.is('chronicle')) { // disable browser button for chronicle view
@@ -382,17 +421,12 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         }
     });
 
-    /* clear the queryInput */
-    $scope.$on('clearQueryInput', function () {
-        $scope.queryInput = "";
-    });
-
     /* a term was selected or deselected */
-    $scope.$on('selectedTermsChanged', function (event, args) {
+    $rootScope.$on('selectedTermsChanged', function (event, args) {
         var status = args.status; // true for selected; false for deselected
         var selectedTerm = args.term; // keyword or topic
-        var queryLength = $scope.queryInput.length;
-        var query = $scope.queryInput.split(/\s+/);
+        var queryLength = $scope.searchBar.input.length;
+        var query = $scope.searchBar.input.split(/\s+/);
         if (queryLength === 0) {
             query.pop(); // remove first whitespace character
         }
@@ -408,7 +442,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 }
             }
         }
-        $scope.queryInput = query.join(" ");
+        SearchBarService.setInput(query.join(" "));
     });
 
     /* terms were selected or deselected */
@@ -424,11 +458,11 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
     });
 
 
-    /*user manually change the queryInput */
+    /*user manually change the search bar input */
     $scope.change = function () {
-        $scope.queryInputArr = $scope.queryInput.split(" ");
+        $scope.searchBarArr = $scope.searchBar.input.split(" ");
 
-        $scope.diff = $scope.symmetricDifference($scope.queryInputArr, $scope.selectedTerms);
+        $scope.diff = $scope.symmetricDifference($scope.searchBarArr, $scope.selectedTerms);
 
         for (var i = 0; i < $scope.diff.length; i++) {
             // term must be keyword or topic
