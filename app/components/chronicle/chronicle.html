@@ -12,8 +12,10 @@
     <br/>
     <button ng-click="clearHistory()">Clear History</button>
     <br/>
+    <div id="history">
     <input id="chronicleStatus" type="button" value="{{chronicleStatus
        && 'Deactivate History' || 'Activate History'}}"
            ng-click="changeChronicleStatus()"/>
+    </div>
 </div>
 <ui-view></ui-view> <!-- AngularJS Bugfix; needed to use $stateParams -->

@@ -42,6 +42,7 @@
 }
 
 .menu {
+    text-align: center;
     margin-top: 0;
     float: left;
     box-sizing: border-box;
@@ -78,6 +79,7 @@
 }
 
 .menu div#keywords {
+    text-align: initial;
     resize: vertical;
     min-height: 110px;
     padding: 5px 30px;
@@ -92,6 +94,7 @@
 }
 
 .menu div#topics {
+    text-align: initial;
     resize: vertical;
     min-height: 110px;
     padding: 5px 30px;
@@ -131,11 +134,12 @@
     padding-left: 10px;
     z-index: -1;
     color: black;
+    text-align: initial;
 }
 
 .menu button {
     padding: 10px 10px 10px 10px;
-    margin-left: 125px;
+    /*margin-left: 125px;*/
     margin-bottom: 30px;
     background-color: #4c8ffa;
     border: none;
@@ -158,6 +162,8 @@
 .dropdown {
     position: relative;
     display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .dropdown-content {
@@ -166,7 +172,9 @@
     background-color: #f9f9f9;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
-    margin-left: 125px;
+    /*margin-left: 125px;*/
+    margin-left: auto;
+    margin-right: auto;
     top: 37px;
 }
 
@@ -224,4 +232,12 @@ span#copyright {
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     padding: 5px;
+}
+
+/*is not on the left side of the side menu at the moment*/
+#history {
+    position: absolute;
+    left: 0;
+    float: left;
+    text-align: initial;
 }
