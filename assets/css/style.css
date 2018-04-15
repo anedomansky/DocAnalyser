@@ -34,7 +34,11 @@
 
 .main #search {
     padding: 10px 10px 30px 10px;
-    margin-left: 400px;
+    /*margin-left: 400px;*/
+    box-sizing: border-box;
+    width: 77%;
+    float: right;
+    position: relative;
 }
 
 .menu {
