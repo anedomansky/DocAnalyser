@@ -3,7 +3,6 @@
     background: url("../img/textured_paper.png") repeat;
     font-family: "Calibri", sans-serif;
     margin-top: 80px;
-    margin-left: 400px;
 }
 
 .main textarea[name="q"] {
@@ -35,15 +34,19 @@
 
 .main #search {
     padding: 10px 10px 30px 10px;
+    margin-left: 400px;
 }
 
 .menu {
+    margin-top: 0;
+    float: left;
+    box-sizing: border-box;
     top: 0px;
     left: 0;
-    /* color: white; */
+    overflow: auto;
     height: 100%;
     position: fixed;
-    width: 350px;
+    width: 20%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     overflow-y: scroll;
     background: url("../img/blu_stripes.png") repeat;
@@ -121,7 +124,6 @@
 
 .menu .copy {
     bottom: 1px;
-    /* position: fixed; */
     padding-left: 10px;
     z-index: -1;
     color: black;
@@ -184,8 +186,11 @@ span#copyright {
     color: black;
 }
 
-.results {
-    float: left;
+#resultsError {
+    box-sizing: border-box;
+    width: 80%;
+    float: right;
+    position: relative;
 }
 
 .popover {

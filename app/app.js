@@ -10,14 +10,13 @@ app.config(['$stateProvider', function ($stateProvider) {
 
         .state('chronicle', {
             url: '/chronicle',
-            templateUrl: './app/components/chronicle/chronicle.html',
+            templateUrl: './app/components/chronicle/chronicle.html'
         })
 
         .state('init', {
             url: '?a&h&url',
             controller: 'RequestCtrl',
         })
-
 
         .state('emptyKeywordsTopics', {
             url: '?query',
@@ -34,7 +33,6 @@ app.config(['$stateProvider', function ($stateProvider) {
 
         .state('timeout', {
             url: '?query=&error=network timeout',
-            // url: '{query:.?}{error:network timeout}',
             views: {
                 '': {
                     templateUrl: './app/components/errors/noData.html'
@@ -47,7 +45,6 @@ app.config(['$stateProvider', function ($stateProvider) {
 
         .state('exception', {
             url: '?query=&error=exception occurred',
-            // url: '{query:.?}{error:exeption occurred}',
             views: {
                 '': {
                     templateUrl: './app/components/errors/noData.html'
