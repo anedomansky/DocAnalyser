@@ -51,11 +51,14 @@
     overflow: auto;
     height: 100%;
     position: fixed;
+    min-width: 1%;
+    max-width: 99%;
     width: 23%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     overflow-y: scroll;
     background: url("../img/blu_stripes.png") repeat;
     background-color: #0099ff;
+    resize: horizontal;
 }
 
 .menu input[type="button"] {
@@ -201,7 +204,6 @@ span#copyright {
 
 #resultsError {
     box-sizing: border-box;
-    width: 77%;
     float: right;
     position: relative;
 }

@@ -267,7 +267,6 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
         /** End Functions */
         $scope.processRequestParameter();
 
-
     }]);
 
 app.controller('ReloadCtrl', function ($scope, $cookies, $state, $location) {
@@ -314,7 +313,7 @@ app.controller('DropdownMenuCtrl', function ($scope, $state, SearchBarService) {
             default:
                 $state.go('exception'); // error occurred
         }
-    }
+    };
 });
 
 app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, KeywordsService, TopicsService, SearchBarService) {
@@ -498,6 +497,38 @@ app.controller('ErrorCtrl', function ($scope, $state) {
     if ($state.is('emptyKeywordsTopics')) {
         $scope.hideResults = true;
     }
+
+    $scope.search = {width: "77%"}; // initial value
+    /* TO DO: use specific browser scroll bar width instead of 30px */
+    $scope.offset = 30;
+
+    /* */
+    $scope.onResizeFunction = function () {
+        // current width of left side menu
+        $scope.menuWidth = angular.element(document.getElementById('menu')).prop('offsetWidth');
+        // cross-browser solution to get current window width:
+        var width = window.innerWidth
+            || document.documentElement.clientWidth
+            || document.body.clientWidth;
+        // width of right google search = window width - left side menu width
+        var newSearchWidth = width - $scope.menuWidth - $scope.offset;
+        newSearchWidth = newSearchWidth + "px"; // for css
+        $scope.search.width = newSearchWidth;
+
+        /* TO DO: do the resizing for search element in another controller */
+        var element = document.getElementById('search');
+        element.style.width = newSearchWidth;
+    };
+
+    $scope.onResizeFunction(); // call if the page load for the first time
+
+    $scope.resize = function () {
+        $scope.onResizeFunction();
+        return $scope.$apply();
+    };
+    /* TO DO: event 'resize' should be used, but it is not working */
+    angular.element(document.getElementById('menu')).bind('mousedown', $scope.resize);
+    angular.element(document.getElementById('menu')).bind('mouseup', $scope.resize);
 
 });
 

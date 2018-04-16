@@ -17,9 +17,11 @@
     <script type="text/javascript" src="app/components/chronicle/chronicle.js"></script>
 </head>
 <body class="main" ng-app="myApp">
-<div class="menu" ng-controller="SideMenuCtrl">
+<div id="menu" class="menu" ng-controller="SideMenuCtrl">
     <div ng-controller="HelpCtrl" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()"><h2>DocAnalyser</h2>
-        <div class="popover" ng-show="popoverIsVisible"><div ng-include="'./app/components/help/help.html'"></div></div>
+        <div class="popover" ng-show="popoverIsVisible">
+            <div ng-include="'./app/components/help/help.html'"></div>
+        </div>
     </div>
     <br/>
     <div class="dropdown" ng-controller="KeywordsMenuCtrl"> <!-- TO DO: Better fix for broadcast -->
@@ -47,7 +49,7 @@
         <input id="customSearch" name="customSearch" type="button" value="Search" ng-click="click()"/>
     </form>
 </div>
-<div id="resultsError" ng-controller="ErrorCtrl">
+<div id="resultsError" ng-controller="ErrorCtrl" ng-style="{width: search.width}">
     <div ui-view="emptyKeywordsTopics"></div>
     <div ui-view="timeout"></div>
     <div ui-view="exception"></div>
