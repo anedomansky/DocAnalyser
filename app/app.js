@@ -191,6 +191,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             var keywordsObj = {};
             var topicsObj = {};
             var url = "";
+            var status;
             // fill table with keywords:
             keywords = $stateParams.a.split(";");
             // fill most important keywords:
@@ -214,7 +215,8 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             $location.url($location.path()); // remove request param from url
             // check if the user has activated the chronicle function
             LocalStorageService.loadChronicleStatus();
-            if (LocalStorageService.getChronicleStatus() > 0) {
+            status = LocalStorageService.getChronicleStatus();
+            if (status > 0 || status === "undefined") {
                 $scope.populateLocalStorage(keywordsObj, topicsObj, url); // save current terms
             }
             else {
