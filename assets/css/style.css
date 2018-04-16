@@ -192,6 +192,7 @@
 
 span#copyright {
     font-size: 20px;
+
 }
 
 .checkboxes {
@@ -234,10 +235,7 @@ span#copyright {
     padding: 5px;
 }
 
-/*is not on the left side of the side menu at the moment*/
 #history {
-    position: absolute;
     left: 0;
-    float: left;
     text-align: initial;
 }
