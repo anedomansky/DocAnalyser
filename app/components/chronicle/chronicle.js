@@ -145,3 +145,76 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
 
     $scope.init();
 });
+
+// 
+app.filter('filterByDate', function () {
+    return function (items, dateRange) {
+        var filtered = [];
+        var item = "";
+        if(dateRange == "all") {
+            return items;
+        }
+        else if(dateRange == "today") {
+            console.log("TODAY");
+            var today = {from: new Date().setHours(0, 0, 0, 0), to: new Date().setHours(23, 59, 59, 999)};
+            filtered = [];
+            for (var i = 0; i < items.length; i++) {
+                item = items[i];
+                if(item.date >= today.from && item.date <= today.to) {
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+
+        }
+        else if(dateRange == "week") {
+            console.log("WEEK");
+            var weekMap = [6, 0, 1, 2, 3, 4, 5];
+            var now = new Date();
+            now.setHours(0, 0, 0, 0);
+            var monday = new Date(now);
+            monday.setDate(monday.getDate() - weekMap[monday.getDay()]);
+            var currentDay = new Date(now);
+            currentDay.setDate(currentDay.getDate() - weekMap[currentDay.getDay()] + 1);
+            currentDay.setHours(23, 59, 59, 999);
+            filtered = [];
+            for (var i = 0; i < items.length; i++) {
+                item = items[i];
+                if(item.date >= monday && item.date <= currentDay) {
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+        }
+        else if(dateRange == "month") {
+            console.log("MONTH");
+            var dateMonth = new Date();
+            var firstDayMonth = new Date(dateMonth.getFullYear(), dateMonth.getMonth() - 1, 1);     // 2018-03-01
+            // var lastDayMonth = new Date(dateMonth.getFullYear(), dateMonth.getMonth() + 1, 0);
+            var lastDayMonth = new Date();
+            filtered = [];
+            for (var i = 0; i < items.length; i++) {
+                item = items[i];
+                if(item.date >= firstDayMonth && item.date <= lastDayMonth) {
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+        }
+        else if(dateRange == "year") {
+            console.log("YEAR");
+            var date = new Date();
+            var firstDay = new Date(date.getFullYear() - 1, date.getMonth(), 1); //2017-04-01
+            var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);  // 2018-05-01
+            filtered = [];
+            for (var i = 0; i < items.length; i++) {
+                item = items[i];
+                if(item.date >= firstDay && item.date <= lastDay) {
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+        }
+
+    }
+});

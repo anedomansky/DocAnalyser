@@ -1,10 +1,18 @@
 <div ng-controller="PastQueriesMenuCtrl">
     <div id="pastQueries">
-        <label>Search: <input ng-model="searchText"></label>
         <h3>Past Queries</h3>
+        <select ng-model="dateText">
+            <option value="all" selected>all</option>
+            <option value="today">today</option>
+            <option value="week">week</option>
+            <option value="month">month</option>
+            <option value="year">year</option>
+        </select>
+        <br/>
+        <label>Search: <input ng-model="searchText"/></label>
         <ul>
-            <li ng-repeat="query in queries | filter: searchText">
-                {{query.url}}
+            <li ng-repeat="query in queries | filter: searchText | filterByDate: dateText">
+                {{query.date}}
                 <button ng-click="loadQuery(query)">Load</button>
             </li>
         </ul>

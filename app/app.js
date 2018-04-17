@@ -240,6 +240,17 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             if (LocalStorageService.storageAvailable('localStorage')) {
                 // LocalStorage is available
                 var currentDate = new Date();
+
+                // test 1
+                // var current = new Date();     // get current date
+                // var weekstart = current.getDate() - current.getDay() +1;
+                // var currentDate = new Date(current.setDate(weekstart));
+
+                // test 2
+                // var date = new Date();
+                // var currentDate2 = new Date(date.getFullYear() - 1, date.getMonth() - 2, 0);
+
+
                 var newQuery = LocalStorageService.newQuery(currentDate, keywords, topics, url);
                 LocalStorageService.loadQueries();
                 LocalStorageService.addQuery(newQuery);
