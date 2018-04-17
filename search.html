@@ -39,7 +39,7 @@
     </p>
 </div>
 
-<div id="search" ng-controller="SearchInputCtrl">
+<div resizable ng-style="{width: searchWidth}" id="search" ng-controller="SearchInputCtrl">
     <iframe id="hidden-frame" name="hidden-frame" style="display: none" src="about:blank"></iframe>
     <form class="searchBox" id="searchbox_003813809171160788124:z54qpilp6j4"
           name="customSearchForm" target="hidden-frame" method="post"
@@ -49,7 +49,7 @@
         <input id="customSearch" name="customSearch" type="button" value="Search" ng-click="click()"/>
     </form>
 </div>
-<div id="resultsError" ng-controller="ErrorCtrl" ng-style="{width: search.width}">
+<div resizable ng-style="{width: searchWidth}" id="resultsError" ng-controller="ErrorCtrl">
     <div ui-view="emptyKeywordsTopics"></div>
     <div ui-view="timeout"></div>
     <div ui-view="exception"></div>

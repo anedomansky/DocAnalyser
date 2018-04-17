@@ -56,6 +56,60 @@ app.config(['$stateProvider', function ($stateProvider) {
         });
 }]);
 
+app.directive('resizable', function ($window) {
+    return function ($scope) {
+
+        $scope.leftMenu = document.getElementById('menu');
+        $scope.scrollbarWidth = getScrollbarWidth($scope.leftMenu);
+        $scope.scrollbarWidth = Math.round($scope.scrollbarWidth) * 2; // we have 2 scrollbars
+
+        /** Functions */
+
+        /* get browser default scrollbar width */
+        function getScrollbarWidth(element) {
+            return element.getBoundingClientRect().width - element.scrollWidth;
+        };
+
+        /* adjusts the width of google search and results */
+        $scope.onResizeFunction = function () {
+            // current width of left side menu
+            var leftMenuWidth = $scope.leftMenu.offsetWidth;
+            // cross-browser solution to get current window width:
+            var windowWidth = $window.innerWidth
+                || document.documentElement.clientWidth
+                || document.body.clientWidth;
+            // width of right google search = window width - left side menu width
+            $scope.searchWidth = (windowWidth - leftMenuWidth - $scope.scrollbarWidth) + "px";
+        };
+
+        $scope.resize = function () {
+            $scope.onResizeFunction();
+            return $scope.safeApply();
+        };
+
+        /** END Functions */
+
+        $scope.onResizeFunction(); // call if the page load for the first time
+
+        /* responds to resize events of the left side menu */
+        var observer = new MutationObserver(function (mutations) {
+            $scope.resize();
+        });
+        observer.observe($scope.leftMenu, {
+            attributes: true
+        });
+
+        /* responds to resize events of the window object */
+        return angular.element($window).bind('resize', function() {
+            //$scope.onResizeFunction();
+            //return $scope.safeApply();
+            $scope.resize();
+        });
+
+    };
+});
+
+
 /** Begin Angular Services */
 
 app.service('ConverterService', function () {
@@ -498,37 +552,9 @@ app.controller('ErrorCtrl', function ($scope, $state) {
         $scope.hideResults = true;
     }
 
-    $scope.search = {width: "77%"}; // initial value
-    /* TO DO: use specific browser scroll bar width instead of 30px */
-    $scope.offset = 30;
+    //$scope.search = {width: "77%"}; // initial value
+    //$scope.offset = 30;
 
-    /* */
-    $scope.onResizeFunction = function () {
-        // current width of left side menu
-        $scope.menuWidth = angular.element(document.getElementById('menu')).prop('offsetWidth');
-        // cross-browser solution to get current window width:
-        var width = window.innerWidth
-            || document.documentElement.clientWidth
-            || document.body.clientWidth;
-        // width of right google search = window width - left side menu width
-        var newSearchWidth = width - $scope.menuWidth - $scope.offset;
-        newSearchWidth = newSearchWidth + "px"; // for css
-        $scope.search.width = newSearchWidth;
-
-        /* TO DO: do the resizing for search element in another controller */
-        var element = document.getElementById('search');
-        element.style.width = newSearchWidth;
-    };
-
-    $scope.onResizeFunction(); // call if the page load for the first time
-
-    $scope.resize = function () {
-        $scope.onResizeFunction();
-        return $scope.$apply();
-    };
-    /* TO DO: event 'resize' should be used, but it is not working */
-    angular.element(document.getElementById('menu')).bind('mousedown', $scope.resize);
-    angular.element(document.getElementById('menu')).bind('mouseup', $scope.resize);
 
 });
 
@@ -547,6 +573,14 @@ app.run(['$route', '$rootScope', '$location', '$window', function ($route, $root
             });
         }
         return original.apply($location, [path]);
+    };
+
+    $rootScope.safeApply = function () {
+        var phase = this.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest') {
+        } else {
+            this.$apply();
+        }
     };
 
     /* Maybe needed later; only work if changes on the page were made */
@@ -605,3 +639,4 @@ function googleCSELoaded() {
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(gcse, s);
 })();
+
