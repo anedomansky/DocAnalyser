@@ -20,15 +20,8 @@ Muss:
 (Tom) 1. Suchlauf speichern
     -> Alternative für das Deklarieren des KeywordsMenuCtrl in der search.html
     (KeywordsMenuCtrl ist in der Chronicle View nicht ansprechbar, weil er nicht im $scope ist / in einer anderen ui-view)
-(Alex) 2. Suchläufe gemäß Filteroption anzeigen. Orientierung an die Firefox Chronik Sidebar (Heute, Gestern, Letzte 7 Tage...)
-    -> https://www.w3schools.com/angular/angular_filters.asp
-    -> https://codeutopia.net/blog/2014/11/10/angularjs-best-practices-avoid-using-ng-repeats-index/
-    -> In einem query Objekt gibt es die Property date, die ein Date() Objekt enthält, welches beim Laden der Seite
-    erstellt wurde ( siehe $scope.populateLocalStorage() in app.js ).
-    -> https://www.w3schools.com/jsref/jsref_obj_date.asp
-(Alex, Ja ich hasse CSS :D ) 5. CSS
-    -> Vorschlag: Auch ähnlich der Firefox Chronik Sidebar, also die gefilterten URLs untereinander anzeigen;
-    Die komplette Url ist ein Button; Button aber als solches nicht sichtbar, erst wenn man mit der Maus drüber schwebt
+Bug?:
+    Die 'url' im query-Objekt ist jedes Mal leer. Also es kommt nicht in der Past Queries als list item an. Alle anderen Attribute(topicy, keywords, date) kommen ohne Probleme an.
 
 
 Weniger wichtig:
