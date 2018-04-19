@@ -56,6 +56,60 @@ app.config(['$stateProvider', function ($stateProvider) {
         });
 }]);
 
+app.directive('resizable', function ($window) {
+    return function ($scope) {
+
+        $scope.leftMenu = document.getElementById('menu');
+        $scope.scrollbarWidth = getScrollbarWidth($scope.leftMenu);
+        $scope.scrollbarWidth = Math.round($scope.scrollbarWidth) * 2; // we have 2 scrollbars
+
+        /** Functions */
+
+        /* get browser default scrollbar width */
+        function getScrollbarWidth(element) {
+            return element.getBoundingClientRect().width - element.scrollWidth;
+        };
+
+        /* adjusts the width of google search and results */
+        $scope.onResizeFunction = function () {
+            // current width of left side menu
+            var leftMenuWidth = $scope.leftMenu.offsetWidth;
+            // cross-browser solution to get current window width:
+            var windowWidth = $window.innerWidth
+                || document.documentElement.clientWidth
+                || document.body.clientWidth;
+            // width of right google search = window width - left side menu width
+            $scope.searchWidth = (windowWidth - leftMenuWidth - $scope.scrollbarWidth) + "px";
+        };
+
+        $scope.resize = function () {
+            $scope.onResizeFunction();
+            return $scope.safeApply();
+        };
+
+        /** END Functions */
+
+        $scope.onResizeFunction(); // call if the page load for the first time
+
+        /* responds to resize events of the left side menu */
+        var observer = new MutationObserver(function (mutations) {
+            $scope.resize();
+        });
+        observer.observe($scope.leftMenu, {
+            attributes: true
+        });
+
+        /* responds to resize events of the window object */
+        return angular.element($window).bind('resize', function() {
+            //$scope.onResizeFunction();
+            //return $scope.safeApply();
+            $scope.resize();
+        });
+
+    };
+});
+
+
 /** Begin Angular Services */
 
 app.service('ConverterService', function () {
@@ -191,6 +245,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             var keywordsObj = {};
             var topicsObj = {};
             var url = "";
+            var status;
             // fill table with keywords:
             keywords = $stateParams.a.split(";");
             // fill most important keywords:
@@ -215,7 +270,8 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             $location.url($location.path()); // remove request param from url
             // check if the user has activated the chronicle function
             LocalStorageService.loadChronicleStatus();
-            if (LocalStorageService.getChronicleStatus() > 0) {
+            status = LocalStorageService.getChronicleStatus();
+            if (status > 0 || status === "undefined") {
                 $scope.populateLocalStorage(keywordsObj, topicsObj, url); // save current terms
             }
             else {
@@ -281,7 +337,6 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
         /** End Functions */
         $scope.processRequestParameter();
 
-
     }]);
 
 app.controller('ReloadCtrl', function ($scope, $cookies, $state, $location) {
@@ -328,7 +383,7 @@ app.controller('DropdownMenuCtrl', function ($scope, $state, SearchBarService) {
             default:
                 $state.go('exception'); // error occurred
         }
-    }
+    };
 });
 
 app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, KeywordsService, TopicsService, SearchBarService) {
@@ -513,6 +568,10 @@ app.controller('ErrorCtrl', function ($scope, $state) {
         $scope.hideResults = true;
     }
 
+    //$scope.search = {width: "77%"}; // initial value
+    //$scope.offset = 30;
+
+
 });
 
 /** End Angular Controllers */
@@ -530,6 +589,14 @@ app.run(['$route', '$rootScope', '$location', '$window', function ($route, $root
             });
         }
         return original.apply($location, [path]);
+    };
+
+    $rootScope.safeApply = function () {
+        var phase = this.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest') {
+        } else {
+            this.$apply();
+        }
     };
 
     /* Maybe needed later; only work if changes on the page were made */
@@ -588,3 +655,4 @@ function googleCSELoaded() {
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(gcse, s);
 })();
+

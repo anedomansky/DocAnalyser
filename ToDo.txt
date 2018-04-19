@@ -2,16 +2,17 @@ Glossar:
 keywords/Topics = Begriffe
 ---Generell---
 Muss:
+1. Direktive in shared/directives.js
+
+Weniger wichtig: resize event performance
 
 ---Analyse Ansicht---
 Muss:
-1. Fehlerbehandlung (Alle möglichen Urls behandeln/berücksichtigen)
-    -> hide the .results-class
-(Tom) 2. Browser Funktionen nutzbar machen (Reload, Back, Forward)
+(Tom) 1. Browser Funktionen nutzbar machen (Reload, Back, Forward)
 -> Back, Forward fertig. Sollte nochmal richtig getestet werden.
 -> Reload wahrscheinlich nur mit temporären Cookies möglich -> besser Kubek fragen
 Weniger wichtig:
-(Alex) 1. Benutzerhilfe / Google Such API auch nach deutsch umstellen können (evtl. Balken oben rechts, neben DocAnalyser, ein kleiner "Flaggen" Button,
+(Alex) 1. Benutzerhilfetexte / Google Such API auch nach deutsch umstellen können (evtl. Balken oben rechts, neben DocAnalyser, ein kleiner "Flaggen" Button,
 um die gewünschte Sprache auszuwählen)
 
 ---Chronik Ansicht---

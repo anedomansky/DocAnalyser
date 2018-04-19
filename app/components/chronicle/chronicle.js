@@ -1,7 +1,7 @@
 angular.module('myApp').service('LocalStorageService', function ($window) {
 
     this.queries = []; // contains all saved queries after the page is loaded
-    this.chronicleStatus = ""; // indicates whether the chronicle function is activated or deactivated
+    this.chronicleStatus = "undefined"; // indicates whether the chronicle function is activated or deactivated
 
     this.addQuery = function (query) {
         this.queries.push(query);
@@ -93,7 +93,7 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
                                                                     KeywordsService, TopicsService) {
 
     $scope.queries = LocalStorageService.getQueries(); // array of queries
-    $scope.chronicleStatus = true; // Contains the status of the chronicle function
+    $scope.chronicleStatus = true; // contains the status of the chronicle function
     $scope.searchText = "";
     $scope.statusTable = {
         true: 1,
@@ -133,11 +133,12 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
     /* initialization stuff */
     $scope.init = function () {
         var status = LocalStorageService.getChronicleStatus();
-        if (typeof status !== "undefined") {
+        if (status !== "undefined") {
             $scope.chronicleStatus = $scope.statusTable[status]; // load and set the chronicle status
         }
         else {
-            console.log("something went wrong! can not load the chronicle status. In $scope.init");
+            $scope.chronicleStatus = true;
+            console.log("first page visit. chronicle status is set to true.");
         }
     };
 
