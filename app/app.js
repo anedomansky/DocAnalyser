@@ -210,6 +210,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             }
             // get the url of the analysed web file
             url = $stateParams.url;
+            console.log("HELLO");
             $scope.setCookie($location.url()); // stores url for reload purposes
             $location.url($location.path()); // remove request param from url
             // check if the user has activated the chronicle function
@@ -239,7 +240,10 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
         $scope.populateLocalStorage = function (keywords, topics, url) {
             if (LocalStorageService.storageAvailable('localStorage')) {
                 // LocalStorage is available
-                var currentDate = new Date();
+
+                // ensure that the Date is always in the same format
+                var now = new Date();
+                var currentDate = now.toDateString();
 
                 // test 1
                 // var current = new Date();     // get current date
@@ -248,7 +252,8 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
 
                 // test 2
                 // var date = new Date();
-                // var currentDate2 = new Date(date.getFullYear() - 1, date.getMonth() - 2, 0);
+                // var currentDate = new Date(date.getFullYear() - 1, date.getMonth() +3, 0);
+                // currentDate = currentDate.toDateString();
 
 
                 var newQuery = LocalStorageService.newQuery(currentDate, keywords, topics, url);
