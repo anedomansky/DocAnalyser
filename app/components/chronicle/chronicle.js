@@ -146,3 +146,74 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
 
     $scope.init();
 });
+
+//
+app.filter('filterByDate', function () {
+    return function (items, dateRange) {
+        var filtered = [];
+        var item = "";
+        if(dateRange === "all") {
+            return items;
+        }
+        else if(dateRange === "today") {
+            var today = {from: new Date().setHours(0, 0, 0, 0), to: new Date().setHours(23, 59, 59, 999)};
+            filtered = [];
+            for (var i = 0; i < items.length; i++) {
+                item = items[i];
+                if(new Date(item.date) >= today.from && new Date(item.date) <= today.to) {
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+
+        }
+        else if(dateRange === "week") {
+            var weekMap = [6, 0, 1, 2, 3, 4, 5];
+            var now = new Date();
+            now.setHours(0, 0, 0, 0);
+            var monday = new Date(now);
+            monday.setDate(monday.getDate() - weekMap[monday.getDay()]);
+            var sunday = new Date();
+            sunday.setDate(sunday.getDate() - weekMap[sunday.getDay()] + 6);
+            sunday.setHours(23, 59, 59, 999);
+            filtered = [];
+            for (var i = 0; i < items.length; i++) {
+                item = items[i];
+                if(new Date(item.date) >= monday && new Date(item.date) <= sunday) {
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+        }
+        else if(dateRange === "month") {
+            var dateMonth = new Date();
+            var firstDayMonth = new Date(dateMonth.getFullYear(), dateMonth.getMonth() - 1, 1);     // 2018-03-01
+            var lastDayMonth = new Date(dateMonth.getFullYear(), dateMonth.getMonth() + 1, 0);   // 2018-04-30
+            // var lastDayMonth = new Date();
+            filtered = [];
+            for (var i = 0; i < items.length; i++) {
+                item = items[i];
+                if(new Date(item.date) >= firstDayMonth && new Date(item.date) <= lastDayMonth) {
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+        }
+        else if(dateRange === "older") {
+            var date = new Date();
+            var firstDay = new Date(date.getFullYear() - 1, date.getMonth(), 1); //2017-04-01
+            var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);  // 2018-04-30
+            filtered = [];
+            for (var i = 0; i < items.length; i++) {
+                item = items[i];
+                if(new Date(item.date) >= firstDay && new Date(item.date) <= lastDay) {
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+        }
+        else {
+            return items;
+        }
+    }
+});

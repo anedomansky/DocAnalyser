@@ -87,7 +87,7 @@
     min-height: 110px;
     padding: 5px 30px;
     border: none;
-    width: 225px;
+    width: 75%;
     margin: auto;
     height: 250px;
     overflow-y: scroll;
@@ -102,7 +102,7 @@
     min-height: 110px;
     padding: 5px 30px;
     border: none;
-    width: 225px;
+    width: 75%;
     margin: auto;
     height: 250px;
     overflow-y: scroll;
@@ -116,7 +116,7 @@
     min-height: 110px;
     padding: 5px 30px;
     border: none;
-    width: 225px;
+    width: 75%;
     margin: auto;
     height: 500px;
     overflow-y: scroll;
@@ -241,4 +241,62 @@ span#copyright {
 #history {
     left: 0;
     text-align: initial;
+}
+
+.menu div li {
+    color: black;
+}
+
+.queryButton {
+    background: url("../img/textured_paper.png") repeat;
+    color: black !important;
+    text-shadow: none !important;
+}
+
+.queryButton:hover {
+    background-image: none;
+    box-shadow: 0px 0px 2px 2px #b2b6b5 !important;
+    background: #b2b6b5 none;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.chronicleButton {
+    padding: 10px 10px 10px 10px;
+    background-color: #4c8ffa;
+    border: none;
+    border-radius: 0px;
+    font-size: 12px;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    width: 45%;
+}
+
+.chronicleButton:hover {
+    box-shadow: 0px 0px 2px 2px #4c8ffa;
+    background: #4c8ffa none;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#dateSelect {
+    width: 100%;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#searchText {
+    width: 100%;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+ul#pastQueriesList {
+    list-style-type: none;
+}
+
+li#pastQueryItem {
+    list-style-type: none;
 }
