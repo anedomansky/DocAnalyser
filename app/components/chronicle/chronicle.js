@@ -147,7 +147,7 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
     $scope.init();
 });
 
-// 
+//
 app.filter('filterByDate', function () {
     return function (items, dateRange) {
         var filtered = [];
@@ -199,7 +199,7 @@ app.filter('filterByDate', function () {
             }
             return filtered;
         }
-        else if(dateRange === "year") {
+        else if(dateRange === "older") {
             var date = new Date();
             var firstDay = new Date(date.getFullYear() - 1, date.getMonth(), 1); //2017-04-01
             var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);  // 2018-04-30

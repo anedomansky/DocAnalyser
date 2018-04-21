@@ -100,7 +100,7 @@ app.directive('resizable', function ($window) {
         });
 
         /* responds to resize events of the window object */
-        return angular.element($window).bind('resize', function() {
+        return angular.element($window).bind('resize', function () {
             //$scope.onResizeFunction();
             //return $scope.safeApply();
             $scope.resize();
@@ -227,6 +227,17 @@ app.service('SearchBarService', function () {
     /** End Functions */
 });
 
+app.service('ReloadService', function ($cookies, $state, $location, $window) {
+
+    /* Changes the URL to the state stored in the cookie */
+    this.reloadUrl = function () {
+        var reloadCookie = $cookies.get('reloadInfo');
+        if (angular.isDefined(reloadCookie)) { // cookie must be set
+            $window.location.href = reloadCookie; // redirect to loaded url
+        }
+};
+
+});
 
 /** End Angular Services */
 
@@ -331,6 +342,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
         $scope.setCookie = function (url) {
             var expireDate = new Date();
             expireDate.setDate(expireDate.getDate() + 1);
+            url = '#!' + url; // convert to hash bang url
             $cookies.put('reloadInfo', url, {expires: expireDate});
         };
 
@@ -339,21 +351,6 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
 
     }]);
 
-app.controller('ReloadCtrl', function ($scope, $cookies, $state, $location) {
-    /* Prototype for Reloading; Does nothing at the moment */
-    $scope.reload = function () {
-        if ($state.is('analyze') || $state.is('chronicle')) {
-            window.alert("called");
-            $scope.reloadCookie = $cookies.get('reloadInfo');
-            if (angular.isDefined($scope.reloadCookie)) {
-                $location.path('', false);
-                $location.url($scope.reloadCookie.slice(1));
-            }
-        }
-    };
-
-    //$scope.reload();
-});
 
 app.controller('HelpCtrl', function ($scope) {
     $scope.showHelp = function () {
@@ -386,41 +383,56 @@ app.controller('DropdownMenuCtrl', function ($scope, $state, SearchBarService) {
     };
 });
 
-app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, KeywordsService, TopicsService, SearchBarService) {
-    $scope.keywords = KeywordsService.keywords;
-    $scope.keywordsService = KeywordsService.keywords;
+app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, $state, KeywordsService, TopicsService, SearchBarService,
+                                             ReloadService) {
+        $scope.keywords = KeywordsService.keywords;
+        $scope.keywordsService = KeywordsService.keywords;
 
-    /* a query is loaded (from the Chronicle View) */
-    $rootScope.$on('queryLoaded', function () {
-        SearchBarService.setInput("");
-        $scope.init(); // 'click' the top 4 Keywords => put them into the search bar
-    });
+        /* a query is loaded (from the Chronicle View) */
+        $rootScope.$on('queryLoaded', function () {
+            SearchBarService.setInput("");
+            $scope.init(); // 'click' the top 4 Keywords => put them into the search bar
+        });
 
-    // user clicked a checkbox:
-    $scope.clicked = function (keyword) {
-        var status = KeywordsService.keywords[keyword];
-        if (TopicsService.getAll().indexOf(keyword) > -1) { //selected keyword is also a topic
-            TopicsService.setStatus(keyword, status);
-            //window.alert("keyword = " + keyword + " status = " + status);
-        }
-        //notify SearchInputCtrl:
-        $rootScope.$emit('selectedTermsChanged', {term: keyword, status: status});
+        $scope.objIsEmpty = function (obj) {
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key))
+                    return false;
+            }
+            return true;
+        };
 
-    };
+        // user clicked a checkbox:
+        $scope.clicked = function (keyword) {
+            var status = KeywordsService.keywords[keyword];
+            if (TopicsService.getAll().indexOf(keyword) > -1) { //selected keyword is also a topic
+                TopicsService.setStatus(keyword, status);
+                //window.alert("keyword = " + keyword + " status = " + status);
+            }
+            //notify SearchInputCtrl:
+            $rootScope.$emit('selectedTermsChanged', {term: keyword, status: status});
 
-    /* initialization */
-    $scope.init = function () {
-        // The objects are already set to true, but if the keywords are topics at the same time,
-        // they must also be manually clicked to transfer the object status of the keywords to the topics
-        $scope.topKeywords = KeywordsService.getTopKeywords();
-        for (var i = 0; i < 4; i++) {
-            $scope.clicked($scope.topKeywords[i]);
-        }
-    };
+        };
 
-    $scope.init();
+        /* initialization */
+        $scope.init = function () {
+            // no keywords found; maybe a page reload
+            if ($state.is('analyze') && angular.isDefined($scope.keywords) && $scope.objIsEmpty($scope.keywords)) {
+                ReloadService.reloadUrl();
+            }
+            // The objects are already set to true, but if the keywords are topics at the same time,
+            // they must also be manually clicked to transfer the object status of the keywords to the topics
+            $scope.topKeywords = KeywordsService.getTopKeywords();
+            for (var i = 0; i < 4; i++) {
+                $scope.clicked($scope.topKeywords[i]);
+            }
+        };
 
-});
+        $scope.init();
+
+    }
+)
+;
 
 app.controller('TopicsMenuCtrl', function ($scope, $rootScope, TopicsService, KeywordsService) {
     $scope.topics = TopicsService.topics;

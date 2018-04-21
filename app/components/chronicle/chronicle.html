@@ -5,25 +5,21 @@
             <option value="" disabled selected>select ...</option>
             <option value="all">all</option>
             <option value="today">today</option>
-            <option value="week">week</option>
-            <option value="month">month</option>
-            <option value="year">year</option>
+            <option value="week">this week</option>
+            <option value="month">this month</option>
+            <option value="older">older than a month</option>
         </select>
-        <br/>
-        <label>Search: <input ng-model="searchText"/></label>
-        <ul>
-            <li ng-repeat="query in queries | filter: searchText | filterByDate: dateText">
-                <button class="queryButton"ng-click="loadQuery(query)">{{query.date}}</button>
+        <input id="searchText" placeholder="Search History" ng-model="searchText"/>
+        <ul id="pastQueriesList">
+            <li id="pastQueryItem" ng-repeat="query in queries | filter: searchText | filterByDate: dateText">
+                <button class="queryButton" ng-click="loadQuery(query)">{{query.date}}</button>
             </li>
         </ul>
     </div>
     <br/>
-    <button ng-click="clearHistory()">Clear History</button>
-    <br/>
-    <div id="history">
-    <input id="chronicleStatus" type="button" value="{{chronicleStatus
-       && 'Deactivate History' || 'Activate History'}}"
-           ng-click="changeChronicleStatus()"/>
-    </div>
+    <button class="chronicleButton" ng-click="clearHistory()">Clear History</button>
+    <button class="chronicleButton" ng-click="changeChronicleStatus()">{{chronicleStatus
+        && 'Deactivate History' || 'Activate History'}}
+    </button>
 </div>
 <ui-view></ui-view> <!-- AngularJS Bugfix; needed to use $stateParams -->

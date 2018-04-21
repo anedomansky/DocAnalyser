@@ -1,33 +1,37 @@
-Glossar:
-keywords/Topics = Begriffe
 ---Generell---
-Muss:
-1. Direktive in shared/directives.js
 
-Weniger wichtig: resize event performance
+Weniger Wichtig:
+1. Info an den Benutzer, dass wir Cookies benutzen? Muss man das machen?
+
+2. Benutzerhilfetexte / Google Such API auch nach deutsch umstellen können (evtl. Oben rechts im left side menu, neben dem DocAnalyser Text,
+ein kleiner "Flaggen" Button, um die gewünschte Sprache auszuwählen)
+
+(Tom) 3. resize event performance verbessern
+
+Muss:
+1. Code sortieren:
+- Direktiven in app/shared/directives.js
+- Alles was mit der Analyze Ansicht zu tun hat in app/components/analyze/analyze.js
+-> funktioniert alles nicht so ohne weiteres
 
 ---Analyse Ansicht---
 Muss:
 (Tom) 1. Browser Funktionen nutzbar machen (Reload, Back, Forward)
 -> Back, Forward fertig. Sollte nochmal richtig getestet werden.
--> Reload wahrscheinlich nur mit temporären Cookies möglich -> besser Kubek fragen
-Weniger wichtig:
-(Alex) 1. Benutzerhilfetexte / Google Such API auch nach deutsch umstellen können (evtl. Balken oben rechts, neben DocAnalyser, ein kleiner "Flaggen" Button,
-um die gewünschte Sprache auszuwählen)
+-> Reload fertig für Analyze Ansicht fertig
 
 ---Chronik Ansicht---
 Muss:
 (Tom) 1. Suchlauf speichern
     -> Alternative für das Deklarieren des KeywordsMenuCtrl in der search.html
     (KeywordsMenuCtrl ist in der Chronicle View nicht ansprechbar, weil er nicht im $scope ist / in einer anderen ui-view)
-Bug?:
-    Die 'url' im query-Objekt ist jedes Mal leer. Also es kommt nicht in der Past Queries als list item an. Alle anderen Attribute(topicy, keywords, date) kommen ohne Probleme an.
-
 
 Weniger wichtig:
 1. Fehlermeldung, wenn Browser Local Storage nicht unterstützt
     -> technische funktion bereits in app.js -> RequestCtrl
+2. !Important tags in der CSS auswechseln gegen "sauberes" CSS, also quasi die Struktur der Buttons ein wenig anpassen, damit !Important überflüssig wird
+ -> https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity
 
 Am Ende:
-    (Alex)-> Cross-Browser-Testing??
-    (Alex, Tom)-> Dokumentation(Kommentare)
+    (Alex)-> Cross-Browser-Testing? (siehe Pflichtenheft, welche Browser wir versprochen haben, also laufen müssen)
+    (Alex, Tom)-> Dokumentation(Kommentare) -> evtl. wieder ein Tool, dass aus Kommentare eine (Html) Dokumentation macht?
