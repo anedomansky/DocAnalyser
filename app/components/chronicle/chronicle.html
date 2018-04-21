@@ -12,7 +12,7 @@
         <input id="searchText" placeholder="Search History" ng-model="searchText"/>
         <ul id="pastQueriesList">
             <li id="pastQueryItem" ng-repeat="query in queries | filter: searchText | filterByDate: dateText">
-                <button class="queryButton" ng-click="loadQuery(query)">{{query.date}}</button>
+                <button class="queryButton" ng-click="loadQuery(query)">{{query.date + " : " + query.url}}</button>
             </li>
         </ul>
     </div>

@@ -252,10 +252,14 @@ span#copyright {
     color: black;
     text-shadow: none;
     width: 100%;
-    border: none;
+    border-style: none none inset none;
+    border-width: thin;
+    border-color: #7c7f7e;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+    overflow-wrap: break-word;
+    word-wrap: break-word; /* needed for ie9 up to edge */
 }
 
 .queryButton:hover {

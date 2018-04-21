@@ -26,11 +26,11 @@ Muss:
     -> Alternative für das Deklarieren des KeywordsMenuCtrl in der search.html
     (KeywordsMenuCtrl ist in der Chronicle View nicht ansprechbar, weil er nicht im $scope ist / in einer anderen ui-view)
 
+(Tom) 2. Statt der kompletten Url nur den Seitentitel + evtl. Datum anzeigen. Bei längeren Urls wird das zu unübersichtlich.
+Erfordert wieder Eingriff in den Server Code (Kubek fragen).
+
 Weniger wichtig:
-1. Fehlermeldung, wenn Browser Local Storage nicht unterstützt
-    -> technische funktion bereits in app.js -> RequestCtrl
-2. !Important tags in der CSS auswechseln gegen "sauberes" CSS, also quasi die Struktur der Buttons ein wenig anpassen, damit !Important überflüssig wird
- -> https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity
+1. Fehlermeldungen, die zurzeit mit window.alert realisiert sind, gegen schöne Fehlermeldungen austauschen, die dann auf der Seite erscheinen.
 
 Am Ende:
     (Alex)-> Cross-Browser-Testing? (siehe Pflichtenheft, welche Browser wir versprochen haben, also laufen müssen)
