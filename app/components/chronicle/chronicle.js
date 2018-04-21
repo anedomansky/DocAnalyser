@@ -201,12 +201,13 @@ app.filter('filterByDate', function () {
         }
         else if(dateRange === "older") {
             var date = new Date();
-            var firstDay = new Date(date.getFullYear() - 1, date.getMonth(), 1); //2017-04-01
-            var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);  // 2018-04-30
+            var older = {from: 0, to: new Date(date.getFullYear(), date.getMonth() - 1)};
+            // var firstDay = new Date(date.getFullYear() - 1, date.getMonth(), 1); //2017-04-01
+            // var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);  // 2018-04-30
             filtered = [];
             for (var i = 0; i < items.length; i++) {
                 item = items[i];
-                if(new Date(item.date) >= firstDay && new Date(item.date) <= lastDay) {
+                if(new Date(item.date) >= older.from && new Date(item.date) <= older.to) {
                     filtered.push(item);
                 }
             }

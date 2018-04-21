@@ -319,8 +319,8 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
 
                 // test 2
                 // var date = new Date();
-                // var currentDate = new Date(date.getFullYear() - 1, date.getMonth() +3, 0);
-                // currentDate = currentDate.toDateString();
+                // var currentDate2 = new Date(date.getFullYear() - 1, date.getMonth() +3, 0);
+                // currentDate2 = currentDate2.toDateString();
 
 
                 var newQuery = LocalStorageService.newQuery(currentDate, keywords, topics, url);
