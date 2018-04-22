@@ -124,7 +124,7 @@ app.service('ConverterService', function () {
     this.arrToObject = function (arr) {
         var rv = {};
         for (var i = 0, len = arr.length; i < len; ++i) {
-            if (arr[i] !== undefined) {
+            if (typeof arr[i] !== 'undefined') {
                 rv[arr[i]] = false;
             }
         }
