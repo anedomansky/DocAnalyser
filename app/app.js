@@ -53,7 +53,13 @@ app.config(['$stateProvider', function ($stateProvider) {
                     templateUrl: './app/components/errors/exception.html'
                 }
             }
+        })
+
+        .state('storageError', {
+            templateUrl: './app/components/chronicle/storageError.html'
         });
+
+
 }]);
 
 app.directive('resizable', function ($window) {
@@ -276,7 +282,6 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             }
             // get the url of the analysed web file
             url = $stateParams.url;
-            console.log("HELLO");
             $scope.setCookie($location.url()); // stores url for reload purposes
             $location.url($location.path()); // remove request param from url
             // check if the user has activated the chronicle function
@@ -299,8 +304,9 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             else {
                 // LocalStorage is not available
                 // TO DO: fancy error message to the user
-                window.alert("Your Browser does not support local storage." +
-                    "The chronicle view is therefore not available.");
+                // window.alert("Your Browser does not support local storage." +
+                //     "The chronicle view is therefore not available.");
+                $state.go('storageError');
             }
         };
 
@@ -331,8 +337,9 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             else {
                 // LocalStorage is not available
                 // TO DO: fancy error message to the user
-                window.alert("Your Browser does not support local storage." +
-                    "The chronicle view is therefore not available.");
+                // window.alert("Your Browser does not support local storage." +
+                //     "The chronicle view is therefore not available.");
+                $state.go('storageError');
             }
 
         };
