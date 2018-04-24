@@ -55,8 +55,8 @@ app.config(['$stateProvider', function ($stateProvider) {
             }
         })
 
-        .state('storageError', {
-            templateUrl: './app/components/chronicle/storageError.html'
+        .state('error', {
+            templateUrl: '{link}'
         });
 
 
@@ -335,7 +335,10 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             }
             else {
                 // LocalStorage is not available
-                $state.go('storageError');
+                // TO DO: fancy error message to the user
+                // window.alert("Your Browser does not support local storage." +
+                //     "The chronicle view is therefore not available.");
+                $state.go('error', {link: './app/components/errors/storageError.html'});
             }
         };
 
@@ -352,7 +355,10 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             }
             else {
                 // LocalStorage is not available
-                $state.go('storageError');
+                // TO DO: fancy error message to the user
+                // window.alert("Your Browser does not support local storage." +
+                //     "The chronicle view is therefore not available.");
+                $state.go('error', {link: './app/components/errors/storageError.html'});
             }
 
         };
@@ -368,6 +374,8 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             }
             catch (err) {
                 window.alert("cannot save cookies: The reload button will have no function!");
+                // Hier Fehlermeldung, die aufploppt und wieder weggeklickt werden kann.
+                // Seite muss unverändert bleiben; kein state Wechsel.
             }
         };
 
@@ -649,7 +657,6 @@ app.run(['$route', '$rootScope', '$location', '$window', function ($route, $root
 //Setup for the Custom Google Search
 
 //Hook callback into the rendered Google Search
-
 window.__gcse = {
     callback: googleCSELoaded
 };
