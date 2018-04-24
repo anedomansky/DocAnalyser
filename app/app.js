@@ -55,8 +55,8 @@ app.config(['$stateProvider', function ($stateProvider) {
             }
         })
 
-        .state('storageError', {
-            templateUrl: './app/components/chronicle/storageError.html'
+        .state('error', {
+            templateUrl: '{link}'
         });
 
 
@@ -306,7 +306,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
                 // TO DO: fancy error message to the user
                 // window.alert("Your Browser does not support local storage." +
                 //     "The chronicle view is therefore not available.");
-                $state.go('storageError');
+                $state.go('error', {link: './app/components/errors/storageError.html'});
             }
         };
 
@@ -339,7 +339,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
                 // TO DO: fancy error message to the user
                 // window.alert("Your Browser does not support local storage." +
                 //     "The chronicle view is therefore not available.");
-                $state.go('storageError');
+                $state.go('error', {link: './app/components/errors/storageError.html'});
             }
 
         };
