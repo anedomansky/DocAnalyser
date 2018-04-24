@@ -7,25 +7,29 @@
 
 .main textarea[name="q"] {
     font-family: "Calibri", sans-serif;
+    font-size: 100%; /* needed for ie9-11*/
     resize: horizontal;
     overflow: auto;
     min-width: 25%;
     max-width: 90%;
     width: 50%;
-    height: auto;
     float: left;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     white-space: nowrap;
+    height: 6vh;
+
 }
 
 .main input#customSearch {
-    padding: 15px 10px 15px 10px;
     border: none;
     background-color: #4c8ffa;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 0px;
     color: white;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    width: 8%;
+    min-width: 50px;
+    height: 7vh;
 }
 
 .main input#customSearch:hover {
@@ -200,6 +204,15 @@ span#copyright {
 
 .checkboxes {
     color: black;
+}
+
+.checkboxContent {
+    float: left;
+}
+
+.checkboxesLabel {
+    float: left;
+    clear: left;
 }
 
 #resultsError {

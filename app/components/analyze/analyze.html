@@ -1,12 +1,15 @@
 <div id="keywords" ng-controller="KeywordsMenuCtrl">
     <div ng-controller="HelpCtrl" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()"><h3>Keywords</h3>
-        <div class="popover" ng-show="popoverIsVisible"><div ng-include="'./app/components/help/helpKeywords.html'"></div></div>
+        <div class="popover" ng-show="popoverIsVisible">
+            <div ng-include="'./app/components/help/helpKeywords.html'"></div>
+        </div>
     </div>
     <form class="checkboxes" action="" method="POST">
-        <label ng-repeat="(keyword,enabled) in keywords"> <input id="keywordsCheckboxes" name="keywordCheckboxes"
-                                                                 type="checkbox" ng-model="keywords[keyword]"
-                                                                 ng-click="clicked(keyword)"/>
-            {{keyword}} <br/>
+        <label class="checkboxesLabel" ng-repeat="(keyword,enabled) in keywords">
+            <input class="checkboxContent" name="keywordCheckboxes"
+                   type="checkbox" ng-model="keywords[keyword]"
+                   ng-click="clicked(keyword)"/>
+            {{keyword}} <br />
         </label>
     </form>
 </div>
@@ -15,10 +18,12 @@
 <br/>
 <div id="topics" ng-controller="TopicsMenuCtrl">
     <div ng-controller="HelpCtrl" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()"><h3>Source Topics</h3>
-        <div class="popover" ng-show="popoverIsVisible"><div ng-include="'./app/components/help/helpTopics.html'"></div></div>
+        <div class="popover" ng-show="popoverIsVisible">
+            <div ng-include="'./app/components/help/helpTopics.html'"></div>
+        </div>
     </div>
     <form class="checkboxes" action="" method="POST">
-        <label ng-repeat="(topic,enabled) in topics"> <input
+        <label class="checkboxesLabel" ng-repeat="(topic,enabled) in topics"> <input class="checkboxContent"
                 type="checkbox" ng-model="topics[topic]" ng-click="clicked(topic)"/>
             {{topic}} <br/>
         </label>
