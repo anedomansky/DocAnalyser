@@ -335,29 +335,54 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             }
             else {
                 // LocalStorage is not available
-                // TO DO: fancy error message to the user
-                // window.alert("Your Browser does not support local storage." +
-                //     "The chronicle view is therefore not available.");
                 $state.go('error', {link: './app/components/errors/storageError.html'});
             }
+        };
+
+        $scope.arraysEqual = function (a, b) {
+            if (a instanceof Array && b instanceof Array) {
+                if (a === b) return true;
+                if (a == null || b == null) return false;
+                if (a.length != b.length) return false;
+
+                a.sort();
+                b.sort();
+
+                for (var i = 0, len = a.length; i < len; i++) {
+                    if (a[i] !== b[i]) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
         };
 
         $scope.populateLocalStorage = function (keywords, topics, title) {
             if (LocalStorageService.storageAvailable('localStorage')) {
                 // LocalStorage is available
+                var queries = [];
+                var currentKeywords = Object.keys(keywords); // keywords as array
+                var storedKeywords = [];
 
-                // ensure that the Date is always in the same format
-                var currentDate = new Date().toDateString();
+                var currentDate = new Date().toDateString(); // ensure that the Date is always in the same format
                 var newQuery = LocalStorageService.newQuery(currentDate, keywords, topics, title);
                 LocalStorageService.loadQueries();
-                LocalStorageService.addQuery(newQuery);
+                queries = LocalStorageService.getQueries();
+                // check if query already exists:
+                for (var i = 0, len = queries.length; i < len; i++) {
+                    if (title === queries[i].title) { // query with same page title is already stored
+                        storedKeywords = Object.keys(queries[i].keywords); // its an array
+                        if ($scope.arraysEqual(currentKeywords, storedKeywords)) { // compare both arrays
+                            return; // an equal query has already been saved; do not save it again
+                        }
+                    }
+                }
+                LocalStorageService.addQuery(newQuery); // its a new query; save it
                 LocalStorageService.saveQueries();
             }
             else {
                 // LocalStorage is not available
-                // TO DO: fancy error message to the user
-                // window.alert("Your Browser does not support local storage." +
-                //     "The chronicle view is therefore not available.");
                 $state.go('error', {link: './app/components/errors/storageError.html'});
             }
 
