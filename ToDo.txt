@@ -29,6 +29,3 @@ Muss:
 
 (Tom) 2. Statt der kompletten Url nur den Seitentitel + evtl. Datum anzeigen. Bei längeren Urls wird das zu unübersichtlich.
 Erfordert wieder Eingriff in den Server Code (Kubek fragen).
-
-Weniger wichtig:
-(Alex) 1. Fehlermeldungen, die zurzeit mit window.alert realisiert sind, gegen schöne Fehlermeldungen austauschen, die dann auf der Seite erscheinen.
