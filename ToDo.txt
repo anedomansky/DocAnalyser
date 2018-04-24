@@ -1,6 +1,7 @@
 ---Generell---
 Muss:
 1.(Tom)-> Cross-Browser-Testing? (siehe Pflichtenheft, welche Browser wir versprochen haben, also laufen müssen)
+-> Safari 5.1.7 für Windows macht Probleme
 2.(Tom)-> Dokumentation(Kommentare) -> evtl. wieder ein Tool, dass aus Kommentare eine (Html) Dokumentation macht?
 3. Code sortieren:
    - Direktiven in app/shared/directives.js
@@ -23,12 +24,9 @@ Muss:
 
 ---Chronik Ansicht---
 Muss:
-(Tom) 1. Suchlauf speichern
-    -> Alternative für das Deklarieren des KeywordsMenuCtrl in der search.html
-    (KeywordsMenuCtrl ist in der Chronicle View nicht ansprechbar, weil er nicht im $scope ist / in einer anderen ui-view)
-
-(Tom) 2. Statt der kompletten Url nur den Seitentitel + evtl. Datum anzeigen. Bei längeren Urls wird das zu unübersichtlich.
-Erfordert wieder Eingriff in den Server Code (Kubek fragen).
+(Tom) 1. Doppelte Suchläufe nicht speichern. Nach welchen Kriterien gilt ein Suchlauf als doppelt? Gleicher Seitentitel oder gleiche Keywords + Topics?
 
 Weniger wichtig:
 (Alex) 1. Fehlermeldungen, die zurzeit mit window.alert realisiert sind, gegen schöne Fehlermeldungen austauschen, die dann auf der Seite erscheinen.
+-> siehe chronicle.js -> clearHistory
+-> siehe app.js -> setCookie
