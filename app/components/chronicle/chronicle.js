@@ -134,6 +134,12 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
 
     /* initialization stuff */
     $scope.init = function () {
+        // in case of page reload; reload the stored queries again:
+        if ($scope.queries != null && $scope.queries.length != null && $scope.queries.length < 1) {
+            LocalStorageService.loadQueries();
+            $scope.queries = LocalStorageService.getQueries();
+        }
+        LocalStorageService.loadChronicleStatus();
         var status = LocalStorageService.getChronicleStatus();
         if (status !== "undefined") {
             $scope.chronicleStatus = $scope.statusTable[status]; // load and set the chronicle status

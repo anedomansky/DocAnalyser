@@ -19,9 +19,6 @@ ein kleiner "Flaggen" Button, um die gewünschte Sprache auszuwählen)
 
 ---Analyse Ansicht---
 Muss:
-(Tom) 1. Browser Funktionen nutzbar machen (Reload, Back, Forward)
--> Back, Forward fertig. Sollte nochmal richtig getestet werden.
--> Reload fertig für Analyze Ansicht fertig
 
 ---Chronik Ansicht---
 Muss:

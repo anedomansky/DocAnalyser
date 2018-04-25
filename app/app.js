@@ -453,7 +453,7 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, $state, Keyword
         /* a query is loaded (from the Chronicle View) */
         $rootScope.$on('queryLoaded', function () {
             SearchBarService.setInput(""); // clear search bar input
-            $scope.init(); // 'click' the top 4 Keywords => put them into the search bar
+            $scope.performSearch(); // 'click' the top 4 Keywords => put them into the search bar
         });
 
         // check if a object is empty or not:
@@ -479,17 +479,29 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, $state, Keyword
 
         /* initialization */
         $scope.init = function () {
-            // no keywords found; maybe a page reload
-            if ($state.is('analyze') && angular.isDefined($scope.keywords) && $scope.objIsEmpty($scope.keywords)) {
-                ReloadService.reloadUrl();
+            if ($state.is('analyze')) { // we only need this function in the analyze view
+                // no keywords found; maybe a page reload
+                if (angular.isDefined($scope.keywords) && $scope.objIsEmpty($scope.keywords)) {
+                    ReloadService.reloadUrl();
+                }
+                // The objects are already set to true, but if the keywords are topics at the same time,
+                // they must also be manually clicked to transfer the object status of the keywords to the topics
+                $scope.topKeywords = KeywordsService.getTopKeywords();
+                //window.alert("Länge scope.topkeywords = " + $scope.topKeywords.length);
+                if (angular.isDefined($scope.keywords) && $scope.topKeywords.length >= 4) {
+                    //window.alert("Scope.keywords ist valide!");
+                    for (var i = 0; i < 4; i++) {
+                        $scope.clicked($scope.topKeywords[i]);
+                    }
+                }
             }
-            //window.alert("in keywordsctrl init()");
+        };
+
+        $scope.performSearch = function () {
             // The objects are already set to true, but if the keywords are topics at the same time,
             // they must also be manually clicked to transfer the object status of the keywords to the topics
             $scope.topKeywords = KeywordsService.getTopKeywords();
-            //window.alert("Länge scope.topkeywords = " + $scope.topKeywords.length);
             if (angular.isDefined($scope.keywords) && $scope.topKeywords.length >= 4) {
-                //window.alert("Scope.keywords ist valide!");
                 for (var i = 0; i < 4; i++) {
                     $scope.clicked($scope.topKeywords[i]);
                 }
