@@ -124,6 +124,10 @@ app.directive('resizable', function ($window) {
 
 /** Begin Angular Services */
 
+/**
+ * @ngdoc service
+ * @name myApp.ConverterService // Provide the module and the service name
+ **/
 app.service('ConverterService', function () {
 
     /* convert array to Keywords/Topics Object */
@@ -364,8 +368,8 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
                 var queries = [];
                 var currentKeywords = Object.keys(keywords); // keywords as array
                 var storedKeywords = [];
-
                 var currentDate = new Date().toDateString(); // ensure that the Date is always in the same format
+
                 var newQuery = LocalStorageService.newQuery(currentDate, keywords, topics, title);
                 LocalStorageService.loadQueries();
                 queries = LocalStorageService.getQueries();

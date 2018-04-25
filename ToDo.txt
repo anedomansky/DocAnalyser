@@ -3,27 +3,26 @@ Muss:
 1.(Tom)-> Cross-Browser-Testing
 -> Safari für Mac kann nächste Woche getestet werden
 2.(Tom)-> Dokumentation aus Quellodekommentaren
--> JSDoc
+-> ngdocs
 3. Code sortieren:
    - Direktiven in app/shared/directives.js
    - Alles was mit der Analyze Ansicht zu tun hat in app/components/analyze/analyze.js
    -> funktioniert alles nicht so ohne weiteres
+4. Rechtliches
+-> Impressum
+-> Datenschutzerklärung
+-> Hinweiß beim Ersten Aufrufen der Seite, dass Cokies benutzt werden + Verweis auf Datenschutzerklärung
 
 Weniger Wichtig:
-1. Info an den Benutzer, dass wir Cookies benutzen? Muss man das machen?
 
 2.(Alex) Benutzerhilfetexte / Google Such API auch nach deutsch umstellen können (evtl. Oben rechts im left side menu, neben dem DocAnalyser Text,
 ein kleiner "Flaggen" Button, um die gewünschte Sprache auszuwählen)
-
-(Tom) 3. resize event performance verbessern
 
 ---Analyse Ansicht---
 Muss:
 
 ---Chronik Ansicht---
 Muss:
-(Tom) 1. Doppelte Suchläufe nicht speichern.
--> Fertig; Performance wenn mehrere Queries gespeichert sind?
 
 Weniger wichtig:
 (Alex) 1. Fehlermeldungen, die zurzeit mit window.alert realisiert sind, gegen schöne Fehlermeldungen austauschen, die dann auf der Seite erscheinen.
