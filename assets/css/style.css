@@ -331,7 +331,7 @@ ul#pastQueriesList {
     text-align: center;
 }
 
-#footerButton {
+.footerButton {
     padding: 10px 10px 10px 10px;
     background-color: #4c8ffa;
     border-style: solid;

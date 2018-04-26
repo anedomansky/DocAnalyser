@@ -90,7 +90,7 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
 });
 
 angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $rootScope, LocalStorageService,
-                                                                    KeywordsService, TopicsService) {
+                                                                    KeywordsService, TopicsService, FooterService) {
 
     $scope.queries = LocalStorageService.getQueries(); // array of queries
     $scope.chronicleStatus = true; // contains the status of the chronicle function
@@ -118,9 +118,7 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
     /* user clicked the Clear History button */
     $scope.clearHistory = function () {
         if (!LocalStorageService.clearQueries()) {
-            window.alert("something went wrong! Your History can not be deleted.");
-            // Hier brauchen wir nur eine Fehlermeldung, die aufploppt und man wieder wegklicken kann.
-            // Die Seite muss ansonsten völlig unverändert bleiben; Kein state Wechsel
+            FooterService.showWarning('Something went wrong. Your History can not be deleted.');
         }
         $scope.queries = LocalStorageService.getQueries(); // updates data binding; nothing happens if clear failed
     };

@@ -61,12 +61,17 @@
         <gcse:searchresults-only gname="searchOnlyCSE"></gcse:searchresults-only>
     </div>
 </div>
-<div class="footer" ng-controller="FooterCtrl" ng-hide="hasAgreed()" ng-cloak>
-    <p>This website uses cookies.
+<div class="footer" ng-controller="FooterCtrl">
+    <div id="cookieWarning" ng-hide="hasAgreed()" ng-cloak><p>This website uses cookies.
         By continuing to use this website you are giving consent to cookies being used.
         <a ui-sref="dataProtection">Learn more</a>
-        <input id="footerButton" type="button" value="Got it" ng-click="agree()"/>
+        <input class="footerButton" type="button" value="Got it" ng-click="agree()"/>
     </p>
+    </div>
+    <div id="warnings" ng-show="showWarning.value" ng-cloak>
+        <p ng-bind="warningDiv.message" ></p>
+        <input class="footerButton" type="button" value="Got it" ng-click="hideWarning()"/>
+    </div>
 </div>
 </body>
 </html>

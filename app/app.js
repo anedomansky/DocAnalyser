@@ -150,6 +150,30 @@ app.service('ConverterService', function () {
     }
 });
 
+app.service('FooterService', function () {
+
+    this.warningDiv = {message: ""};
+    this.showWarning = {value: false};
+
+    this.getWarningDiv = function () {
+        return this.warningDiv;
+    };
+
+    this.getShowWarning = function () {
+        return this.showWarning;
+    };
+
+    this.showWarning = function (message) {
+        this.warningDiv.message = message;
+        this.showWarning.value = true;
+    };
+
+    this.hideWarning = function () {
+        this.showWarning.value = false;
+    };
+
+});
+
 app.service('TopicsService', function () {
     this.topics = {};
 
@@ -280,8 +304,9 @@ app.service('ReloadService', function ($cookies, $state, $location, $window) {
 /** Begin Angular Controllers */
 
 app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 'KeywordsService', 'TopicsService',
-    'LocalStorageService', 'ConverterService', '$cookies', function ($scope, $state, $stateParams, $location, KeywordsService,
-                                                                     TopicsService, LocalStorageService, ConverterService, $cookies) {
+    'LocalStorageService', 'ConverterService', '$cookies', 'FooterService',
+    function ($scope, $state, $stateParams, $location, KeywordsService,
+              TopicsService, LocalStorageService, ConverterService, $cookies, FooterService) {
 
         /** Functions */
         /* Get the request parameters from the url and place them as keywords and topics */
@@ -347,7 +372,8 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             }
             else {
                 // LocalStorage is not available
-                $state.go('error', {link: './app/components/errors/storageError.html'});
+                FooterService.showWarning('Your Browser does not support local storage.' +
+                    'Therefore, the chronicle view is not available.');
             }
         };
 
@@ -395,7 +421,8 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             }
             else {
                 // LocalStorage is not available
-                $state.go('error', {link: './app/components/errors/storageError.html'});
+                FooterService.showWarning('Your Browser does not support local storage.' +
+                    'Therefore, the chronicle view is not available.');
             }
 
         };
@@ -410,9 +437,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
                 $cookies.put('reloadInfo', url, {expires: expireDate});
             }
             catch (err) {
-                window.alert("cannot save cookies: The reload button will have no function!");
-                // Hier Fehlermeldung, die aufploppt und wieder weggeklickt werden kann.
-                // Seite muss unverändert bleiben; kein state Wechsel.
+                FooterService.showWarning('Can not save cookies: The reload button will have no function!');
             }
         };
 
@@ -661,8 +686,12 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
 });
 
-app.controller('FooterCtrl', function ($scope, $cookies) {
+app.controller('FooterCtrl', function ($scope, $cookies, FooterService) {
 
+    $scope.showWarning = FooterService.getShowWarning();
+    $scope.warningDiv = FooterService.getWarningDiv();
+
+    /* Cookie warning */
     $scope.setCookieValue = function (value) {
         var now = new Date();
         var expirationDate = new Date();
@@ -670,10 +699,8 @@ app.controller('FooterCtrl', function ($scope, $cookies) {
         try {
             return $cookies.put('agreement', value, {expires: expirationDate});
         }
-        catch (e) {
-            if (e instanceof TypeError) {
-                // $cookies[this.getCookieKey()] = value ;
-            }
+        catch (err) {
+            FooterService.showWarning('cannot save cookies: The reload button will have no function!');
         }
     };
 
@@ -685,6 +712,11 @@ app.controller('FooterCtrl', function ($scope, $cookies) {
         var agreementCookie = $cookies.get('agreement');
         return (angular.isDefined(agreementCookie) && agreementCookie === 'agreed'); // cookie must be set
     };
+    /* End Cookie warning */
+
+    $scope.hideWarning = function () {
+        FooterService.hideWarning();
+    }
 
 });
 

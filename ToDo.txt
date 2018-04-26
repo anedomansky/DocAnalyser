@@ -21,8 +21,3 @@ Muss:
 Muss:
 
 Weniger wichtig:
-(Alex, Tom) 1. Fehlermeldungen, die zurzeit mit window.alert realisiert sind, gegen schöne Fehlermeldungen austauschen, die dann auf der Seite erscheinen.
--> siehe chronicle.js -> clearHistory
--> siehe app.js -> setCookie
-
--> Fehlermeldungen wie die Cookie Warnung als Footer anzeigen.
