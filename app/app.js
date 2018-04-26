@@ -661,6 +661,33 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
 });
 
+app.controller('FooterCtrl', function ($scope, $cookies) {
+
+    $scope.setCookieValue = function (value) {
+        var now = new Date();
+        var expirationDate = new Date();
+        expirationDate.setTime(+now + (360 * 24 * 60 * 60 * 1000)); // 360 days
+        try {
+            return $cookies.put('agreement', value, {expires: expirationDate});
+        }
+        catch (e) {
+            if (e instanceof TypeError) {
+                // $cookies[this.getCookieKey()] = value ;
+            }
+        }
+    };
+
+    $scope.agree = function () {
+        $scope.setCookieValue('agreed');
+    };
+
+    $scope.hasAgreed = function () {
+        var agreementCookie = $cookies.get('agreement');
+        return (angular.isDefined(agreementCookie) && agreementCookie === 'agreed'); // cookie must be set
+    };
+
+});
+
 /** End Angular Controllers */
 
 /** Angular Run Block */

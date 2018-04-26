@@ -35,8 +35,8 @@
 
     <br/>
     <p class="copy">
-        <span id="copyright">&copy;</span> by Mario Kubek <br />
-        <a href="http://www.fernuni-hagen.de/kn" target="_blank">Chair of Communication Networks</a> <br />
+        <span id="copyright">&copy;</span> by Mario Kubek <br/>
+        <a href="http://www.fernuni-hagen.de/kn" target="_blank">Chair of Communication Networks</a> <br/>
         <a ui-sref="dataProtection">Data protection</a>
     </p>
 </div>
@@ -60,6 +60,13 @@
     <div class="results" ng-hide="('dataProtection' | isState) || ('exception' | isState)">
         <gcse:searchresults-only gname="searchOnlyCSE"></gcse:searchresults-only>
     </div>
+</div>
+<div class="footer" ng-controller="FooterCtrl" ng-hide="hasAgreed()" ng-cloak>
+    <p>This website uses cookies.
+        By continuing to use this website you are giving consent to cookies being used.
+        <a ui-sref="dataProtection">Learn more</a>
+        <input id="footerButton" type="button" value="Got it" ng-click="agree()"/>
+    </p>
 </div>
 </body>
 </html>

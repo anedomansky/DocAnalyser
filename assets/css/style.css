@@ -320,3 +320,23 @@ ul#pastQueriesList {
     list-style-type: none;
     padding-left: 0;
 }
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #4c8ffa;
+    color: white;
+    text-align: center;
+}
+
+#footerButton {
+    padding: 10px 10px 10px 10px;
+    background-color: #4c8ffa;
+    border-style: solid;
+    border-radius: 1px;
+    border-color: white;
+    font-size: 12px;
+    color: white;
+}

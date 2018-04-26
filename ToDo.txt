@@ -8,10 +8,6 @@ Muss:
    - Direktiven in app/shared/directives.js
    - Alles was mit der Analyze Ansicht zu tun hat in app/components/analyze/analyze.js
    -> funktioniert alles nicht so ohne weiteres
-(Tom) 4. Rechtliches
--> Impressum
--> Datenschutzerklärung
--> Hinweiß beim Ersten Aufrufen der Seite, dass Cokies benutzt werden + Verweis auf Datenschutzerklärung
 
 Weniger Wichtig:
 
@@ -28,3 +24,5 @@ Weniger wichtig:
 (Alex, Tom) 1. Fehlermeldungen, die zurzeit mit window.alert realisiert sind, gegen schöne Fehlermeldungen austauschen, die dann auf der Seite erscheinen.
 -> siehe chronicle.js -> clearHistory
 -> siehe app.js -> setCookie
+
+-> Fehlermeldungen wie die Cookie Warnung als Footer anzeigen.
