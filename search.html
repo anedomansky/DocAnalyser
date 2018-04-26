@@ -35,7 +35,9 @@
 
     <br/>
     <p class="copy">
-        <span id="copyright">&copy;</span> by Mario Kubek
+        <span id="copyright">&copy;</span> by Mario Kubek <br />
+        <a href="http://www.fernuni-hagen.de/kn" target="_blank">Chair of Communication Networks</a> <br />
+        <a ui-sref="dataProtection">Data protection</a>
     </p>
 </div>
 
@@ -49,13 +51,13 @@
         <input id="customSearch" name="customSearch" type="button" value="Search" ng-click="click()"/>
     </form>
 </div>
-<div resizable ng-style="{width: searchWidth}" id="resultsError" ng-controller="ErrorCtrl">
+<div resizable ng-style="{width: searchWidth}" id="resultsError">
     <div ui-view="emptyKeywordsTopics"></div>
     <div ui-view="timeout"></div>
     <div ui-view="exception"></div>
+    <div ui-view="dataProtection"></div>
 
-
-    <div class="results" ng-controller="SearchResultsCtrl" ng-hide="hideResults">
+    <div class="results" ng-hide="('dataProtection' | isState) || ('exception' | isState)">
         <gcse:searchresults-only gname="searchOnlyCSE"></gcse:searchresults-only>
     </div>
 </div>

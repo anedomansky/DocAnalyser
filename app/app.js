@@ -55,10 +55,18 @@ app.config(['$stateProvider', function ($stateProvider) {
             }
         })
 
+        .state('dataProtection', {
+            url: '/Data-protection',
+            views: {
+                'dataProtection': {
+                    templateUrl: './app/components/help/dataProtection.html'
+                }
+            }
+        })
+
         .state('error', {
             templateUrl: '{link}'
         });
-
 
 }]);
 
@@ -650,19 +658,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
     };
 
     /** End Angular Functions */
-
-})
-;
-
-//Does not do anything at the moment
-app.controller('SearchResultsCtrl', function ($scope) {
-
-});
-
-app.controller('ErrorCtrl', function ($scope, $state) {
-    if ($state.is('emptyKeywordsTopics')) {
-        $scope.hideResults = true;
-    }
 
 });
 
