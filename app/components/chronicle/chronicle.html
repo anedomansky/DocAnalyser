@@ -1,6 +1,10 @@
 <div ng-controller="PastQueriesMenuCtrl">
     <div id="pastQueries" ng-controller="KeywordsMenuCtrl">
-        <h3>Past Queries</h3>
+        <div ng-controller="HelpCtrl" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()"><h3>PastQueries</h3>
+            <div class="popover" ng-show="popoverIsVisible">
+                <div ng-include="'./app/components/help/helpPastQueries.html'"></div>
+            </div>
+        </div>
         <select id="dateSelect" ng-model="dateText">
             <option value="" disabled selected>select ...</option>
             <option value="all">all</option>
