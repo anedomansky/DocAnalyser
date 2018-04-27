@@ -16,7 +16,7 @@
     float: left;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     white-space: nowrap;
-    height: 6vh;
+	height: 40px;
 
 }
 
@@ -29,7 +29,7 @@
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     width: 8%;
     min-width: 50px;
-    height: 7vh;
+	height: 45px;
 }
 
 .main input#customSearch:hover {
