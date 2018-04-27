@@ -24,7 +24,7 @@
         </div>
     </div>
     <br/>
-    <div class="dropdown" ng-controller="KeywordsMenuCtrl"> <!-- TO DO: Better fix for broadcast -->
+    <div class="dropdown">
         <button class="dropdown-button">Change View</button>
         <div class="dropdown-content" ng-controller="DropdownMenuCtrl">
             <input type="button" value="Analyze" ng-click="changeView('analyze')"/> <br/>
@@ -35,7 +35,9 @@
 
     <br/>
     <p class="copy">
-        <span id="copyright">&copy;</span> by Mario Kubek
+        <span id="copyright">&copy;</span> by Mario Kubek <br/>
+        <a href="http://www.fernuni-hagen.de/kn" target="_blank">Chair of Communication Networks</a> <br/>
+        <a ui-sref="dataProtection">Data protection</a>
     </p>
 </div>
 
@@ -49,14 +51,26 @@
         <input id="customSearch" name="customSearch" type="button" value="Search" ng-click="click()"/>
     </form>
 </div>
-<div resizable ng-style="{width: searchWidth}" id="resultsError" ng-controller="ErrorCtrl">
+<div resizable ng-style="{width: searchWidth}" id="resultsError">
     <div ui-view="emptyKeywordsTopics"></div>
     <div ui-view="timeout"></div>
     <div ui-view="exception"></div>
+    <div ui-view="dataProtection"></div>
 
-
-    <div class="results" ng-controller="SearchResultsCtrl" ng-hide="hideResults">
+    <div class="results" ng-hide="('dataProtection' | isState) || ('exception' | isState)">
         <gcse:searchresults-only gname="searchOnlyCSE"></gcse:searchresults-only>
+    </div>
+</div>
+<div class="footer" ng-controller="FooterCtrl">
+    <div id="cookieWarning" ng-hide="hasAgreed()" ng-cloak><p>This website uses cookies.
+        By continuing to use this website you are giving consent to cookies being used.
+        <a ui-sref="dataProtection">Learn more</a>
+        <input class="footerButton" type="button" value="Got it" ng-click="agree()"/>
+    </p>
+    </div>
+    <div id="warnings" ng-show="showWarning.value" ng-cloak>
+        <p ng-bind="warningDiv.message" ></p>
+        <input class="footerButton" type="button" value="Got it" ng-click="hideWarning()"/>
     </div>
 </div>
 </body>

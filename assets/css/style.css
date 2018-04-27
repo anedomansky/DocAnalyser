@@ -6,6 +6,7 @@
 }
 
 .main textarea[name="q"] {
+
     font-family: "Calibri", sans-serif;
     font-size: 100%; /* needed for ie9-11*/
     resize: horizontal;
@@ -16,8 +17,7 @@
     float: left;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     white-space: nowrap;
-	height: 40px;
-
+    height: 40px;
 }
 
 .main input#customSearch {
@@ -29,7 +29,7 @@
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     width: 8%;
     min-width: 50px;
-	height: 45px;
+    height: 45px;
 }
 
 .main input#customSearch:hover {
@@ -318,4 +318,24 @@ span#copyright {
 ul#pastQueriesList {
     list-style-type: none;
     padding-left: 0;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #4c8ffa;
+    color: white;
+    text-align: center;
+}
+
+.footerButton {
+    padding: 10px 10px 10px 10px;
+    background-color: #4c8ffa;
+    border-style: solid;
+    border-radius: 1px;
+    border-color: white;
+    font-size: 12px;
+    color: white;
 }

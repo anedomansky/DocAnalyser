@@ -14,7 +14,7 @@ app.config(['$stateProvider', function ($stateProvider) {
         })
 
         .state('init', {
-            url: '?a&h&url',
+            url: '?a&h&title',
             controller: 'RequestCtrl',
         })
 
@@ -55,12 +55,21 @@ app.config(['$stateProvider', function ($stateProvider) {
             }
         })
 
+        .state('dataProtection', {
+            url: '/Data-protection',
+            views: {
+                'dataProtection': {
+                    templateUrl: './app/components/help/dataProtection.html'
+                }
+            }
+        })
+
         .state('error', {
             templateUrl: '{link}'
         });
 
-
 }]);
+
 
 app.directive('resizable', function ($window) {
     return function ($scope) {
@@ -73,7 +82,12 @@ app.directive('resizable', function ($window) {
 
         /* get browser default scrollbar width */
         function getScrollbarWidth(element) {
-            return element.getBoundingClientRect().width - element.scrollWidth;
+            var scrollbarWidth = element.getBoundingClientRect().width - element.scrollWidth;
+            if (isNaN(scrollbarWidth)) {
+                console.log("cannot retrieve scrollbar width. Default value will be used");
+                scrollbarWidth = 15; // default value
+            }
+            return scrollbarWidth;
         };
 
         /* adjusts the width of google search and results */
@@ -118,6 +132,10 @@ app.directive('resizable', function ($window) {
 
 /** Begin Angular Services */
 
+/**
+ * @ngdoc service
+ * @name myApp.ConverterService // Provide the module and the service name
+ **/
 app.service('ConverterService', function () {
 
     /* convert array to Keywords/Topics Object */
@@ -130,6 +148,30 @@ app.service('ConverterService', function () {
         }
         return rv;
     }
+});
+
+app.service('FooterService', function () {
+
+    this.warningDiv = {message: ""};
+    this.showWarning = {value: false};
+
+    this.getWarningDiv = function () {
+        return this.warningDiv;
+    };
+
+    this.getShowWarning = function () {
+        return this.showWarning;
+    };
+
+    this.showWarning = function (message) {
+        this.warningDiv.message = message;
+        this.showWarning.value = true;
+    };
+
+    this.hideWarning = function () {
+        this.showWarning.value = false;
+    };
+
 });
 
 app.service('TopicsService', function () {
@@ -152,7 +194,13 @@ app.service('TopicsService', function () {
     };
 
     this.getAll = function () {
-        return Object.keys(this.topics);
+        for (var prop in this.topics) {
+            if (Object.prototype.hasOwnProperty.call(this.topics, prop)) {
+                return Object.keys(this.topics);
+            }
+        }
+        var ret = [];
+        return ret;
     };
 
     this.changeStatus = function (topic) {
@@ -196,7 +244,13 @@ app.service('KeywordsService', function () {
     };
 
     this.getAll = function () {
-        return Object.keys(this.keywords);
+        for (var prop in this.keywords) {
+            if (Object.prototype.hasOwnProperty.call(this.keywords, prop)) {
+                return Object.keys(this.keywords);
+            }
+        }
+        var ret = [];
+        return ret;
     };
 
     this.changeStatus = function (keyword) {
@@ -241,7 +295,7 @@ app.service('ReloadService', function ($cookies, $state, $location, $window) {
         if (angular.isDefined(reloadCookie)) { // cookie must be set
             $window.location.href = reloadCookie; // redirect to loaded url
         }
-};
+    };
 
 });
 
@@ -250,50 +304,65 @@ app.service('ReloadService', function ($cookies, $state, $location, $window) {
 /** Begin Angular Controllers */
 
 app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 'KeywordsService', 'TopicsService',
-    'LocalStorageService', 'ConverterService', '$cookies', function ($scope, $state, $stateParams, $location, KeywordsService,
-                                                                     TopicsService, LocalStorageService, ConverterService, $cookies) {
+    'LocalStorageService', 'ConverterService', '$cookies', 'FooterService',
+    function ($scope, $state, $stateParams, $location, KeywordsService,
+              TopicsService, LocalStorageService, ConverterService, $cookies, FooterService) {
 
         /** Functions */
         /* Get the request parameters from the url and place them as keywords and topics */
         $scope.processRequestParameter = function () {
+            //window.alert("in processRequestParameter");
             var keywords = [];
             var topics = [];
             var topKeywords = [];
             var keywordsObj = {};
             var topicsObj = {};
-            var url = "";
+            var title = "";
             var status;
-            // fill table with keywords:
-            keywords = $stateParams.a.split(";");
-            // fill most important keywords:
-            for (var i = 0; i < 4; i++) {
-                topKeywords.push(keywords[i]);
+            try {
+                // fill table with keywords:
+                keywords = $stateParams.a.split(";");
+                if (keywords.length < 4) {
+                    throw {state: 'emptyKeywordsTopics'};
+                }
+                // fill most important keywords:
+                for (var i = 0; i < 4; i++) {
+                    topKeywords.push(keywords[i]);
+                }
+                KeywordsService.setTopKeywords(topKeywords);
+                keywordsObj = ConverterService.arrToObject(keywords);
+                KeywordsService.setKeywords(keywordsObj);
+                // fill table with topics:
+                topics = $stateParams.h.split(";");
+                if (topics.length > 0) {
+                    topicsObj = ConverterService.arrToObject(topics);
+                    TopicsService.setTopics(topicsObj);
+                    // preselect the top 4 keywords
+                    for (var i = 0; i < 4; i++) {
+                        keywordsObj[keywords[i]] = true;
+                    }
+                }
+                // get the url of the analysed web file
+                title = $stateParams.title;
+                if (title.length < 1) {
+                    title = "no title";
+                }
+                $scope.setCookie($location.url()); // stores url for reload purposes
+                $location.url($location.path()); // remove request param from url
+                // check if the user has activated the chronicle function
+                LocalStorageService.loadChronicleStatus();
+                status = LocalStorageService.getChronicleStatus();
+                if (status > 0 || status === "undefined") {
+                    $scope.populateLocalStorage(keywordsObj, topicsObj, title); // save current terms
+                }
+                else {
+                    $scope.loadLocaleStorage(); // just load saved queries
+                }
+                $state.go('analyze', {searchTerms: topKeywords.join(" ")}); // show terms
             }
-            KeywordsService.setTopKeywords(topKeywords);
-            keywordsObj = ConverterService.arrToObject(keywords);
-            KeywordsService.setKeywords(keywordsObj);
-            // fill table with topics:
-            topics = $stateParams.h.split(";");
-            topicsObj = ConverterService.arrToObject(topics);
-            TopicsService.setTopics(topicsObj);
-            // preselect the top 4 keywords
-            for (var i = 0; i < 4; i++) {
-                keywordsObj[keywords[i]] = true;
+            catch (err) {
+                $state.go(err.state);
             }
-            // get the url of the analysed web file
-            url = $stateParams.url;
-            $scope.setCookie($location.url()); // stores url for reload purposes
-            $location.url($location.path()); // remove request param from url
-            // check if the user has activated the chronicle function
-            LocalStorageService.loadChronicleStatus();
-            status = LocalStorageService.getChronicleStatus();
-            if (status > 0 || status === "undefined") {
-                $scope.populateLocalStorage(keywordsObj, topicsObj, url); // save current terms
-            }
-            else {
-                $scope.loadLocaleStorage(); // just load saved queries
-            }
-            $state.go('analyze', {searchTerms: topKeywords.join(" ")}); // show terms
         };
 
         $scope.loadLocaleStorage = function () {
@@ -303,43 +372,57 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             }
             else {
                 // LocalStorage is not available
-                // TO DO: fancy error message to the user
-                // window.alert("Your Browser does not support local storage." +
-                //     "The chronicle view is therefore not available.");
-                $state.go('error', {link: './app/components/errors/storageError.html'});
+                FooterService.showWarning('Your Browser does not support local storage.' +
+                    'Therefore, the chronicle view is not available.');
             }
         };
 
-        $scope.populateLocalStorage = function (keywords, topics, url) {
+        $scope.arraysEqual = function (a, b) {
+            if (a instanceof Array && b instanceof Array) {
+                if (a === b) return true;
+                if (a == null || b == null) return false;
+                if (a.length != b.length) return false;
+
+                a.sort();
+                b.sort();
+
+                for (var i = 0, len = a.length; i < len; i++) {
+                    if (a[i] !== b[i]) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        };
+
+        $scope.populateLocalStorage = function (keywords, topics, title) {
             if (LocalStorageService.storageAvailable('localStorage')) {
                 // LocalStorage is available
+                var queries = [];
+                var currentKeywords = Object.keys(keywords); // keywords as array
+                var storedKeywords = [];
+                var currentDate = new Date().toDateString(); // ensure that the Date is always in the same format
 
-                // ensure that the Date is always in the same format
-                var now = new Date();
-                var currentDate = now.toDateString();
-
-                // test 1
-                // var current = new Date();     // get current date
-                // var weekstart = current.getDate() - current.getDay() +1;
-                // var currentDate = new Date(current.setDate(weekstart));
-
-                // test 2
-                // var date = new Date();
-                // var currentDate2 = new Date(date.getFullYear() - 1, date.getMonth() +3, 0);
-                // currentDate2 = currentDate2.toDateString();
-
-
-                var newQuery = LocalStorageService.newQuery(currentDate, keywords, topics, url);
+                var newQuery = LocalStorageService.newQuery(currentDate, keywords, topics, title);
                 LocalStorageService.loadQueries();
-                LocalStorageService.addQuery(newQuery);
+                queries = LocalStorageService.getQueries();
+                // check if query already exists:
+                for (var i = 0, len = queries.length; i < len; i++) {
+                    if (title === queries[i].title) { // query with same page title is already stored
+                        storedKeywords = Object.keys(queries[i].keywords); // its an array
+                        if ($scope.arraysEqual(currentKeywords, storedKeywords)) { // compare both arrays
+                            return; // an equal query has already been saved; do not save it again
+                        }
+                    }
+                }
+                LocalStorageService.addQuery(newQuery); // its a new query; save it
                 LocalStorageService.saveQueries();
             }
             else {
                 // LocalStorage is not available
-                // TO DO: fancy error message to the user
-                // window.alert("Your Browser does not support local storage." +
-                //     "The chronicle view is therefore not available.");
-                $state.go('error', {link: './app/components/errors/storageError.html'});
+                FooterService.showWarning('Your Browser does not support local storage.' +
+                    'Therefore, the chronicle view is not available.');
             }
 
         };
@@ -347,10 +430,15 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
         /* saves a cookie with the actual url;
         * is used for the browser reload button */
         $scope.setCookie = function (url) {
-            var expireDate = new Date();
-            expireDate.setDate(expireDate.getDate() + 1);
-            url = '#!' + url; // convert to hash bang url
-            $cookies.put('reloadInfo', url, {expires: expireDate});
+            try {
+                var expireDate = new Date();
+                expireDate.setDate(expireDate.getDate() + 1);
+                url = '#!' + url; // convert to hash bang url
+                $cookies.put('reloadInfo', url, {expires: expireDate});
+            }
+            catch (err) {
+                FooterService.showWarning('Can not save cookies: The reload button will have no function!');
+            }
         };
 
         /** End Functions */
@@ -382,7 +470,11 @@ app.controller('DropdownMenuCtrl', function ($scope, $state, SearchBarService) {
                 $state.go(destination);
                 break;
             case 'analyze':
-                $state.go(destination, {searchTerms: SearchBarService.getSearchBar().input});
+                var searchbarInput = SearchBarService.getSearchBar().input;
+                if (searchbarInput.length < 1) {
+                    searchbarInput = ""; // something went wrong; reset search bar input
+                }
+                $state.go(destination, {searchTerms: searchbarInput});
                 break;
             default:
                 $state.go('exception'); // error occurred
@@ -397,10 +489,11 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, $state, Keyword
 
         /* a query is loaded (from the Chronicle View) */
         $rootScope.$on('queryLoaded', function () {
-            SearchBarService.setInput("");
-            $scope.init(); // 'click' the top 4 Keywords => put them into the search bar
+            SearchBarService.setInput(""); // clear search bar input
+            $scope.performSearch(); // 'click' the top 4 Keywords => put them into the search bar
         });
 
+        // check if a object is empty or not:
         $scope.objIsEmpty = function (obj) {
             for (var key in obj) {
                 if (obj.hasOwnProperty(key))
@@ -423,15 +516,32 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, $state, Keyword
 
         /* initialization */
         $scope.init = function () {
-            // no keywords found; maybe a page reload
-            if ($state.is('analyze') && angular.isDefined($scope.keywords) && $scope.objIsEmpty($scope.keywords)) {
-                ReloadService.reloadUrl();
+            if ($state.is('analyze')) { // we only need this function in the analyze view
+                // no keywords found; maybe a page reload
+                if (angular.isDefined($scope.keywords) && $scope.objIsEmpty($scope.keywords)) {
+                    ReloadService.reloadUrl();
+                }
+                // The objects are already set to true, but if the keywords are topics at the same time,
+                // they must also be manually clicked to transfer the object status of the keywords to the topics
+                $scope.topKeywords = KeywordsService.getTopKeywords();
+                //window.alert("Länge scope.topkeywords = " + $scope.topKeywords.length);
+                if (angular.isDefined($scope.keywords) && $scope.topKeywords.length >= 4) {
+                    //window.alert("Scope.keywords ist valide!");
+                    for (var i = 0; i < 4; i++) {
+                        $scope.clicked($scope.topKeywords[i]);
+                    }
+                }
             }
+        };
+
+        $scope.performSearch = function () {
             // The objects are already set to true, but if the keywords are topics at the same time,
             // they must also be manually clicked to transfer the object status of the keywords to the topics
             $scope.topKeywords = KeywordsService.getTopKeywords();
-            for (var i = 0; i < 4; i++) {
-                $scope.clicked($scope.topKeywords[i]);
+            if (angular.isDefined($scope.keywords) && $scope.topKeywords.length >= 4) {
+                for (var i = 0; i < 4; i++) {
+                    $scope.clicked($scope.topKeywords[i]);
+                }
             }
         };
 
@@ -537,6 +647,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
     /* terms were selected or deselected */
     $scope.$watchGroup(['keywordsService.selectedKeywords()', 'topicsService.selectedTopics()'], function (newValues) {
+
         setTimeout(function () {
             angular.element(document.querySelector('#customSearch')).click(); // execute google search
         }, 0);
@@ -573,23 +684,39 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
     /** End Angular Functions */
 
-})
-;
-
-//Does not do anything at the moment
-app.controller('SearchResultsCtrl', function ($scope) {
-
 });
 
-// Does not work properly yet...
-app.controller('ErrorCtrl', function ($scope, $state) {
-    if ($state.is('emptyKeywordsTopics')) {
-        $scope.hideResults = true;
+app.controller('FooterCtrl', function ($scope, $cookies, FooterService) {
+
+    $scope.showWarning = FooterService.getShowWarning();
+    $scope.warningDiv = FooterService.getWarningDiv();
+
+    /* Cookie warning */
+    $scope.setCookieValue = function (value) {
+        var now = new Date();
+        var expirationDate = new Date();
+        expirationDate.setTime(+now + (360 * 24 * 60 * 60 * 1000)); // 360 days
+        try {
+            return $cookies.put('agreement', value, {expires: expirationDate});
+        }
+        catch (err) {
+            FooterService.showWarning('cannot save cookies: The reload button will have no function!');
+        }
+    };
+
+    $scope.agree = function () {
+        $scope.setCookieValue('agreed');
+    };
+
+    $scope.hasAgreed = function () {
+        var agreementCookie = $cookies.get('agreement');
+        return (angular.isDefined(agreementCookie) && agreementCookie === 'agreed'); // cookie must be set
+    };
+    /* End Cookie warning */
+
+    $scope.hideWarning = function () {
+        FooterService.hideWarning();
     }
-
-    //$scope.search = {width: "77%"}; // initial value
-    //$scope.offset = 30;
-
 
 });
 
@@ -617,15 +744,6 @@ app.run(['$route', '$rootScope', '$location', '$window', function ($route, $root
             this.$apply();
         }
     };
-
-    /* Maybe needed later; only work if changes on the page were made */
-    /*
-    window.onbeforeunload = function (event) {
-        console.log("called");
-        window.location.search += '&param=42';
-        return undefined;
-    };
-    */
 
 }]);
 
@@ -674,4 +792,3 @@ function googleCSELoaded() {
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(gcse, s);
 })();
-

@@ -1,31 +1,24 @@
 ---Generell---
 Muss:
-1.(Tom)-> Cross-Browser-Testing? (siehe Pflichtenheft, welche Browser wir versprochen haben, also laufen müssen)
-2.(Tom)-> Dokumentation(Kommentare) -> evtl. wieder ein Tool, dass aus Kommentare eine (Html) Dokumentation macht?
+1.(Tom)-> Cross-Browser-Testing
+-> Safari für Mac kann nächste Woche getestet werden
+2.(Tom)-> Dokumentation aus Quellodekommentaren
+-> ngdocs
 3. Code sortieren:
    - Direktiven in app/shared/directives.js
    - Alles was mit der Analyze Ansicht zu tun hat in app/components/analyze/analyze.js
    -> funktioniert alles nicht so ohne weiteres
 
 Weniger Wichtig:
-1. Info an den Benutzer, dass wir Cookies benutzen? Muss man das machen?
 
 2.(Alex) Benutzerhilfetexte / Google Such API auch nach deutsch umstellen können (evtl. Oben rechts im left side menu, neben dem DocAnalyser Text,
 ein kleiner "Flaggen" Button, um die gewünschte Sprache auszuwählen)
 
-(Tom) 3. resize event performance verbessern
-
 ---Analyse Ansicht---
 Muss:
-(Tom) 1. Browser Funktionen nutzbar machen (Reload, Back, Forward)
--> Back, Forward fertig. Sollte nochmal richtig getestet werden.
--> Reload fertig für Analyze Ansicht fertig
 
 ---Chronik Ansicht---
 Muss:
-(Tom) 1. Suchlauf speichern
-    -> Alternative für das Deklarieren des KeywordsMenuCtrl in der search.html
-    (KeywordsMenuCtrl ist in der Chronicle View nicht ansprechbar, weil er nicht im $scope ist / in einer anderen ui-view)
 
-(Tom) 2. Statt der kompletten Url nur den Seitentitel + evtl. Datum anzeigen. Bei längeren Urls wird das zu unübersichtlich.
-Erfordert wieder Eingriff in den Server Code (Kubek fragen).
+Weniger wichtig:
+

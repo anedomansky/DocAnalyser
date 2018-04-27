@@ -21,8 +21,8 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
 
     /* Create a new query object
     * NOTE: Prototype; few properties are still missing */
-    this.newQuery = function (date, keywords, topics, url) {
-        return {date: date, keywords: keywords, topics: topics, url: url};
+    this.newQuery = function (date, keywords, topics, title) {
+        return {date: date, keywords: keywords, topics: topics, title: title};
     };
 
     /* Save the actual queries in localStorage */
@@ -90,7 +90,7 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
 });
 
 angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $rootScope, LocalStorageService,
-                                                                    KeywordsService, TopicsService) {
+                                                                    KeywordsService, TopicsService, FooterService) {
 
     $scope.queries = LocalStorageService.getQueries(); // array of queries
     $scope.chronicleStatus = true; // contains the status of the chronicle function
@@ -118,7 +118,7 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
     /* user clicked the Clear History button */
     $scope.clearHistory = function () {
         if (!LocalStorageService.clearQueries()) {
-            window.alert("something went wrong!");
+            FooterService.showWarning('Something went wrong. Your History can not be deleted.');
         }
         $scope.queries = LocalStorageService.getQueries(); // updates data binding; nothing happens if clear failed
     };
@@ -132,6 +132,12 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
 
     /* initialization stuff */
     $scope.init = function () {
+        // in case of page reload; reload the stored queries again:
+        if ($scope.queries != null && $scope.queries.length != null && $scope.queries.length < 1) {
+            LocalStorageService.loadQueries();
+            $scope.queries = LocalStorageService.getQueries();
+        }
+        LocalStorageService.loadChronicleStatus();
         var status = LocalStorageService.getChronicleStatus();
         if (status !== "undefined") {
             $scope.chronicleStatus = $scope.statusTable[status]; // load and set the chronicle status

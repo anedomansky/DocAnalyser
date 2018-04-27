@@ -1,6 +1,10 @@
 <div ng-controller="PastQueriesMenuCtrl">
-    <div id="pastQueries">
-        <h3>Past Queries</h3>
+    <div id="pastQueries" ng-controller="KeywordsMenuCtrl">
+        <div ng-controller="HelpCtrl" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()"><h3>PastQueries</h3>
+            <div class="popover" ng-show="popoverIsVisible">
+                <div ng-include="'./app/components/help/helpPastQueries.html'"></div>
+            </div>
+        </div>
         <select id="dateSelect" ng-model="dateText">
             <option value="" disabled selected>select ...</option>
             <option value="all">all</option>
@@ -12,7 +16,7 @@
         <input id="searchText" placeholder="Search History" ng-model="searchText"/>
         <ul id="pastQueriesList">
             <li id="pastQueryItem" ng-repeat="query in queries | filter: searchText | filterByDate: dateText">
-                <button class="queryButton" ng-click="loadQuery(query)">{{query.date + " : " + query.url}}</button>
+                <button class="queryButton" ng-click="loadQuery(query)">{{query.date + " : " + query.title}}</button>
             </li>
         </ul>
     </div>
