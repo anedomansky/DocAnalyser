@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ui.router', 'ngRoute', 'ngCookies']);
+var app = angular.module('myApp', ['ui.router', 'ngRoute', 'ngCookies', 'pascalprecht.translate']);
 
 app.config(['$stateProvider', function ($stateProvider) {
 
@@ -70,6 +70,103 @@ app.config(['$stateProvider', function ($stateProvider) {
 
 }]);
 
+app.config(function($translateProvider) {
+    $translateProvider.translations('en', {
+        // search.html
+        SEARCH_BUTTON: 'Search',
+        SELECT_DE: 'German',
+        SELECT_EN: 'English',
+        VIEWS: 'Change View',
+        ANALYZE_VIEW: 'Analyze',
+        CHRONICLE_VIEW: 'Chronicle',
+        COOKIE_WARNING: 'This website uses cookies. ' +
+        'By continuing to use this website you are giving consent to cookies being used.',
+
+        // analyze.html
+        KEYWORDS_HEADLINE: 'Keywords',
+        TOPICS_HEADLINE: 'Source Topics',
+
+        // chronicle.html
+        PASTQUERIES_HEADLINE: 'Past Queries',
+        DATESELECT_DEFAULT: 'select ...',
+        DATESELECT_ALL: 'all',
+        DATESELECT_TODAY: 'today',
+        DATESELECT_WEEK: 'this week',
+        DATESELECT_MONTH: 'this month',
+        DATESELECT_OLDER: 'older than a month',
+        SEARCH_PLACEHOLDER: 'Search History',
+        HISTORY_OFF: 'Deactivate History',
+        HISTORY_ON: 'Activate History',
+        CLEARHISTORY_BUTTON: 'Clear History',
+
+        // help.html
+        DOCANALYSER_HELP: 'The keywords and phrases you see on the left were found to be significant for the document(s) you provided. ' +
+        'You may now compose queries by selecting and deselecting these terms which are then sent to Google. ' +
+        'Furthermore, you can modify the current query manually. Relevant commercial advertisements to the ' +
+        'current query are shown besides search results.',
+
+        // helpKeywords.html
+        KEYWORDS_HELP: 'These keywords represent authorities. An authority is a page that is pointed to by lots of good hubs.',
+
+        // helpTopics.html
+        TOPICS_HELP: 'These topics represent hubs. Hubs are directories that point to authoritative pages.',
+
+        // helpPastQueries.html
+        PASTQUERIES_HELP: 'Here you can view your saved queries and review their results. ' +
+        'Use the filtering by date or enter a search term to find the desired query. ' +
+        'You can also disable the history function, then nothing will be saved on the next page views. ' +
+        'Previous queries must be manually deleted.',
+    })
+    .translations('de', {
+        // search.html
+        SEARCH_BUTTON: 'Suchen',
+        SELECT_DE: 'Deutsch',
+        SELECT_EN: 'Englisch',
+        VIEWS: 'Ansicht wechseln',
+        ANALYZE_VIEW: 'Analysieren',
+        CHRONICLE_VIEW: 'Chronik',
+        COOKIE_WARNING: 'Diese Internetseite nutzt Cookies. ' +
+        'Bei Weiterverwendung dieser Internetseite sind die einverstanden mit der Verwendung von Cookies.',
+
+        // analyze.html
+        KEYWORDS_HEADLINE: 'Schlüsselwörter',
+        TOPICS_HEADLINE: 'Quellthemen',
+
+        // chronicle.html
+        PASTQUERIES_HEADLINE: 'Vergangene Suchläufe',
+        DATESELECT_DEFAULT: 'auswählen ...',
+        DATESELECT_ALL: 'alle',
+        DATESELECT_TODAY: 'heute',
+        DATESELECT_WEEK: 'diese Woche',
+        DATESELECT_MONTH: 'diesen Monat',
+        DATESELECT_OLDER: 'älter als einen Monat',
+        SEARCH_PLACEHOLDER: 'Suchläufe durchsuchen',
+        HISTORY_OFF: 'Suchlaufspeicher abschalten',
+        HISTORY_ON: 'Suchlaufspeicher aktivieren',
+        CLEARHISTORY_BUTTON: 'Suchläufe entfernen',
+
+        // help.html
+        DOCANALYSER_HELP: 'Die wichtigsten Schlüsselwörter und Quellthemen befinden sich auf der linken Seite. ' +
+        'Sie können den rechts dargestellten Suchlauf durch auswählen von Schlüsselwörtern und Quellthemen beeinflussen. ' +
+        'Desweiteren ist es möglich den Suchlauf durch manuelle Eingaben zu ergänzen. ' +
+        'Gegebenenfalls werden relevante Werbeartikel rechts neben den Suchergebnissen erscheinen.',
+
+        // helpKeywords.html
+        KEYWORDS_HELP: 'Diese Schlüsselwörter repräsentieren Authoritäten. ' +
+        'Eine Authorität ist eine Internetseite zu der von vielen Quellthemen aus verlinkt wird.',
+
+        // helpTopics.html
+        TOPICS_HELP: 'Diese Quellthemen repräsentieren sogenannte Zentren. ' +
+        'Zentren sind Verzeichnisse von Schlüsselwörtern die zu Schlüsselwortseiten verlinken.',
+
+        // helpPastQueries.html
+        PASTQUERIES_HELP: 'Hier können Sie Ihre vergangenen Suchläufe einsehen. ' +
+        'Um die gewünschten Suchläufe zu finden können Sie die verschiedenen Filterungsmöglichkeiten nutzen. ' +
+        'Sie können die Suchlaufspeicherfunktion jederzeit abschalten. ' +
+        'Desweiteren ist es möglich den Suchlaufspeicher manuell zu leeren.',
+    });
+    $translateProvider.preferredLanguage('en');
+});
 
 app.directive('resizable', function ($window) {
     return function ($scope) {
@@ -718,6 +815,12 @@ app.controller('FooterCtrl', function ($scope, $cookies, FooterService) {
         FooterService.hideWarning();
     }
 
+});
+
+app.controller('TranslateController', function($translate, $scope) {
+    $scope.changeLanguage = function (langKey) {
+        $translate.use(langKey);
+    };
 });
 
 /** End Angular Controllers */

@@ -339,3 +339,8 @@ ul#pastQueriesList {
     font-size: 12px;
     color: white;
 }
+
+.language {
+    float: left;
+    margin-top: 0;
+}

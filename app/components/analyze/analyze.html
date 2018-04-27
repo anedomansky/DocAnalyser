@@ -1,5 +1,6 @@
 <div id="keywords" ng-controller="KeywordsMenuCtrl">
-    <div ng-controller="HelpCtrl" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()"><h3>Keywords</h3>
+    <div ng-controller="HelpCtrl" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()">
+        <h3>{{ 'KEYWORDS_HEADLINE' | translate }}</h3>
         <div class="popover" ng-show="popoverIsVisible">
             <div ng-include="'./app/components/help/helpKeywords.html'"></div>
         </div>
@@ -17,7 +18,8 @@
 <br/>
 <br/>
 <div id="topics" ng-controller="TopicsMenuCtrl">
-    <div ng-controller="HelpCtrl" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()"><h3>Source Topics</h3>
+    <div ng-controller="HelpCtrl" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()">
+        <h3>{{ 'TOPICS_HEADLINE' | translate }}</h3>
         <div class="popover" ng-show="popoverIsVisible">
             <div ng-include="'./app/components/help/helpTopics.html'"></div>
         </div>

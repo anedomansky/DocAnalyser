@@ -11,26 +11,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-cookies.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.17.1/angular-translate.js"></script>
 
     <script type="text/javascript" src="app/app.js"></script>
     <script type="text/javascript" src="app/components/chronicle/chronicle.js"></script>
 </head>
-<body class="main" ng-app="myApp">
+<body class="main" ng-app="myApp" ng-controller="TranslateController">
 <div id="menu" class="menu" ng-controller="SideMenuCtrl">
-    <div ng-controller="HelpCtrl" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()"><h2>DocAnalyser</h2>
+    <div ng-controller="HelpCtrl" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()">
+        <select class="language">
+            <option ng-click="changeLanguage('de')">{{ 'SELECT_DE' | translate }}</option>
+            <option ng-click="changeLanguage('en')" selected>{{ 'SELECT_EN' | translate }}</option>
+        </select>
+        <br/>
+        <h2>DocAnalyser</h2>
         <div class="popover" ng-show="popoverIsVisible">
             <div ng-include="'./app/components/help/help.html'"></div>
         </div>
     </div>
     <br/>
     <div class="dropdown">
-        <button class="dropdown-button">Change View</button>
+        <button class="dropdown-button">{{ 'VIEWS' | translate }}</button>
         <div class="dropdown-content" ng-controller="DropdownMenuCtrl">
-            <input type="button" value="Analyze" ng-click="changeView('analyze')"/> <br/>
-            <input type="button" value="Chronicle" ng-click="changeView('chronicle')"/>
+            <input type="button" value="{{ 'ANALYZE_VIEW' | translate }}" ng-click="changeView('analyze')"/> <br/>
+            <input type="button" value="{{ 'CHRONICLE_VIEW' | translate }}" ng-click="changeView('chronicle')"/>
         </div>
     </div>
+
     <div ui-view></div>
 
     <br/>
@@ -40,7 +47,6 @@
         <a ui-sref="dataProtection">Data protection</a>
     </p>
 </div>
-
 <div resizable ng-style="{width: searchWidth}" id="search" ng-controller="SearchInputCtrl">
     <iframe id="hidden-frame" name="hidden-frame" style="display: none" src="about:blank"></iframe>
     <form class="searchBox" id="searchbox_003813809171160788124:z54qpilp6j4"
@@ -48,7 +54,7 @@
           action="search.html?form=1">
         <input value="003813809171160788124:z54qpilp6j4" name="cx" type="hidden"/>
         <textarea ng-model="searchBar.input" id="q" name="q" cols="20" rows="1" ng-change="change()"></textarea>
-        <input id="customSearch" name="customSearch" type="button" value="Search" ng-click="click()"/>
+        <input id="customSearch" name="customSearch" type="button" value="{{ 'SEARCH_BUTTON' | translate }}" ng-click="click()"/>
     </form>
 </div>
 <div resizable ng-style="{width: searchWidth}" id="resultsError">
@@ -62,15 +68,14 @@
     </div>
 </div>
 <div class="footer" ng-controller="FooterCtrl">
-    <div id="cookieWarning" ng-hide="hasAgreed()" ng-cloak><p>This website uses cookies.
-        By continuing to use this website you are giving consent to cookies being used.
+    <div id="cookieWarning" ng-hide="hasAgreed()" ng-cloak><p>{{ 'COOKIE_WARNING' | translate }}
         <a ui-sref="dataProtection">Learn more</a>
-        <input class="footerButton" type="button" value="Got it" ng-click="agree()"/>
+        <input class="footerButton" type="button" value="OK" ng-click="agree()"/>
     </p>
     </div>
     <div id="warnings" ng-show="showWarning.value" ng-cloak>
         <p ng-bind="warningDiv.message" ></p>
-        <input class="footerButton" type="button" value="Got it" ng-click="hideWarning()"/>
+        <input class="footerButton" type="button" value="OK" ng-click="hideWarning()"/>
     </div>
 </div>
 </body>
