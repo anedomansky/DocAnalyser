@@ -83,6 +83,7 @@ app.config(function($translateProvider) {
         'By continuing to use this website you are giving consent to cookies being used.',
         DATA_PROTECTION_LINK: 'Data protection',
         UNIVERSITY_LINK: 'Chair of communication networks',
+        COOKIE_LINK: 'Learn more',
 
         // analyze.html
         KEYWORDS_HEADLINE: 'Keywords',
@@ -131,6 +132,7 @@ app.config(function($translateProvider) {
         'Bei Weiterverwendung dieser Internetseite sind die einverstanden mit der Verwendung von Cookies.',
         DATA_PROTECTION_LINK: 'Datenschutzerklärung',
         UNIVERSITY_LINK: 'Vorsitzender der Kommunikationsnetze',
+        COOKIE_LINK: 'Mehr erfahren',
 
         // analyze.html
         KEYWORDS_HEADLINE: 'Schlüsselwörter',

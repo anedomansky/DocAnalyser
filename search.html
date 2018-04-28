@@ -69,7 +69,7 @@
 </div>
 <div class="footer" ng-controller="FooterCtrl">
     <div id="cookieWarning" ng-hide="hasAgreed()" ng-cloak><p>{{ 'COOKIE_WARNING' | translate }}
-        <a ui-sref="dataProtection">Learn more</a>
+        <a ui-sref="dataProtection">{{ 'COOKIE_LINK' | translate }}</a>
         <input class="footerButton" type="button" value="OK" ng-click="agree()"/>
     </p>
     </div>
