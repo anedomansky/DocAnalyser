@@ -70,6 +70,7 @@ app.config(['$stateProvider', function ($stateProvider) {
 
 }]);
 
+// translations English('en') - German('de')
 app.config(function($translateProvider) {
     $translateProvider.translations('en', {
         // search.html
@@ -79,8 +80,10 @@ app.config(function($translateProvider) {
         VIEWS: 'Change View',
         ANALYZE_VIEW: 'Analyze',
         CHRONICLE_VIEW: 'Chronicle',
+        CHAIR_COM_NETWORK: 'Chair of Communication Networks',
         COOKIE_WARNING: 'This website uses cookies. ' +
         'By continuing to use this website you are giving consent to cookies being used.',
+        LEARN_MORE: 'Learn more',
 
         // analyze.html
         KEYWORDS_HEADLINE: 'Keywords',
@@ -116,6 +119,43 @@ app.config(function($translateProvider) {
         'Use the filtering by date or enter a search term to find the desired query. ' +
         'You can also disable the history function, then nothing will be saved on the next page views. ' +
         'Previous queries must be manually deleted.',
+
+        // emptyKeywordsTopics.html
+        EMPTY_KEYWORDS_TOPICS_HEADLINE: 'No keywords or topics could be found!',
+
+        // exception.html
+        EXCEPTION_HEADLINE: 'There was an error!',
+
+        // timeout.html
+        TIMEOUT_HEADLINE: 'Connection timeout!',
+
+        // noData.html
+        NO_KEYWORDS: 'No keywords found...',
+        NO_TOPICS: 'No topics found...',
+
+        ERROR_HEADLINE: 'Please analyse another document or try again.',
+
+        // dataProtection.html
+        DATA_PROT_HEADLINE: 'Declaration Of Data Protection',
+        DATA_PROT: 'Data Protection',
+        DATA_PROT_P_1: 'The owners of these websites are very serious about ' +
+        'protecting your personal data. We handle personal data ' +
+        'in accordance to the data protection regulations.',
+        DATA_PROT_P_2: 'The Usage of our websites is usually possible without your personal data. ' +
+        'If we do need your personal data(e.g. your manually typed search input)' +
+        ', the process of data collection will be voluntarily. ' +
+        'The collected data will not be made accessible to others without your consent.',
+        DATA_PROT_P_3: 'We want to point out that the transmission of data(e.g. communication via email) ' +
+        'can lead to a security breach. ' +
+        'Transmission without the risk of security breaches is not possible.',
+        DATA_PROT_COOKIES_P_1: 'Our websites use cookies. ' +
+        'These cookies are completely harmless. Cookies are a way to improve our websites. ' +
+        'Cookies are small text files which are stored on your computer.',
+        DATA_PROT_COOKIES_P_2: 'We use cookies in order to support the standard browser functionality, ' +
+        'the reloading of the current website.',
+        DATA_PROT_COOKIES_P_3: 'You can change your browser settings to enable a notification about new cookies. ' +
+        'That way you can accept or decline every cookie before it is stored on your computer. ' +
+        'Furthermore you can modify the browser settings in order to automatically delete cookies when closing the browser.'
     })
     .translations('de', {
         // search.html
@@ -125,8 +165,10 @@ app.config(function($translateProvider) {
         VIEWS: 'Ansicht wechseln',
         ANALYZE_VIEW: 'Analysieren',
         CHRONICLE_VIEW: 'Chronik',
+        CHAIR_COM_NETWORK: 'Lehrstuhl für Kommunikationsnetze',
         COOKIE_WARNING: 'Diese Internetseite nutzt Cookies. ' +
         'Bei Weiterverwendung dieser Internetseite sind die einverstanden mit der Verwendung von Cookies.',
+        LEARN_MORE: 'Mehr erfahren',
 
         // analyze.html
         KEYWORDS_HEADLINE: 'Schlüsselwörter',
@@ -164,7 +206,51 @@ app.config(function($translateProvider) {
         'Um die gewünschten Suchläufe zu finden können Sie die verschiedenen Filterungsmöglichkeiten nutzen. ' +
         'Sie können die Suchlaufspeicherfunktion jederzeit abschalten. ' +
         'Desweiteren ist es möglich den Suchlaufspeicher manuell zu leeren.',
+
+        // emptyKeywordsTopics.html
+        EMPTY_KEYWORDS_TOPICS_HEADLINE: 'Es konnten keine Schlüsselwörter oder Quellthemen gefunden werden!',
+
+        // exception.html
+        EXCEPTION_HEADLINE: 'Ein Fehler ist aufgetreten!',
+
+        // timeout.html
+        TIMEOUT_HEADLINE: 'Verbindung wurde unterbrochen!',
+
+        // noData.html
+        NO_KEYWORDS: 'Keine Schlüsselwörter gefunden...',
+        NO_TOPICS: 'Keine Quellthemen gefunden...',
+
+        ERROR_HEADLINE: 'Bitte analysieren Sie ein anderes Dokument oder versuchen Sie es erneut.',
+
+        // dataProtection.html
+        DATA_PROT_HEADLINE: 'Datenschutzerklärung',
+        DATA_PROT: 'Datenschutz',
+        DATA_PROT_P_1: 'Die Betreiber dieser Seiten nehmen ' +
+        'den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten ' +
+        'vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser ' +
+        'Datenschutzerklärung.',
+        DATA_PROT_P_2: 'Die Nutzung unserer Website ist in der Regel ohne Angabe ' +
+        'personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten ' +
+        '(beispielsweise eingegebene Suchbegriffe) erhoben werden, erfolgt dies, soweit ' +
+        'möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung ' +
+        'nicht an Dritte weitergegeben.',
+        DATA_PROT_P_3: 'Wir weisen darauf hin, dass die Daten&uuml;bertragung im Internet ' +
+        '(z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser ' +
+        'Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.',
+        DATA_PROT_COOKIES_P_1: 'Die Internetseiten verwenden teilweise so genannte Cookies. Cookies richten auf ' +
+        'Ihrem Rechner keinen Schaden an und enthalten keine Viren. Cookies dienen dazu, unser Angebot ' +
+        'nutzerfreundlicher, effektiver und sicherer zu machen. Cookies sind kleine Textdateien, die auf Ihrem ' +
+        'Rechner abgelegt werden und die Ihr Browser speichert.',
+        DATA_PROT_COOKIES_P_2: 'Wir verwenden Cookies, um die Standard Browserfunktionalität, das ' +
+        'Neuladen der Seite, auf unserer Seite zu unterstützen.',
+        DATA_PROT_COOKIES_P_3: 'Sie können Ihren Browser so einstellen, dass Sie über das Setzen ' +
+        'von Cookies informiert werden und Cookies nur im Einzelfall erlauben, die Annahme von Cookies für ' +
+        'bestimmte Fälle oder generell ausschliessen sowie das automatische Löschen der ' +
+        'Cookies beim Schlie&szlig;en des Browser aktivieren. Bei der Deaktivierung von Cookies kann die ' +
+        'Funktionalität dieser Website eingeschränkt sein.'
+
     });
+    // default language
     $translateProvider.preferredLanguage('en');
 });
 
@@ -817,6 +903,7 @@ app.controller('FooterCtrl', function ($scope, $cookies, FooterService) {
 
 });
 
+// handles the translation through a 'translate'-filter
 app.controller('TranslateController', function($translate, $scope) {
     $scope.changeLanguage = function (langKey) {
         $translate.use(langKey);

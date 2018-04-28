@@ -43,8 +43,8 @@
     <br/>
     <p class="copy">
         <span id="copyright">&copy;</span> by Mario Kubek <br/>
-        <a href="http://www.fernuni-hagen.de/kn" target="_blank">Chair of Communication Networks</a> <br/>
-        <a ui-sref="dataProtection">Data protection</a>
+        <a href="http://www.fernuni-hagen.de/kn" target="_blank">{{ 'CHAIR_COM_NETWORK' | translate }}</a> <br/>
+        <a ui-sref="dataProtection">{{ 'DATA_PROT' | translate }}</a>
     </p>
 </div>
 <div resizable ng-style="{width: searchWidth}" id="search" ng-controller="SearchInputCtrl">
@@ -69,7 +69,7 @@
 </div>
 <div class="footer" ng-controller="FooterCtrl">
     <div id="cookieWarning" ng-hide="hasAgreed()" ng-cloak><p>{{ 'COOKIE_WARNING' | translate }}
-        <a ui-sref="dataProtection">Learn more</a>
+        <a ui-sref="dataProtection">{{ 'LEARN_MORE' | translate }}</a>
         <input class="footerButton" type="button" value="OK" ng-click="agree()"/>
     </p>
     </div>
