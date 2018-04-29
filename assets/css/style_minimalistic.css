@@ -1,0 +1,352 @@
+
+.main {
+    /*background: url("../img/textured_paper.png") repeat;*/
+    background-color: white;
+    font-family: "Calibri", sans-serif;
+    margin-top: 80px;
+}
+
+.main textarea[name="q"] {
+
+    font-family: "Calibri", sans-serif;
+    font-size: 100%; /* needed for ie9-11*/
+    resize: horizontal;
+    overflow: auto;
+    min-width: 25%;
+    max-width: 90%;
+    width: 50%;
+    float: left;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    white-space: nowrap;
+    height: 40px;
+}
+
+.main input#customSearch {
+    border: none;
+    background-color: #4c8ffa;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 0px;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    width: 8%;
+    min-width: 50px;
+    height: 45px;
+}
+
+.main input#customSearch:hover {
+    box-shadow: 0px 0px 2px 2px #4c8ffa;
+}
+
+.main #search {
+    padding: 10px 10px 30px 10px;
+    /*margin-left: 400px;*/
+    box-sizing: border-box;
+    width: 77%;
+    float: right;
+    position: relative;
+}
+
+.menu {
+    text-align: center;
+    margin-top: 0;
+    float: left;
+    box-sizing: border-box;
+    top: 0px;
+    left: 0;
+    overflow: auto;
+    height: 100%;
+    position: fixed;
+    min-width: 1%;
+    max-width: 49%;
+    width: 23%;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    overflow-y: scroll;
+    /*background: url("../img/blu_stripes.png") repeat;*/
+    /*background-color: #0099ff;*/
+    background-color: rgba(76,143,250,0.13);
+    /*background: linear-gradient(to right, rgba(117,163,185,0.45) , rgba(117,163,185,0.40)); */
+    resize: horizontal;
+}
+
+.menu input[type="button"] {
+    padding: 10px 10px 10px 10px;
+    border: none;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 0px;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.menu input[type="button"]:hover {
+    background-color: #4c8ffa;
+}
+
+.menu h2 {
+    color: white;
+    text-align: center;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.menu div#keywords {
+    text-align: initial;
+    resize: vertical;
+    min-height: 110px;
+    padding: 5px 30px;
+    border: none;
+    width: 75%;
+    margin: auto;
+    height: 250px;
+    overflow-y: scroll;
+    z-index: 1;
+    /*background: url("../img/textured_paper.png") repeat;*/
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+    background-color: rgba(76,143,250,0.13);
+}
+
+.menu div#topics {
+    text-align: initial;
+    resize: vertical;
+    min-height: 110px;
+    padding: 5px 30px;
+    border: none;
+    width: 75%;
+    margin: auto;
+    height: 250px;
+    overflow-y: scroll;
+    z-index: 1;
+    /*background: url("../img/textured_paper.png") repeat;*/
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+    background-color: rgba(76,143,250,0.13);
+}
+
+.menu div#pastQueries {
+    resize: vertical;
+    min-height: 110px;
+    padding: 5px 30px;
+    border: none;
+    width: 75%;
+    margin: auto;
+    height: 500px;
+    overflow-y: scroll;
+    z-index: 1;
+    /*background: url("../img/textured_paper.png") repeat;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+    background-color: rgba(76,143,250,0.13);
+}
+
+.menu div h3 {
+    color: black;
+    text-align: center;
+    margin-top: 3px;
+
+}
+
+.menu .copy {
+    bottom: 1px;
+    padding-left: 10px;
+    z-index: -1;
+    color: black;
+    text-align: initial;
+}
+
+.menu button:not(.queryButton) {
+    padding: 10px 10px 10px 10px;
+    /*margin-left: 125px;*/
+    margin-bottom: 30px;
+    background-color: #4c8ffa;
+    border: none;
+    border-radius: 0px;
+    font-size: 12px;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.menu button a {
+    text-decoration: none;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.menu button:not(.queryButton):hover {
+    box-shadow: 0px 0px 2px 2px #4c8ffa;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    /*margin-left: 125px;*/
+    margin-left: auto;
+    margin-right: auto;
+    top: 37px;
+}
+
+.dropdown-content p {
+    color: black;
+    padding: 12px 16px;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.dropdown:hover .dropdown-content{
+    display: block;
+}
+
+span#copyright {
+    font-size: 20px;
+
+}
+
+.checkboxes {
+    color: black;
+}
+
+.checkboxContent {
+    float: left;
+}
+
+.checkboxesLabel {
+    float: left;
+    clear: left;
+}
+
+#resultsError {
+    box-sizing: border-box;
+    float: right;
+    position: relative;
+    width: 77%;
+}
+
+.popover {
+    position: absolute;
+    display: inline-block;
+    z-index: 1;
+}
+
+/* tooltip-arrow */
+.popover .help::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%; /* arrow at the top of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+}
+
+/* tooltip-text */
+.help {
+    background-color: white;
+    display: block;
+    text-align: justify;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 5px;
+}
+
+#history {
+    left: 0;
+    text-align: initial;
+}
+
+.menu div li {
+    color: black;
+}
+
+.queryButton {
+    background-color: transparent;
+    color: black;
+    text-shadow: none;
+    width: 100%;
+    border-style: none none inset none;
+    border-width: thin;
+    border-color: #4c8ffa;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-wrap: break-word;
+    word-wrap: break-word; /* needed for ie9 up to edge */
+}
+
+.queryButton:hover {
+    background-image: none;
+    box-shadow: 0px 0px 2px 2px rgba(76,143,250,0.13);
+    background: rgba(76,143,250,0.13) none;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.chronicleButton {
+    padding: 10px 10px 10px 10px;
+    background-color: #4c8ffa;
+    border: none;
+    border-radius: 0px;
+    font-size: 12px;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    width: 45%;
+}
+
+.chronicleButton:hover {
+    box-shadow: 0px 0px 2px 2px #4c8ffa;
+    background: #4c8ffa none;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#dateSelect {
+    width: 100%;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#searchText {
+    width: 100%;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+ul#pastQueriesList {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #4c8ffa;
+    color: white;
+    text-align: center;
+}
+
+.footerButton {
+    padding: 10px 10px 10px 10px;
+    background-color: #4c8ffa;
+    border-style: solid;
+    border-radius: 1px;
+    border-color: white;
+    font-size: 12px;
+    color: white;
+}
+
+.language {
+    float: left;
+    margin-top: 0;
+}
