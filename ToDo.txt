@@ -11,9 +11,6 @@ Muss:
 
 Weniger Wichtig:
 
-2.(Alex) Benutzerhilfetexte / Google Such API auch nach deutsch umstellen können (evtl. Oben rechts im left side menu, neben dem DocAnalyser Text,
-ein kleiner "Flaggen" Button, um die gewünschte Sprache auszuwählen)
-
 ---Analyse Ansicht---
 Muss:
 
@@ -21,3 +18,4 @@ Muss:
 Muss:
 
 Weniger wichtig:
+

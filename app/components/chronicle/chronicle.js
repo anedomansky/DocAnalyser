@@ -153,7 +153,9 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
     $scope.init();
 });
 
-//
+// custom filter to filter queries by date
+// items = all query items
+// dateRange = all, today, week, month, older
 app.filter('filterByDate', function () {
     return function (items, dateRange) {
         var filtered = [];
@@ -162,6 +164,7 @@ app.filter('filterByDate', function () {
             return items;
         }
         else if(dateRange === "today") {
+            // e.g. 2018-04-28 0:00:00:000 am - 2018-04-28 11:59:59:999 pm
             var today = {from: new Date().setHours(0, 0, 0, 0), to: new Date().setHours(23, 59, 59, 999)};
             filtered = [];
             for (var i = 0; i < items.length; i++) {
@@ -193,9 +196,10 @@ app.filter('filterByDate', function () {
         }
         else if(dateRange === "month") {
             var dateMonth = new Date();
-            var firstDayMonth = new Date(dateMonth.getFullYear(), dateMonth.getMonth() - 1, 1);     // 2018-03-01
-            var lastDayMonth = new Date(dateMonth.getFullYear(), dateMonth.getMonth() + 1, 0);   // 2018-04-30
-            // var lastDayMonth = new Date();
+            // e.g. 2018-03-01
+            var firstDayMonth = new Date(dateMonth.getFullYear(), dateMonth.getMonth() - 1, 1);
+            // e.g. 2018-04-30
+            var lastDayMonth = new Date(dateMonth.getFullYear(), dateMonth.getMonth() + 1, 0);
             filtered = [];
             for (var i = 0; i < items.length; i++) {
                 item = items[i];
@@ -208,8 +212,6 @@ app.filter('filterByDate', function () {
         else if(dateRange === "older") {
             var date = new Date();
             var older = {from: 0, to: new Date(date.getFullYear(), date.getMonth() - 1)};
-            // var firstDay = new Date(date.getFullYear() - 1, date.getMonth(), 1); //2017-04-01
-            // var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);  // 2018-04-30
             filtered = [];
             for (var i = 0; i < items.length; i++) {
                 item = items[i];
