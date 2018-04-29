@@ -532,6 +532,8 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
                 }
                 $scope.setCookie($location.url()); // stores url for reload purposes
                 $location.url($location.path()); // remove request param from url
+
+                LocalStorageService.loadCooccs();
                 // check if the user has activated the chronicle function
                 LocalStorageService.loadChronicleStatus();
                 status = LocalStorageService.getChronicleStatus();
@@ -751,11 +753,13 @@ app.controller('TopicsMenuCtrl', function ($scope, $rootScope, TopicsService, Ke
 });
 
 app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, TopicsService, KeywordsService,
-                                            SearchBarService, $state) {
+                                            SearchBarService, $state, LocalStorageService) {
     $scope.topicsService = TopicsService;
     $scope.keywordsService = KeywordsService;
     $scope.searchBar = SearchBarService.getSearchBar(); // search bar
     $scope.searchBarArr = []; // search bar items as array
+    $scope.cooccs = LocalStorageService.getCooccs();
+    $scope.frequency = {};
     $scope.selectedTerms = [];
     $scope.diff = [];
 
@@ -837,8 +841,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         // newValues array contains the current values of the watch expressions
         $scope.selectedKeywords = newValues[0].split(" ");
         $scope.selectedTopics = newValues[1].split(" ");
-        $scope.selectedTerms = $scope.selectedKeywords.concat($scope.selectedTopics);
-        //window.alert("selectedTerms = " + $scope.selectedTerms.toString());
+        $scope.selectedTerms = $scope.selectedKeywords.concat($scope.selectedTopics);;
     });
 
 
@@ -859,9 +862,100 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         }
     };
 
+    $scope.updateCooccs = function () {
+
+        /* ! IMPORTANT !
+         * In the comments $scope.cooccs is considered cooccs
+         */
+        var currentWord;
+        var frequency; // Frequencies of the words
+        var significance;
+
+        // add words => occurences to the hash:
+        // example: cooccs[Mathematik] = 1 means Mathematik once occurred in the search input
+        frequency = $scope.searchBarArr.reduce(function ( stats, word ) {
+
+            if ( stats.hasOwnProperty( word ) ) {
+                stats[ word ] = stats[ word ] + 1;
+            } else {
+                stats[ word ] = 1;
+            }
+            return stats;
+
+        }, {} );
+
+
+        for (var i = 0, len = $scope.searchBarArr.length; i < len; i++) {
+            currentWord = $scope.searchBarArr[i]; // a word that occurred in the search input
+
+            for (var j = 0, len = $scope.searchBarArr.length; j < len; j++) {
+                var wordb = $scope.searchBarArr[j];
+                // add every other word to the inner hash of cooccs[currentWord]
+                if ( currentWord !== wordb ) {
+
+                    if ( $scope.cooccs.hasOwnProperty( currentWord ) ) {
+
+                        if ( $scope.cooccs[currentWord].hasOwnProperty( wordb ) ) {
+                            $scope.cooccs[ currentWord ][ wordb ] = ($scope.cooccs[ currentWord ][ wordb ]) + 1;
+                        }
+                        else {
+                            var innerHash = $scope.cooccs[ currentWord ];
+                            innerHash[ wordb ] = 1;
+                            $scope.cooccs[ currentWord ] = innerHash;
+                        }
+                    }
+                    else { // first pass of the inner loop
+
+                        var innerHash = {};
+                        innerHash[ wordb ] = 1;
+                        $scope.cooccs[ currentWord ] = innerHash;
+                        /* For example, the result has the form:
+                         * cooccs['Mathematik']['Wissenschaft'] = 1;
+                          * cooccs {
+                          *     Mathematik : {
+                          *         Wissenschaft : 1,
+                          *         Mathematiker: 1
+                          *     }
+                          *     Wissenschaft : {
+                          *         Mathematiker: 1
+                          *         .
+                          *         .
+                          *         .
+                          *     }
+                          * }
+                          */
+                        //console.log('cooccs[' + currentWord + '] = ' + $scope.cooccs[ currentWord ][ wordb ]);
+                    }
+                }
+            }
+        }
+        //console.log("my object: %o", $scope.cooccs['Mathematik']['Wissenschaft']);
+
+        /* TODO: Calculate the significance for new co-occurrences only */
+        var outerKeys = Object.keys($scope.cooccs);
+        outerKeys.forEach(function (worda) {
+            var innerKeys = Object.keys($scope.cooccs[worda]);
+            //console.log(innerKeys);
+            innerKeys.forEach(function (wordb) {
+                /*
+                 * (DICE-method): calculate significance =
+                 * (2 * occurences of worda with wordb) / (occurences of worda + occurences of wordb)
+                 */
+               significance = (2 * $scope.cooccs[worda][wordb]) / (frequency[worda] + frequency[wordb]);
+               $scope.cooccs[worda][wordb] = significance;
+            });
+        });
+
+        LocalStorageService.setCooccs($scope.cooccs);
+        LocalStorageService.saveCooccs();
+    };
+
     $scope.click = function () {
         if ($state.is('analyze')) { // change the url only in the analyze view
-            $scope.changeUrl(); // change url without reloading
+            $scope.changeUrl();
+        }
+        if ($scope.searchBarArr.length > 0) {
+            $scope.updateCooccs();
         }
     };
 
