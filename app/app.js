@@ -759,7 +759,78 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
     $scope.selectedTerms = [];
     $scope.diff = [];
 
+    $scope.hash = {
+        BMW: {
+            Auto: 1,
+            Hersteller: 1
+        },
+        Auto: {
+            BMW: 1,
+            Hersteller: 1,
+            Getriebe: 1
+        },
+        Hersteller: {
+            Auto: 1,
+            BMW: 1
+        }
+    };
+
+    $scope.showSuggestions = false;
+    $scope.searchResults = [];
+    $scope.outerTerms = [];
+    $scope.innerTerms = [];
+
     /** Functions */
+
+    $scope.lastWord= function(str) {
+        if (str.trim() === ""){
+            return 0;
+        } else {
+            var splitStr = str.split(' ');
+            splitStr = splitStr.filter($scope.lengthFilter);
+            return splitStr[splitStr.length - 1];
+        }
+    };
+
+    $scope.lengthFilter = function(str){
+        return str.length >= 1;
+    };
+
+    $scope.searching = function(string) {
+        if(string.length > 0) {
+            string = $scope.lastWord(string);
+            $scope.showSuggestions = false;
+            $scope.outerTerms = Object.keys($scope.hash);
+
+            for(var i = 0; i < $scope.outerTerms.length; i++) {
+                $scope.innerTerms = Object.keys($scope.hash[$scope.outerTerms[i]]);
+                // console.log($scope.innerTerms);
+                for(var j = 0; j < $scope.innerTerms.length; j++) {
+                    var temp = $scope.outerTerms[i] + " " + $scope.innerTerms[j];
+                    $scope.searchResults.push(temp);
+
+                }
+            }
+
+            $scope.searchResults = $scope.searchResults.filter(function(term){
+
+                // searchBar.input is in searchResults
+                if(term.toLowerCase().startsWith(string.toLowerCase())) {
+                    return term;
+                }
+
+            });
+        }
+    }
+
+    // TODO: append to existing string instead of replacing it
+    $scope.choose_textbox = function(string) {
+        $scope.searchBar.input = string;
+        $scope.showSuggestions = true;
+    };
+
+
+
 
     $scope.symmetricDifference = function (a1, a2) {
         var result = [];
