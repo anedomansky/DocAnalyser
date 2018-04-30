@@ -533,7 +533,6 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
                 $scope.setCookie($location.url()); // stores url for reload purposes
                 $location.url($location.path()); // remove request param from url
 
-                LocalStorageService.loadCooccs();
                 // check if the user has activated the chronicle function
                 LocalStorageService.loadChronicleStatus();
                 status = LocalStorageService.getChronicleStatus();
@@ -716,6 +715,7 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, $state, Keyword
                         $scope.clicked($scope.topKeywords[i]);
                     }
                 }
+                $rootScope.$emit('keywordsInitFinished', '');
             }
         };
 
@@ -758,7 +758,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
     $scope.keywordsService = KeywordsService;
     $scope.searchBar = SearchBarService.getSearchBar(); // search bar
     $scope.searchBarArr = []; // search bar items as array
-    $scope.cooccs = LocalStorageService.getCooccs();
+    $scope.cooccs = {}; // co-occurrences
     $scope.frequency = {};
     $scope.selectedTerms = [];
     $scope.diff = [];
@@ -841,13 +841,13 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         // newValues array contains the current values of the watch expressions
         $scope.selectedKeywords = newValues[0].split(" ");
         $scope.selectedTopics = newValues[1].split(" ");
-        $scope.selectedTerms = $scope.selectedKeywords.concat($scope.selectedTopics);;
+        $scope.selectedTerms = $scope.selectedKeywords.concat($scope.selectedTopics);
     });
 
 
     /*user manually change the search bar input */
     $scope.change = function () {
-        $scope.searchBarArr = $scope.searchBar.input.split(" ");
+        $scope.searchBarArr = $scope.searchBar.input.split(/\s+/);
 
         $scope.diff = $scope.symmetricDifference($scope.searchBarArr, $scope.selectedTerms);
 
@@ -896,6 +896,8 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                     if ( $scope.cooccs.hasOwnProperty( currentWord ) ) {
 
                         if ( $scope.cooccs[currentWord].hasOwnProperty( wordb ) ) {
+                            console.log("in has Property(wordb): cooccs[" + currentWord + "][" +
+                                wordb + "] = " + $scope.cooccs[currentWord][wordb]);
                             $scope.cooccs[ currentWord ][ wordb ] = ($scope.cooccs[ currentWord ][ wordb ]) + 1;
                         }
                         else {
@@ -943,24 +945,37 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                  */
                significance = (2 * $scope.cooccs[worda][wordb]) / (frequency[worda] + frequency[wordb]);
                $scope.cooccs[worda][wordb] = significance;
+               console.log('Signifikanzberechnung: cooccs[' + worda + '][' + wordb + '] = ' + $scope.cooccs[worda][wordb])
             });
         });
 
         LocalStorageService.setCooccs($scope.cooccs);
         LocalStorageService.saveCooccs();
+        //console.log("my object: " + $scope.cooccs['Mathematik']['Wissenschaft']);
     };
 
     $scope.click = function () {
         if ($state.is('analyze')) { // change the url only in the analyze view
             $scope.changeUrl();
         }
-        if ($scope.searchBarArr.length > 0) {
+        if ($scope.searchBarArr.length > 1) { // at least two terms are needed
             $scope.updateCooccs();
         }
+        //console.log("my object: " + $scope.cooccs['Mathematik']['Wissenschaft']);
     };
 
+    $rootScope.$on('keywordsInitFinished', function (event, args) {
+        $scope.change();
+    });
+
+    /* initialization things that have to be done while loading the controller */
+    $scope.init = function () {
+        LocalStorageService.loadCooccs();
+        $scope.cooccs = LocalStorageService.getCooccs();
+    };
     /** End Angular Functions */
 
+    $scope.init();
 });
 
 app.controller('FooterCtrl', function ($scope, $cookies, FooterService) {

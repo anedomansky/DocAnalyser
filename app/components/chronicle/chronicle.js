@@ -2,7 +2,7 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
 
     this.queries = []; // contains all saved queries after the page is loaded
     this.chronicleStatus = "undefined"; // indicates whether the chronicle function is activated or deactivated
-    this.cooccs = []; // co-occurences
+    this.cooccs = {}; // co-occurences
 
     this.addQuery = function (query) {
         this.queries.push(query);
@@ -21,11 +21,11 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
     };
 
     this.setCooccs = function (cooccs) {
-        this.cooccs[0] = cooccs;
+        this.cooccs = cooccs;
     };
 
     this.getCooccs = function () {
-        return this.cooccs[0] || {};
+        return this.cooccs || {};
     };
 
     /* Create a new query object
@@ -62,7 +62,7 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
 
     this.loadCooccs = function () {
         if ($window.localStorage.getItem('cooccs')) { // queries must not be empty
-            this.cooccs = JSON.parse($window.localStorage.getItem('cooccs')) || [];
+            this.cooccs = JSON.parse($window.localStorage.getItem('cooccs')) || {};
         }
     };
 
