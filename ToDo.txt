@@ -25,6 +25,7 @@ Muss:
     Nur Nomen und Namen beachten
 2. (Tom)
     Signifikanzberechnung nur für neue Suchbegriffe
+    -> Angefangen; Wahrscheinlich noch verbuggt!
 3. (Tom)
     Cooccs Hash Häufigkeit wird beim mehrmaligen Suchen mit gleichbleibenden Suchbegriffen immer weiter hochgezählt.
     Beispiel:

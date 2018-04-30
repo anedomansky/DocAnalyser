@@ -943,7 +943,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         var significance;
 
         // add words => occurences to the hash:
-        // example: cooccs[Mathematik] = 1 means Mathematik once occurred in the search input
+        // example: frequency[Mathematik] = 1 means Mathematik once occurred in the search input
         frequency = $scope.searchBarArr.reduce(function ( stats, word ) {
 
             if ( stats.hasOwnProperty( word ) ) {
@@ -956,6 +956,9 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         }, {} );
 
 
+        var outerKeys = []; // new co-occurences: worda
+        var innerKeysObj = {}; // new co-occurences: wordb
+
         for (var i = 0, len = $scope.searchBarArr.length; i < len; i++) {
             currentWord = $scope.searchBarArr[i]; // a word that occurred in the search input
 
@@ -967,14 +970,26 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                     if ( $scope.cooccs.hasOwnProperty( currentWord ) ) {
 
                         if ( $scope.cooccs[currentWord].hasOwnProperty( wordb ) ) {
+                            $scope.cooccs[ currentWord ][ wordb ] = ($scope.cooccs[ currentWord ][ wordb ]) + 1;
                             console.log("in has Property(wordb): cooccs[" + currentWord + "][" +
                                 wordb + "] = " + $scope.cooccs[currentWord][wordb]);
-                            $scope.cooccs[ currentWord ][ wordb ] = ($scope.cooccs[ currentWord ][ wordb ]) + 1;
+                            if (!innerKeysObj.hasOwnProperty( currentWord )) {
+                                innerKeysObj[currentWord] = [];
+                                outerKeys.push(currentWord);
+                            }
+                            innerKeysObj[currentWord].push(wordb);
+
                         }
                         else {
                             var innerHash = $scope.cooccs[ currentWord ];
                             innerHash[ wordb ] = 1;
                             $scope.cooccs[ currentWord ] = innerHash;
+                            if (!innerKeysObj.hasOwnProperty( currentWord )) {
+                                innerKeysObj[currentWord] = [];
+                                outerKeys.push(currentWord);
+                            }
+                            innerKeysObj[currentWord].push(wordb);
+                            console.log("innerKeysObj[" + currentWord + "] = " + innerKeysObj[currentWord]);
                         }
                     }
                     else { // first pass of the inner loop
@@ -982,6 +997,10 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                         var innerHash = {};
                         innerHash[ wordb ] = 1;
                         $scope.cooccs[ currentWord ] = innerHash;
+                        outerKeys.push(currentWord);
+                        innerKeysObj[currentWord] = [];
+                        innerKeysObj[currentWord].push(wordb);
+
                         /* For example, the result has the form:
                          * cooccs['Mathematik']['Wissenschaft'] = 1;
                           * cooccs {
@@ -1002,12 +1021,10 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 }
             }
         }
-        //console.log("my object: %o", $scope.cooccs['Mathematik']['Wissenschaft']);
 
-        /* TODO: Calculate the significance for new co-occurrences only */
-        var outerKeys = Object.keys($scope.cooccs);
+        var innerKeys = [];
         outerKeys.forEach(function (worda) {
-            var innerKeys = Object.keys($scope.cooccs[worda]);
+            innerKeys = innerKeysObj[worda];
             //console.log(innerKeys);
             innerKeys.forEach(function (wordb) {
                 /*
@@ -1022,7 +1039,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
         LocalStorageService.setCooccs($scope.cooccs);
         LocalStorageService.saveCooccs();
-        //console.log("my object: " + $scope.cooccs['Mathematik']['Wissenschaft']);
+        console.log("---------------------------------------------------------------------------------------------");
     };
 
     $scope.click = function () {
