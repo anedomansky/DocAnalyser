@@ -170,86 +170,86 @@ app.config(function ($translateProvider) {
             'Bei Weiterverwendung dieser Internetseite sind die einverstanden mit der Verwendung von Cookies.',
             LEARN_MORE: 'Mehr erfahren',
 
-        // analyze.html
-        KEYWORDS_HEADLINE: 'Schlüsselwörter',
-        TOPICS_HEADLINE: 'Quellthemen',
+            // analyze.html
+            KEYWORDS_HEADLINE: 'Schlüsselwörter',
+            TOPICS_HEADLINE: 'Quellthemen',
 
-        // chronicle.html
-        PASTQUERIES_HEADLINE: 'Vergangene Suchläufe',
-        DATESELECT_DEFAULT: 'auswählen ...',
-        DATESELECT_ALL: 'alle',
-        DATESELECT_TODAY: 'heute',
-        DATESELECT_WEEK: 'diese Woche',
-        DATESELECT_MONTH: 'diesen Monat',
-        DATESELECT_OLDER: 'älter als einen Monat',
-        SEARCH_PLACEHOLDER: 'Suchläufe durchsuchen',
-        HISTORY_OFF: 'Suchlaufspeicher abschalten',
-        HISTORY_ON: 'Suchlaufspeicher aktivieren',
-        CLEARHISTORY_BUTTON: 'Suchläufe entfernen',
+            // chronicle.html
+            PASTQUERIES_HEADLINE: 'Vergangene Suchläufe',
+            DATESELECT_DEFAULT: 'auswählen ...',
+            DATESELECT_ALL: 'alle',
+            DATESELECT_TODAY: 'heute',
+            DATESELECT_WEEK: 'diese Woche',
+            DATESELECT_MONTH: 'diesen Monat',
+            DATESELECT_OLDER: 'älter als einen Monat',
+            SEARCH_PLACEHOLDER: 'Suchläufe durchsuchen',
+            HISTORY_OFF: 'Suchlaufspeicher abschalten',
+            HISTORY_ON: 'Suchlaufspeicher aktivieren',
+            CLEARHISTORY_BUTTON: 'Suchläufe entfernen',
 
-        // help.html
-        DOCANALYSER_HELP: 'Die wichtigsten Schlüsselwörter und Quellthemen befinden sich auf der linken Seite. ' +
-        'Sie können den rechts dargestellten Suchlauf durch auswählen von Schlüsselwörtern und Quellthemen beeinflussen. ' +
-        'Desweiteren ist es möglich den Suchlauf durch manuelle Eingaben zu ergänzen. ' +
-        'Gegebenenfalls werden relevante Werbeartikel rechts neben den Suchergebnissen erscheinen.',
+            // help.html
+            DOCANALYSER_HELP: 'Die wichtigsten Schlüsselwörter und Quellthemen befinden sich auf der linken Seite. ' +
+            'Sie können den rechts dargestellten Suchlauf durch auswählen von Schlüsselwörtern und Quellthemen beeinflussen. ' +
+            'Desweiteren ist es möglich den Suchlauf durch manuelle Eingaben zu ergänzen. ' +
+            'Gegebenenfalls werden relevante Werbeartikel rechts neben den Suchergebnissen erscheinen.',
 
-        // helpKeywords.html
-        KEYWORDS_HELP: 'Diese Schlüsselwörter repräsentieren Authoritäten. ' +
-        'Eine Authorität ist eine Internetseite zu der von vielen Quellthemen aus verlinkt wird.',
+            // helpKeywords.html
+            KEYWORDS_HELP: 'Diese Schlüsselwörter repräsentieren Authoritäten. ' +
+            'Eine Authorität ist eine Internetseite zu der von vielen Quellthemen aus verlinkt wird.',
 
-        // helpTopics.html
-        TOPICS_HELP: 'Diese Quellthemen repräsentieren sogenannte Zentren. ' +
-        'Zentren sind Verzeichnisse von Schlüsselwörtern die zu Schlüsselwortseiten verlinken.',
+            // helpTopics.html
+            TOPICS_HELP: 'Diese Quellthemen repräsentieren sogenannte Zentren. ' +
+            'Zentren sind Verzeichnisse von Schlüsselwörtern die zu Schlüsselwortseiten verlinken.',
 
-        // helpPastQueries.html
-        PASTQUERIES_HELP: 'Hier können Sie Ihre vergangenen Suchläufe einsehen. ' +
-        'Um die gewünschten Suchläufe zu finden können Sie die verschiedenen Filterungsmöglichkeiten nutzen. ' +
-        'Sie können die Suchlaufspeicherfunktion jederzeit abschalten. ' +
-        'Desweiteren ist es möglich den Suchlaufspeicher manuell zu leeren.',
+            // helpPastQueries.html
+            PASTQUERIES_HELP: 'Hier können Sie Ihre vergangenen Suchläufe einsehen. ' +
+            'Um die gewünschten Suchläufe zu finden können Sie die verschiedenen Filterungsmöglichkeiten nutzen. ' +
+            'Sie können die Suchlaufspeicherfunktion jederzeit abschalten. ' +
+            'Desweiteren ist es möglich den Suchlaufspeicher manuell zu leeren.',
 
-        // emptyKeywordsTopics.html
-        EMPTY_KEYWORDS_TOPICS_HEADLINE: 'Es konnten keine Schlüsselwörter oder Quellthemen gefunden werden!',
+            // emptyKeywordsTopics.html
+            EMPTY_KEYWORDS_TOPICS_HEADLINE: 'Es konnten keine Schlüsselwörter oder Quellthemen gefunden werden!',
 
-        // exception.html
-        EXCEPTION_HEADLINE: 'Ein Fehler ist aufgetreten!',
+            // exception.html
+            EXCEPTION_HEADLINE: 'Ein Fehler ist aufgetreten!',
 
-        // timeout.html
-        TIMEOUT_HEADLINE: 'Verbindung wurde unterbrochen!',
+            // timeout.html
+            TIMEOUT_HEADLINE: 'Verbindung wurde unterbrochen!',
 
-        // noData.html
-        NO_KEYWORDS: 'Keine Schlüsselwörter gefunden...',
-        NO_TOPICS: 'Keine Quellthemen gefunden...',
+            // noData.html
+            NO_KEYWORDS: 'Keine Schlüsselwörter gefunden...',
+            NO_TOPICS: 'Keine Quellthemen gefunden...',
 
-        ERROR_HEADLINE: 'Bitte analysieren Sie ein anderes Dokument oder versuchen Sie es erneut.',
+            ERROR_HEADLINE: 'Bitte analysieren Sie ein anderes Dokument oder versuchen Sie es erneut.',
 
-        // dataProtection.html
-        DATA_PROT_HEADLINE: 'Datenschutzerklärung',
-        DATA_PROT: 'Datenschutz',
-        DATA_PROT_P_1: 'Die Betreiber dieser Seiten nehmen ' +
-        'den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten ' +
-        'vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser ' +
-        'Datenschutzerklärung.',
-        DATA_PROT_P_2: 'Die Nutzung unserer Website ist in der Regel ohne Angabe ' +
-        'personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten ' +
-        '(beispielsweise eingegebene Suchbegriffe) erhoben werden, erfolgt dies, soweit ' +
-        'möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung ' +
-        'nicht an Dritte weitergegeben.',
-        DATA_PROT_P_3: 'Wir weisen darauf hin, dass die Daten&uuml;bertragung im Internet ' +
-        '(z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser ' +
-        'Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.',
-        DATA_PROT_COOKIES_P_1: 'Die Internetseiten verwenden teilweise so genannte Cookies. Cookies richten auf ' +
-        'Ihrem Rechner keinen Schaden an und enthalten keine Viren. Cookies dienen dazu, unser Angebot ' +
-        'nutzerfreundlicher, effektiver und sicherer zu machen. Cookies sind kleine Textdateien, die auf Ihrem ' +
-        'Rechner abgelegt werden und die Ihr Browser speichert.',
-        DATA_PROT_COOKIES_P_2: 'Wir verwenden Cookies, um die Standard Browserfunktionalität, das ' +
-        'Neuladen der Seite, auf unserer Seite zu unterstützen.',
-        DATA_PROT_COOKIES_P_3: 'Sie können Ihren Browser so einstellen, dass Sie über das Setzen ' +
-        'von Cookies informiert werden und Cookies nur im Einzelfall erlauben, die Annahme von Cookies für ' +
-        'bestimmte Fälle oder generell ausschliessen sowie das automatische Löschen der ' +
-        'Cookies beim Schlie&szlig;en des Browser aktivieren. Bei der Deaktivierung von Cookies kann die ' +
-        'Funktionalität dieser Website eingeschränkt sein.'
+            // dataProtection.html
+            DATA_PROT_HEADLINE: 'Datenschutzerklärung',
+            DATA_PROT: 'Datenschutz',
+            DATA_PROT_P_1: 'Die Betreiber dieser Seiten nehmen ' +
+            'den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten ' +
+            'vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser ' +
+            'Datenschutzerklärung.',
+            DATA_PROT_P_2: 'Die Nutzung unserer Website ist in der Regel ohne Angabe ' +
+            'personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten ' +
+            '(beispielsweise eingegebene Suchbegriffe) erhoben werden, erfolgt dies, soweit ' +
+            'möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung ' +
+            'nicht an Dritte weitergegeben.',
+            DATA_PROT_P_3: 'Wir weisen darauf hin, dass die Daten&uuml;bertragung im Internet ' +
+            '(z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser ' +
+            'Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.',
+            DATA_PROT_COOKIES_P_1: 'Die Internetseiten verwenden teilweise so genannte Cookies. Cookies richten auf ' +
+            'Ihrem Rechner keinen Schaden an und enthalten keine Viren. Cookies dienen dazu, unser Angebot ' +
+            'nutzerfreundlicher, effektiver und sicherer zu machen. Cookies sind kleine Textdateien, die auf Ihrem ' +
+            'Rechner abgelegt werden und die Ihr Browser speichert.',
+            DATA_PROT_COOKIES_P_2: 'Wir verwenden Cookies, um die Standard Browserfunktionalität, das ' +
+            'Neuladen der Seite, auf unserer Seite zu unterstützen.',
+            DATA_PROT_COOKIES_P_3: 'Sie können Ihren Browser so einstellen, dass Sie über das Setzen ' +
+            'von Cookies informiert werden und Cookies nur im Einzelfall erlauben, die Annahme von Cookies für ' +
+            'bestimmte Fälle oder generell ausschliessen sowie das automatische Löschen der ' +
+            'Cookies beim Schlie&szlig;en des Browser aktivieren. Bei der Deaktivierung von Cookies kann die ' +
+            'Funktionalität dieser Website eingeschränkt sein.'
 
-    });
+        });
     // default language
     $translateProvider.preferredLanguage('en');
 });
@@ -365,6 +365,20 @@ app.service('ConverterService', function () {
             return +(numArray[0] + "e" + (numArray[1] ? (+numArray[1] + precision) : precision));
         };
         return shift(Math.round(shift(number, precision, false)), precision, true);
+    }
+
+});
+
+/* Service to get the current Language */
+app.service('LanguageService', function () {
+    this.language = "";
+
+    this.setLanguage = function (langKey) {
+        this.language = langKey;
+    };
+
+    this.getLanguage = function () {
+        return this.language;
     }
 
 });
@@ -770,344 +784,363 @@ app.controller('TopicsMenuCtrl', function ($scope, $rootScope, TopicsService, Ke
 });
 
 app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, TopicsService, KeywordsService,
-                                            SearchBarService, $state, LocalStorageService, ConverterService) {
-    $scope.topicsService = TopicsService;
-    $scope.keywordsService = KeywordsService;
-    $scope.searchBar = SearchBarService.getSearchBar(); // search bar
-    $scope.searchBarArr = []; // search bar items as array
-    $scope.cooccs = {}; // co-occurrences
-    $scope.previousSearchBar = []; // is used so that only different search trigger updatecooccs()
-    $scope.selectedTerms = []; // selected keywords + source topics
-    $scope.diff = [];
+                                            SearchBarService, $state, LocalStorageService, ConverterService, LanguageService) {
+        $scope.topicsService = TopicsService;
+        $scope.keywordsService = KeywordsService;
+        $scope.searchBar = SearchBarService.getSearchBar(); // search bar
+        $scope.searchBarArr = []; // search bar items as array
+        $scope.cooccs = {}; // co-occurrences
+        $scope.previousSearchBar = []; // is used so that only different search trigger updatecooccs()
+        $scope.selectedTerms = []; // selected keywords + source topics
+        $scope.diff = [];
 
-    $scope.hash = {
-        BMW: {
-            Auto: 1,
-            Hersteller: 1
-        },
-        Auto: {
-            BMW: 1,
-            Hersteller: 1,
-            Getriebe: 1
-        },
-        Hersteller: {
-            Auto: 1,
-            BMW: 1,
-            Getriebe: 1
-        }
-    };
+        $scope.hash = {
+            BMW: {
+                Auto: 1,
+                Hersteller: 1
+            },
+            Auto: {
+                BMW: 1,
+                Hersteller: 1,
+                Getriebe: 1
+            },
+            Hersteller: {
+                Auto: 1,
+                BMW: 1,
+                Getriebe: 1
+            }
+        };
 
-    $scope.showSuggestions = false;
-    $scope.searchResults = [];
-    $scope.outerTerms = [];
-    $scope.innerTerms = [];
-
-    /** Functions */
-
-    $scope.lastWord = function (str) {
-        if (str.trim() === "") {
-            return 0;
-        } else {
-            var splitStr = str.split(' ');
-            splitStr = splitStr.filter($scope.lengthFilter);
-            return splitStr[splitStr.length - 1];
-        }
-    };
-
-    $scope.lengthFilter = function (str) {
-        return str.length >= 1;
-    };
-
-    $scope.searching = function(string) {
-        var inputArray = $scope.searchBar.input.split(/\s+/);
-        // console.log(inputArray);
-        string = $scope.lastWord(string);
         $scope.showSuggestions = false;
-        $scope.outerTerms = Object.keys($scope.hash);
-
-        for(var i = 0; i < $scope.outerTerms.length; i++) {
-            $scope.innerTerms = Object.keys($scope.hash[$scope.outerTerms[i]]);
-
-            for(var j = 0; j < $scope.innerTerms.length; j++) {
-                var temp = $scope.outerTerms[i] + " " + $scope.innerTerms[j];
-                $scope.searchResults.push(temp);
-
-            }
-        }
-
-        // create an array of arrays with all cooccs from the search bar input
+        $scope.searchResults = [];
+        $scope.outerTerms = [];
         $scope.innerTerms = [];
-        for(i = 0; i < inputArray.length; i++) {
-            if(inputArray[i] in $scope.hash) {
-                $scope.innerTerms.push(Object.keys($scope.hash[inputArray[i]]));
+
+        /** Functions */
+
+        $scope.lastWord = function (str) {
+            if (str.trim() === "") {
+                return 0;
+            } else {
+                var splitStr = str.split(' ');
+                splitStr = splitStr.filter($scope.lengthFilter);
+                return splitStr[splitStr.length - 1];
+            }
+        };
+
+        $scope.lengthFilter = function (str) {
+            return str.length >= 1;
+        };
+
+        $scope.searching = function (string) {
+            var inputArray = $scope.searchBar.input.split(/\s+/);
+            // console.log(inputArray);
+            string = $scope.lastWord(string);
+            $scope.showSuggestions = false;
+            $scope.outerTerms = Object.keys($scope.hash);
+
+            for (var i = 0; i < $scope.outerTerms.length; i++) {
+                $scope.innerTerms = Object.keys($scope.hash[$scope.outerTerms[i]]);
+
+                for (var j = 0; j < $scope.innerTerms.length; j++) {
+                    var temp = $scope.outerTerms[i] + " " + $scope.innerTerms[j];
+                    $scope.searchResults.push(temp);
+
+                }
             }
 
-
-        }
-
-        // console.log($scope.innerTerms);
-
-        // find all common cooccs from the search bar input
-        var commonInnerTerms = [];
-        if($scope.innerTerms.length > 1) {
-            commonInnerTerms = $scope.innerTerms.shift().reduce(function(res, v) {
-                if (res.indexOf(v) === -1 && $scope.innerTerms.every(function(a) {
-                    return a.indexOf(v) !== -1;
-                })) res.push(v);
-                return res;
-            }, []);
-
-            // console.log(commonInnerTerms);
+            // create an array of arrays with all cooccs from the search bar input
+            $scope.innerTerms = [];
+            for (i = 0; i < inputArray.length; i++) {
+                if (inputArray[i] in $scope.hash) {
+                    $scope.innerTerms.push(Object.keys($scope.hash[inputArray[i]]));
+                }
 
 
-        }
-
-        // filter the keyboard input
-        $scope.searchResults = $scope.searchResults.filter(function(term){
-
-            // searchBar.input is in searchResults
-            if(term.toLowerCase().startsWith(string.toLowerCase())) {
-                return term;
             }
 
+            // console.log($scope.innerTerms);
+
+            // find all common cooccs from the search bar input
+            var commonInnerTerms = [];
+            if ($scope.innerTerms.length > 1) {
+                commonInnerTerms = $scope.innerTerms.shift().reduce(function (res, v) {
+                    if (res.indexOf(v) === -1 && $scope.innerTerms.every(function (a) {
+                        return a.indexOf(v) !== -1;
+                    })) res.push(v);
+                    return res;
+                }, []);
+
+                // console.log(commonInnerTerms);
+
+
+            }
+
+            // filter the keyboard input
+            $scope.searchResults = $scope.searchResults.filter(function (term) {
+
+                // searchBar.input is in searchResults
+                if (term.toLowerCase().startsWith(string.toLowerCase())) {
+                    return term;
+                }
+
+            });
+
+            // append common cooccs to the search results
+            for (i = 0; i < commonInnerTerms.length; i++) {
+                $scope.searchResults.push(commonInnerTerms[i]);
+            }
+        };
+
+        // TODO: it wrongly removes the last word form the input if no new character is typed into the input field. It should append to the input when a space is at the end of the search bar input.
+        // appends the suggestion to the existing input
+        $scope.choose_textbox = function (string) {
+            var tempArray = $scope.searchBar.input.split(/\s+/);
+            tempArray.pop();
+            $scope.searchBar.input = tempArray.join(" ") + " ";
+            $scope.searchBar.input += string;
+            $scope.showSuggestions = true;
+        };
+
+
+        $scope.symmetricDifference = function (a1, a2) {
+            var result = [];
+            for (var i = 0; i < a1.length; i++) {
+                if (a2.indexOf(a1[i]) === -1 && result.indexOf(a1[i]) === -1) { // new difference found
+                    result.push(a1[i]);
+                }
+            }
+            for (i = 0; i < a2.length; i++) {
+                if (a1.indexOf(a2[i]) === -1 && result.indexOf(a2[i]) === -1) {
+                    result.push(a2[i]);
+                }
+            }
+            return result;
+        };
+
+        $scope.changeUrl = function () {
+            $location.path('/search/' + $scope.searchBar.input, false); // change url without reloading
+        };
+
+        /** End Functions */
+
+        /** Angular Functions */
+
+        /* url has changed -> maybe back or previous button was pressed */
+        $rootScope.$on('$locationChangeSuccess', function (scope, next, current) {
+
+            if (next !== current) { // new url must be different
+                var path = $location.path(); // get current path
+
+                // user must be in analyze view and his last page must not be the chronicle view:
+                if ($state.is('analyze') && !(path.lastIndexOf('/chronicle', 0) === 0)) {
+                    path = path.slice(8); // remove '/search/' from path
+                    if (path !== $scope.searchBar.input) { // only sync if path and search bar input are different
+                        SearchBarService.setInput(path); // sync search bar input with url
+                        $scope.change(); // sync checkboxes with search bar
+                    }
+                }
+                else if ($state.is('chronicle')) { // disable browser button for chronicle view
+                    $location.path('/chronicle', false); // redirect to same page
+                }
+            }
         });
 
-        // append common cooccs to the search results
-        for(i = 0; i < commonInnerTerms.length; i++) {
-            $scope.searchResults.push(commonInnerTerms[i]);
-        }
-    };
-
-    // TODO: it wrongly removes the last word form the input if no new character is typed into the input field. It should append to the input when a space is at the end of the search bar input.
-    // appends the suggestion to the existing input
-    $scope.choose_textbox = function(string) {
-        var tempArray = $scope.searchBar.input.split(/\s+/);
-        tempArray.pop();
-        $scope.searchBar.input = tempArray.join(" ") + " ";
-        $scope.searchBar.input += string;
-        $scope.showSuggestions = true;
-    };
-
-
-    $scope.symmetricDifference = function (a1, a2) {
-        var result = [];
-        for (var i = 0; i < a1.length; i++) {
-            if (a2.indexOf(a1[i]) === -1 && result.indexOf(a1[i]) === -1) { // new difference found
-                result.push(a1[i]);
+        /* a term was selected or deselected */
+        $rootScope.$on('selectedTermsChanged', function (event, args) {
+            var status = args.status; // true for selected; false for deselected
+            var selectedTerm = args.term; // keyword or topic
+            var queryLength = $scope.searchBar.input.length;
+            var query = $scope.searchBar.input.split(/\s+/);
+            if (queryLength === 0) {
+                query.pop(); // remove first whitespace character
             }
-        }
-        for (i = 0; i < a2.length; i++) {
-            if (a1.indexOf(a2[i]) === -1 && result.indexOf(a2[i]) === -1) {
-                result.push(a2[i]);
-            }
-        }
-        return result;
-    };
-
-    $scope.changeUrl = function () {
-        $location.path('/search/' + $scope.searchBar.input, false); // change url without reloading
-    };
-
-    /** End Functions */
-
-    /** Angular Functions */
-
-    /* url has changed -> maybe back or previous button was pressed */
-    $rootScope.$on('$locationChangeSuccess', function (scope, next, current) {
-
-        if (next !== current) { // new url must be different
-            var path = $location.path(); // get current path
-
-            // user must be in analyze view and his last page must not be the chronicle view:
-            if ($state.is('analyze') && !(path.lastIndexOf('/chronicle', 0) === 0)) {
-                path = path.slice(8); // remove '/search/' from path
-                if (path !== $scope.searchBar.input) { // only sync if path and search bar input are different
-                    SearchBarService.setInput(path); // sync search bar input with url
-                    $scope.change(); // sync checkboxes with search bar
+            if (status) { // add term to search bar
+                if (query.indexOf(selectedTerm) === -1) { // no duplicate terms
+                    query.push(selectedTerm);
                 }
             }
-            else if ($state.is('chronicle')) { // disable browser button for chronicle view
-                $location.path('/chronicle', false); // redirect to same page
-            }
-        }
-    });
-
-    /* a term was selected or deselected */
-    $rootScope.$on('selectedTermsChanged', function (event, args) {
-        var status = args.status; // true for selected; false for deselected
-        var selectedTerm = args.term; // keyword or topic
-        var queryLength = $scope.searchBar.input.length;
-        var query = $scope.searchBar.input.split(/\s+/);
-        if (queryLength === 0) {
-            query.pop(); // remove first whitespace character
-        }
-        if (status) { // add term to search bar
-            if (query.indexOf(selectedTerm) === -1) { // no duplicate terms
-                query.push(selectedTerm);
-            }
-        }
-        else { // remove every occurrence of the term from the search bar
-            for (var i = queryLength - 1; i >= 0; i--) {
-                if (query[i] === selectedTerm) {
-                    query.splice(i, 1);
+            else { // remove every occurrence of the term from the search bar
+                for (var i = queryLength - 1; i >= 0; i--) {
+                    if (query[i] === selectedTerm) {
+                        query.splice(i, 1);
+                    }
                 }
             }
-        }
-        SearchBarService.setInput(query.join(" "));
-    });
+            SearchBarService.setInput(query.join(" "));
+        });
 
-    /* terms were selected or deselected */
-    $scope.$watchGroup(['keywordsService.selectedKeywords()', 'topicsService.selectedTopics()'], function (newValues) {
+        /* terms were selected or deselected */
+        $scope.$watchGroup(['keywordsService.selectedKeywords()', 'topicsService.selectedTopics()'], function (newValues) {
 
-        setTimeout(function () {
-            angular.element(document.querySelector('#customSearch')).click(); // execute google search
-        }, 0);
-        // newValues array contains the current values of the watch expressions
-        $scope.selectedKeywords = newValues[0].split(" ");
-        $scope.selectedTopics = newValues[1].split(" ");
-        $scope.selectedTerms = $scope.selectedKeywords.concat($scope.selectedTopics);
-    });
+            setTimeout(function () {
+                angular.element(document.querySelector('#customSearch')).click(); // execute google search
+            }, 0);
+            // newValues array contains the current values of the watch expressions
+            $scope.selectedKeywords = newValues[0].split(" ");
+            $scope.selectedTopics = newValues[1].split(" ");
+            $scope.selectedTerms = $scope.selectedKeywords.concat($scope.selectedTopics);
+        });
 
 
-    /*user manually change the search bar input */
-    $scope.change = function () {
-        $scope.searchBarArr = $scope.searchBar.input.split(/\s+/);
+        /*user manually change the search bar input */
+        $scope.change = function () {
+            $scope.searchBarArr = $scope.searchBar.input.split(/\s+/);
 
-        $scope.diff = $scope.symmetricDifference($scope.searchBarArr, $scope.selectedTerms);
+            $scope.diff = $scope.symmetricDifference($scope.searchBarArr, $scope.selectedTerms);
 
-        for (var i = 0; i < $scope.diff.length; i++) {
-            // term must be keyword or topic
-            if (KeywordsService.getAll().indexOf($scope.diff[i]) > -1) { // it is a keyword
-                KeywordsService.changeStatus($scope.diff[i]);
+            for (var i = 0; i < $scope.diff.length; i++) {
+                // term must be keyword or topic
+                if (KeywordsService.getAll().indexOf($scope.diff[i]) > -1) { // it is a keyword
+                    KeywordsService.changeStatus($scope.diff[i]);
+                }
+                if (TopicsService.getAll().indexOf($scope.diff[i]) > -1) { // it is a topic
+                    TopicsService.changeStatus($scope.diff[i]);
+                }
             }
-            if (TopicsService.getAll().indexOf($scope.diff[i]) > -1) { // it is a topic
-                TopicsService.changeStatus($scope.diff[i]);
+        };
+
+        $scope.updateCooccs = function () {
+
+            /* ! IMPORTANT !
+             * In the comments $scope.cooccs is considered cooccs
+             */
+            var currentWord;
+            var frequency; // Frequencies of the words
+            var significance;
+            var keys = {}; // separate keys object is used to calculate only the significance of new terms
+            var innerKeys = [];
+            var outerKeys = [];
+            var searchBarArr = [];
+
+            var langKey = LanguageService.getLanguage();
+
+            if (langKey === "en") {
+                // only work with english words:
+                var doc = nlp($scope.searchBarArr);
+                var nouns = doc.nouns().out('array');
+                var topics = doc.topics().out('array'); // people, places, organizations...
+                searchBarArr = nouns.concat(topics);
+                //console.log("result: " + searchBarArr);
             }
-        }
-    };
-
-    $scope.updateCooccs = function () {
-
-        /* ! IMPORTANT !
-         * In the comments $scope.cooccs is considered cooccs
-         */
-        var currentWord;
-        var frequency; // Frequencies of the words
-        var significance;
-        var keys = {}; // separate keys object is used to calculate only the significance of new terms
-        var innerKeys = [];
-        var outerKeys = [];
-
-        // add words => occurences to the hash:
-        // example: frequency[Mathematik] = 1 means Mathematik once occurred in the search input
-        frequency = $scope.searchBarArr.reduce(function (stats, word) {
-
-            if (stats.hasOwnProperty(word)) {
-                stats[word] = stats[word] + 1;
-            } else {
-                stats[word] = 1;
+            else {
+                for (var i = 0, length=$scope.searchBarArr.length ; i < length; i++) {
+                    searchBarArr[i]=$scope.searchBarArr[i].toLowerCase();
+                } // search bar input to lower case, cause that happens in nlp, too
             }
-            return stats;
 
-        }, {});
+            // add words => occurences to the hash:
+            // example: frequency[Mathematik] = 1 means Mathematik once occurred in the search input
+            frequency = searchBarArr.reduce(function (stats, word) {
 
-        $scope.previousSearchBar = $scope.searchBarArr; // save current search bar input
+                if (stats.hasOwnProperty(word)) {
+                    stats[word] = stats[word] + 1;
+                } else {
+                    stats[word] = 1;
+                }
+                return stats;
 
-        for (var i = 0, len = $scope.searchBarArr.length; i < len; i++) {
-            currentWord = $scope.searchBarArr[i]; // a word that occurred in the search input
-            keys[currentWord] = [];
-            for (var j = 0, len = $scope.searchBarArr.length; j < len; j++) {
-                var wordb = $scope.searchBarArr[j];
-                // add every other word to the inner hash of cooccs[currentWord]
-                if (currentWord !== wordb) {
-                    keys[currentWord].push(wordb); // fill separate keys object
-                    if ($scope.cooccs.hasOwnProperty(currentWord)) {
+            }, {});
 
-                        if ($scope.cooccs[currentWord].hasOwnProperty(wordb)) {
-                            $scope.cooccs[currentWord][wordb] = ($scope.cooccs[currentWord][wordb]) + 1;
-                            //console.log("in has Property(wordb): cooccs[" + currentWord + "][" +
-                            //   wordb + "] = " + $scope.cooccs[currentWord][wordb]);
+            $scope.previousSearchBar = $scope.searchBarArr; // save current search bar input
 
+            for (var i = 0, len = searchBarArr.length; i < len; i++) {
+                currentWord = searchBarArr[i]; // a word that occurred in the search input
+                keys[currentWord] = [];
+                for (var j = 0, len = searchBarArr.length; j < len; j++) {
+                    var wordb = searchBarArr[j];
+                    // add every other word to the inner hash of cooccs[currentWord]
+                    if (currentWord !== wordb) {
+                        keys[currentWord].push(wordb); // fill separate keys object
+                        if ($scope.cooccs.hasOwnProperty(currentWord)) {
+
+                            if ($scope.cooccs[currentWord].hasOwnProperty(wordb)) {
+                                $scope.cooccs[currentWord][wordb] = ($scope.cooccs[currentWord][wordb]) + 1;
+                                //console.log("in has Property(wordb): cooccs[" + currentWord + "][" +
+                                //   wordb + "] = " + $scope.cooccs[currentWord][wordb]);
+
+                            }
+                            else {
+                                var innerHash = $scope.cooccs[currentWord];
+                                innerHash[wordb] = 1;
+                                $scope.cooccs[currentWord] = innerHash;
+                                //console.log("innerKeysObj[" + currentWord + "] = " + innerKeysObj[currentWord]);
+                            }
                         }
-                        else {
-                            var innerHash = $scope.cooccs[currentWord];
+                        else { // first pass of the inner loop
+
+                            var innerHash = {};
                             innerHash[wordb] = 1;
                             $scope.cooccs[currentWord] = innerHash;
-                            //console.log("innerKeysObj[" + currentWord + "] = " + innerKeysObj[currentWord]);
+
+                            /* For example, the result has the form:
+                             * cooccs['Mathematik']['Wissenschaft'] = 1;
+                              * cooccs {
+                              *     Mathematik : {
+                              *         Wissenschaft : 1,
+                              *         Mathematiker: 1
+                              *     }
+                              *     Wissenschaft : {
+                              *         Mathematiker: 1
+                              *         .
+                              *         .
+                              *         .
+                              *     }
+                              * }
+                              */
+                            //console.log('cooccs[' + currentWord + '] = ' + $scope.cooccs[ currentWord ][ wordb ]);
                         }
-                    }
-                    else { // first pass of the inner loop
-
-                        var innerHash = {};
-                        innerHash[wordb] = 1;
-                        $scope.cooccs[currentWord] = innerHash;
-
-                        /* For example, the result has the form:
-                         * cooccs['Mathematik']['Wissenschaft'] = 1;
-                          * cooccs {
-                          *     Mathematik : {
-                          *         Wissenschaft : 1,
-                          *         Mathematiker: 1
-                          *     }
-                          *     Wissenschaft : {
-                          *         Mathematiker: 1
-                          *         .
-                          *         .
-                          *         .
-                          *     }
-                          * }
-                          */
-                        //console.log('cooccs[' + currentWord + '] = ' + $scope.cooccs[ currentWord ][ wordb ]);
                     }
                 }
             }
-        }
 
-        outerKeys = Object.keys(keys);
-        outerKeys.forEach(function (worda) {
-            innerKeys = keys[worda];
-            //console.log(innerKeys);
-            innerKeys.forEach(function (wordb) {
-                /*
-                 * (DICE-method): calculate significance =
-                 * (2 * occurences of worda with wordb) / (occurences of worda + occurences of wordb)
-                 */
-                significance = (2 * $scope.cooccs[worda][wordb]) / (frequency[worda] + frequency[wordb]);
-                significance = ConverterService.round(significance, 2);
-                $scope.cooccs[worda][wordb] = significance;
-                console.log('Signifikanzberechnung: cooccs[' + worda + '][' + wordb + '] = ' + $scope.cooccs[worda][wordb])
+            outerKeys = Object.keys(keys);
+            outerKeys.forEach(function (worda) {
+                innerKeys = keys[worda];
+                //console.log(innerKeys);
+                innerKeys.forEach(function (wordb) {
+                    /*
+                     * (DICE-method): calculate significance =
+                     * (2 * occurences of worda with wordb) / (occurences of worda + occurences of wordb)
+                     */
+                    significance = (2 * $scope.cooccs[worda][wordb]) / (frequency[worda] + frequency[wordb]);
+                    significance = ConverterService.round(significance, 2);
+                    $scope.cooccs[worda][wordb] = significance;
+                    console.log('Signifikanzberechnung: cooccs[' + worda + '][' + wordb + '] = ' + $scope.cooccs[worda][wordb])
+                });
             });
+
+            LocalStorageService.setCooccs($scope.cooccs);
+            LocalStorageService.saveCooccs();
+            console.log("---------------------------------------------------------------------------------------------");
+        };
+
+        $scope.click = function () {
+            if ($state.is('analyze')) { // change the url only in the analyze view
+                $scope.changeUrl();
+            }
+            if ($scope.searchBarArr.length > 1 &&
+                !ConverterService.arraysEqual($scope.searchBarArr, $scope.previousSearchBar)) {
+                $scope.updateCooccs();
+            }
+            //console.log("my object: " + $scope.cooccs['Mathematik']['Wissenschaft']);
+        };
+
+        $rootScope.$on('keywordsInitFinished', function (event, args) {
+            $scope.change();
         });
 
-        LocalStorageService.setCooccs($scope.cooccs);
-        LocalStorageService.saveCooccs();
-        console.log("---------------------------------------------------------------------------------------------");
-    };
+        /* initialization things that have to be done while loading the controller */
+        $scope.init = function () {
+            LocalStorageService.loadCooccs();
+            $scope.cooccs = LocalStorageService.getCooccs();
+        };
+        /** End Angular Functions */
 
-    $scope.click = function () {
-        if ($state.is('analyze')) { // change the url only in the analyze view
-            $scope.changeUrl();
-        }
-        if ($scope.searchBarArr.length > 1 &&
-            !ConverterService.arraysEqual($scope.searchBarArr, $scope.previousSearchBar)) {
-            $scope.updateCooccs();
-        }
-        //console.log("my object: " + $scope.cooccs['Mathematik']['Wissenschaft']);
-    };
-
-    $rootScope.$on('keywordsInitFinished', function (event, args) {
-        $scope.change();
-    });
-
-    /* initialization things that have to be done while loading the controller */
-    $scope.init = function () {
-        LocalStorageService.loadCooccs();
-        $scope.cooccs = LocalStorageService.getCooccs();
-    };
-    /** End Angular Functions */
-
-    $scope.init();
-});
+        $scope.init();
+    }
+)
+;
 
 app.controller('FooterCtrl', function ($scope, $cookies, FooterService) {
 
@@ -1144,9 +1177,10 @@ app.controller('FooterCtrl', function ($scope, $cookies, FooterService) {
 });
 
 // handles the translation through a 'translate'-filter
-app.controller('TranslateController', function ($translate, $scope) {
+app.controller('TranslateController', function ($translate, $scope, LanguageService) {
     $scope.changeLanguage = function (langKey) {
         $translate.use(langKey);
+        LanguageService.setLanguage(langKey);
     };
 });
 
