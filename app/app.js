@@ -858,6 +858,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         }
     };
 
+    // TODO: it wrongly removes the last word form the input if no new character is typed into the input field. It should append to the input when a space is at the end of the search bar input.
     // appends the suggestion to the existing input
     $scope.choose_textbox = function(string) {
         var tempArray = $scope.searchBar.input.split(/\s+/);
