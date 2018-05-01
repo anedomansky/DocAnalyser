@@ -170,86 +170,86 @@ app.config(function ($translateProvider) {
             'Bei Weiterverwendung dieser Internetseite sind die einverstanden mit der Verwendung von Cookies.',
             LEARN_MORE: 'Mehr erfahren',
 
-            // analyze.html
-            KEYWORDS_HEADLINE: 'Schlüsselwörter',
-            TOPICS_HEADLINE: 'Quellthemen',
+        // analyze.html
+        KEYWORDS_HEADLINE: 'Schlüsselwörter',
+        TOPICS_HEADLINE: 'Quellthemen',
 
-            // chronicle.html
-            PASTQUERIES_HEADLINE: 'Vergangene Suchläufe',
-            DATESELECT_DEFAULT: 'auswählen ...',
-            DATESELECT_ALL: 'alle',
-            DATESELECT_TODAY: 'heute',
-            DATESELECT_WEEK: 'diese Woche',
-            DATESELECT_MONTH: 'diesen Monat',
-            DATESELECT_OLDER: 'älter als einen Monat',
-            SEARCH_PLACEHOLDER: 'Suchläufe durchsuchen',
-            HISTORY_OFF: 'Suchlaufspeicher abschalten',
-            HISTORY_ON: 'Suchlaufspeicher aktivieren',
-            CLEARHISTORY_BUTTON: 'Suchläufe entfernen',
+        // chronicle.html
+        PASTQUERIES_HEADLINE: 'Vergangene Suchläufe',
+        DATESELECT_DEFAULT: 'auswählen ...',
+        DATESELECT_ALL: 'alle',
+        DATESELECT_TODAY: 'heute',
+        DATESELECT_WEEK: 'diese Woche',
+        DATESELECT_MONTH: 'diesen Monat',
+        DATESELECT_OLDER: 'älter als einen Monat',
+        SEARCH_PLACEHOLDER: 'Suchläufe durchsuchen',
+        HISTORY_OFF: 'Suchlaufspeicher abschalten',
+        HISTORY_ON: 'Suchlaufspeicher aktivieren',
+        CLEARHISTORY_BUTTON: 'Suchläufe entfernen',
 
-            // help.html
-            DOCANALYSER_HELP: 'Die wichtigsten Schlüsselwörter und Quellthemen befinden sich auf der linken Seite. ' +
-            'Sie können den rechts dargestellten Suchlauf durch auswählen von Schlüsselwörtern und Quellthemen beeinflussen. ' +
-            'Desweiteren ist es möglich den Suchlauf durch manuelle Eingaben zu ergänzen. ' +
-            'Gegebenenfalls werden relevante Werbeartikel rechts neben den Suchergebnissen erscheinen.',
+        // help.html
+        DOCANALYSER_HELP: 'Die wichtigsten Schlüsselwörter und Quellthemen befinden sich auf der linken Seite. ' +
+        'Sie können den rechts dargestellten Suchlauf durch auswählen von Schlüsselwörtern und Quellthemen beeinflussen. ' +
+        'Desweiteren ist es möglich den Suchlauf durch manuelle Eingaben zu ergänzen. ' +
+        'Gegebenenfalls werden relevante Werbeartikel rechts neben den Suchergebnissen erscheinen.',
 
-            // helpKeywords.html
-            KEYWORDS_HELP: 'Diese Schlüsselwörter repräsentieren Authoritäten. ' +
-            'Eine Authorität ist eine Internetseite zu der von vielen Quellthemen aus verlinkt wird.',
+        // helpKeywords.html
+        KEYWORDS_HELP: 'Diese Schlüsselwörter repräsentieren Authoritäten. ' +
+        'Eine Authorität ist eine Internetseite zu der von vielen Quellthemen aus verlinkt wird.',
 
-            // helpTopics.html
-            TOPICS_HELP: 'Diese Quellthemen repräsentieren sogenannte Zentren. ' +
-            'Zentren sind Verzeichnisse von Schlüsselwörtern die zu Schlüsselwortseiten verlinken.',
+        // helpTopics.html
+        TOPICS_HELP: 'Diese Quellthemen repräsentieren sogenannte Zentren. ' +
+        'Zentren sind Verzeichnisse von Schlüsselwörtern die zu Schlüsselwortseiten verlinken.',
 
-            // helpPastQueries.html
-            PASTQUERIES_HELP: 'Hier können Sie Ihre vergangenen Suchläufe einsehen. ' +
-            'Um die gewünschten Suchläufe zu finden können Sie die verschiedenen Filterungsmöglichkeiten nutzen. ' +
-            'Sie können die Suchlaufspeicherfunktion jederzeit abschalten. ' +
-            'Desweiteren ist es möglich den Suchlaufspeicher manuell zu leeren.',
+        // helpPastQueries.html
+        PASTQUERIES_HELP: 'Hier können Sie Ihre vergangenen Suchläufe einsehen. ' +
+        'Um die gewünschten Suchläufe zu finden können Sie die verschiedenen Filterungsmöglichkeiten nutzen. ' +
+        'Sie können die Suchlaufspeicherfunktion jederzeit abschalten. ' +
+        'Desweiteren ist es möglich den Suchlaufspeicher manuell zu leeren.',
 
-            // emptyKeywordsTopics.html
-            EMPTY_KEYWORDS_TOPICS_HEADLINE: 'Es konnten keine Schlüsselwörter oder Quellthemen gefunden werden!',
+        // emptyKeywordsTopics.html
+        EMPTY_KEYWORDS_TOPICS_HEADLINE: 'Es konnten keine Schlüsselwörter oder Quellthemen gefunden werden!',
 
-            // exception.html
-            EXCEPTION_HEADLINE: 'Ein Fehler ist aufgetreten!',
+        // exception.html
+        EXCEPTION_HEADLINE: 'Ein Fehler ist aufgetreten!',
 
-            // timeout.html
-            TIMEOUT_HEADLINE: 'Verbindung wurde unterbrochen!',
+        // timeout.html
+        TIMEOUT_HEADLINE: 'Verbindung wurde unterbrochen!',
 
-            // noData.html
-            NO_KEYWORDS: 'Keine Schlüsselwörter gefunden...',
-            NO_TOPICS: 'Keine Quellthemen gefunden...',
+        // noData.html
+        NO_KEYWORDS: 'Keine Schlüsselwörter gefunden...',
+        NO_TOPICS: 'Keine Quellthemen gefunden...',
 
-            ERROR_HEADLINE: 'Bitte analysieren Sie ein anderes Dokument oder versuchen Sie es erneut.',
+        ERROR_HEADLINE: 'Bitte analysieren Sie ein anderes Dokument oder versuchen Sie es erneut.',
 
-            // dataProtection.html
-            DATA_PROT_HEADLINE: 'Datenschutzerklärung',
-            DATA_PROT: 'Datenschutz',
-            DATA_PROT_P_1: 'Die Betreiber dieser Seiten nehmen ' +
-            'den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten ' +
-            'vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser ' +
-            'Datenschutzerklärung.',
-            DATA_PROT_P_2: 'Die Nutzung unserer Website ist in der Regel ohne Angabe ' +
-            'personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten ' +
-            '(beispielsweise eingegebene Suchbegriffe) erhoben werden, erfolgt dies, soweit ' +
-            'möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung ' +
-            'nicht an Dritte weitergegeben.',
-            DATA_PROT_P_3: 'Wir weisen darauf hin, dass die Daten&uuml;bertragung im Internet ' +
-            '(z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser ' +
-            'Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.',
-            DATA_PROT_COOKIES_P_1: 'Die Internetseiten verwenden teilweise so genannte Cookies. Cookies richten auf ' +
-            'Ihrem Rechner keinen Schaden an und enthalten keine Viren. Cookies dienen dazu, unser Angebot ' +
-            'nutzerfreundlicher, effektiver und sicherer zu machen. Cookies sind kleine Textdateien, die auf Ihrem ' +
-            'Rechner abgelegt werden und die Ihr Browser speichert.',
-            DATA_PROT_COOKIES_P_2: 'Wir verwenden Cookies, um die Standard Browserfunktionalität, das ' +
-            'Neuladen der Seite, auf unserer Seite zu unterstützen.',
-            DATA_PROT_COOKIES_P_3: 'Sie können Ihren Browser so einstellen, dass Sie über das Setzen ' +
-            'von Cookies informiert werden und Cookies nur im Einzelfall erlauben, die Annahme von Cookies für ' +
-            'bestimmte Fälle oder generell ausschliessen sowie das automatische Löschen der ' +
-            'Cookies beim Schlie&szlig;en des Browser aktivieren. Bei der Deaktivierung von Cookies kann die ' +
-            'Funktionalität dieser Website eingeschränkt sein.'
+        // dataProtection.html
+        DATA_PROT_HEADLINE: 'Datenschutzerklärung',
+        DATA_PROT: 'Datenschutz',
+        DATA_PROT_P_1: 'Die Betreiber dieser Seiten nehmen ' +
+        'den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten ' +
+        'vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser ' +
+        'Datenschutzerklärung.',
+        DATA_PROT_P_2: 'Die Nutzung unserer Website ist in der Regel ohne Angabe ' +
+        'personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten ' +
+        '(beispielsweise eingegebene Suchbegriffe) erhoben werden, erfolgt dies, soweit ' +
+        'möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung ' +
+        'nicht an Dritte weitergegeben.',
+        DATA_PROT_P_3: 'Wir weisen darauf hin, dass die Daten&uuml;bertragung im Internet ' +
+        '(z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser ' +
+        'Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.',
+        DATA_PROT_COOKIES_P_1: 'Die Internetseiten verwenden teilweise so genannte Cookies. Cookies richten auf ' +
+        'Ihrem Rechner keinen Schaden an und enthalten keine Viren. Cookies dienen dazu, unser Angebot ' +
+        'nutzerfreundlicher, effektiver und sicherer zu machen. Cookies sind kleine Textdateien, die auf Ihrem ' +
+        'Rechner abgelegt werden und die Ihr Browser speichert.',
+        DATA_PROT_COOKIES_P_2: 'Wir verwenden Cookies, um die Standard Browserfunktionalität, das ' +
+        'Neuladen der Seite, auf unserer Seite zu unterstützen.',
+        DATA_PROT_COOKIES_P_3: 'Sie können Ihren Browser so einstellen, dass Sie über das Setzen ' +
+        'von Cookies informiert werden und Cookies nur im Einzelfall erlauben, die Annahme von Cookies für ' +
+        'bestimmte Fälle oder generell ausschliessen sowie das automatische Löschen der ' +
+        'Cookies beim Schlie&szlig;en des Browser aktivieren. Bei der Deaktivierung von Cookies kann die ' +
+        'Funktionalität dieser Website eingeschränkt sein.'
 
-        });
+    });
     // default language
     $translateProvider.preferredLanguage('en');
 });
@@ -792,7 +792,8 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         },
         Hersteller: {
             Auto: 1,
-            BMW: 1
+            BMW: 1,
+            Getriebe: 1
         }
     };
 
@@ -817,36 +818,73 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         return str.length >= 1;
     };
 
-    $scope.searching = function (string) {
-        if (string.length > 0) {
-            string = $scope.lastWord(string);
-            $scope.showSuggestions = false;
-            $scope.outerTerms = Object.keys($scope.hash);
+    $scope.searching = function(string) {
+        var inputArray = $scope.searchBar.input.split(/\s+/);
+        // console.log(inputArray);
+        string = $scope.lastWord(string);
+        $scope.showSuggestions = false;
+        $scope.outerTerms = Object.keys($scope.hash);
 
-            for (var i = 0; i < $scope.outerTerms.length; i++) {
-                $scope.innerTerms = Object.keys($scope.hash[$scope.outerTerms[i]]);
-                // console.log($scope.innerTerms);
-                for (var j = 0; j < $scope.innerTerms.length; j++) {
-                    var temp = $scope.outerTerms[i] + " " + $scope.innerTerms[j];
-                    $scope.searchResults.push(temp);
+        for(var i = 0; i < $scope.outerTerms.length; i++) {
+            $scope.innerTerms = Object.keys($scope.hash[$scope.outerTerms[i]]);
 
-                }
+            for(var j = 0; j < $scope.innerTerms.length; j++) {
+                var temp = $scope.outerTerms[i] + " " + $scope.innerTerms[j];
+                $scope.searchResults.push(temp);
+
+            }
+        }
+
+        // create an array of arrays with all cooccs from the search bar input
+        $scope.innerTerms = [];
+        for(i = 0; i < inputArray.length; i++) {
+            if(inputArray[i] in $scope.hash) {
+                $scope.innerTerms.push(Object.keys($scope.hash[inputArray[i]]));
             }
 
-            $scope.searchResults = $scope.searchResults.filter(function (term) {
 
-                // searchBar.input is in searchResults
-                if (term.toLowerCase().startsWith(string.toLowerCase())) {
-                    return term;
-                }
-
-            });
         }
-    }
 
-    // TODO: append to existing string instead of replacing it
-    $scope.choose_textbox = function (string) {
-        $scope.searchBar.input = string;
+        // console.log($scope.innerTerms);
+
+        // find all common cooccs from the search bar input
+        var commonInnerTerms = [];
+        if($scope.innerTerms.length > 1) {
+            commonInnerTerms = $scope.innerTerms.shift().reduce(function(res, v) {
+                if (res.indexOf(v) === -1 && $scope.innerTerms.every(function(a) {
+                    return a.indexOf(v) !== -1;
+                })) res.push(v);
+                return res;
+            }, []);
+
+            // console.log(commonInnerTerms);
+
+
+        }
+
+        // filter the keyboard input
+        $scope.searchResults = $scope.searchResults.filter(function(term){
+
+            // searchBar.input is in searchResults
+            if(term.toLowerCase().startsWith(string.toLowerCase())) {
+                return term;
+            }
+
+        });
+
+        // append common cooccs to the search results
+        for(i = 0; i < commonInnerTerms.length; i++) {
+            $scope.searchResults.push(commonInnerTerms[i]);
+        }
+    };
+
+    // TODO: it wrongly removes the last word form the input if no new character is typed into the input field. It should append to the input when a space is at the end of the search bar input.
+    // appends the suggestion to the existing input
+    $scope.choose_textbox = function(string) {
+        var tempArray = $scope.searchBar.input.split(/\s+/);
+        tempArray.pop();
+        $scope.searchBar.input = tempArray.join(" ") + " ";
+        $scope.searchBar.input += string;
         $scope.showSuggestions = true;
     };
 
