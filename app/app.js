@@ -846,7 +846,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         $scope.searchResults = $scope.searchResults.filter(function(term){
 
             // searchBar.input is in searchResults
-            if(term.toLowerCase().startsWith(string.toLowerCase())) {
+            if(term.toLowerCase().startsWith(string.toString().toLowerCase())) {
                 return term;
             }
 
@@ -863,8 +863,11 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
     $scope.choose_textbox = function(string) {
         var tempArray = $scope.searchBar.input.split(/\s+/);
         tempArray.pop();
-        $scope.searchBar.input = tempArray.join(" ") + " ";
-        $scope.searchBar.input += string;
+        var tempString = tempArray.join(" ") + " ";
+        var finalInput = tempString + string;
+        SearchBarService.setInput(finalInput);
+        // $scope.searchBar.input = tempArray.join(" ") + " ";
+        // $scope.searchBar.input += string;
         $scope.showSuggestions = true;
     };
 
