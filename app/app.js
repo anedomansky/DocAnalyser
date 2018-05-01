@@ -762,7 +762,8 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
     $scope.hash = {
         BMW: {
             Auto: 1,
-            Hersteller: 1
+            Hersteller: 1,
+            Getriebe: 1
         },
         Auto: {
             BMW: 1,
@@ -771,7 +772,8 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         },
         Hersteller: {
             Auto: 1,
-            BMW: 1
+            BMW: 1,
+            Getriebe: 1
         }
     };
 
@@ -797,31 +799,64 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
     };
 
     $scope.searching = function(string) {
-        if(string.length > 0) {
-            string = $scope.lastWord(string);
-            $scope.showSuggestions = false;
-            $scope.outerTerms = Object.keys($scope.hash);
+        var inputArray = $scope.searchBar.input.split(/\s+/);
+        // console.log(inputArray);
+        string = $scope.lastWord(string);
+        $scope.showSuggestions = false;
+        $scope.outerTerms = Object.keys($scope.hash);
 
-            for(var i = 0; i < $scope.outerTerms.length; i++) {
-                $scope.innerTerms = Object.keys($scope.hash[$scope.outerTerms[i]]);
-                // console.log($scope.innerTerms);
-                for(var j = 0; j < $scope.innerTerms.length; j++) {
-                    var temp = $scope.outerTerms[i] + " " + $scope.innerTerms[j];
-                    $scope.searchResults.push(temp);
+        for(var i = 0; i < $scope.outerTerms.length; i++) {
+            $scope.innerTerms = Object.keys($scope.hash[$scope.outerTerms[i]]);
 
-                }
+            for(var j = 0; j < $scope.innerTerms.length; j++) {
+                var temp = $scope.outerTerms[i] + " " + $scope.innerTerms[j];
+                $scope.searchResults.push(temp);
+
+            }
+        }
+
+        // create an array of arrays with all cooccs from the search bar input
+        $scope.innerTerms = [];
+        for(i = 0; i < inputArray.length; i++) {
+            if(inputArray[i] in $scope.hash) {
+                $scope.innerTerms.push(Object.keys($scope.hash[inputArray[i]]));
             }
 
-            $scope.searchResults = $scope.searchResults.filter(function(term){
 
-                // searchBar.input is in searchResults
-                if(term.toLowerCase().startsWith(string.toLowerCase())) {
-                    return term;
-                }
-
-            });
         }
-    }
+
+        // console.log($scope.innerTerms);
+
+        // find all common cooccs from the search bar input
+        var commonInnerTerms = [];
+        if($scope.innerTerms.length > 1) {
+            commonInnerTerms = $scope.innerTerms.shift().reduce(function(res, v) {
+                if (res.indexOf(v) === -1 && $scope.innerTerms.every(function(a) {
+                    return a.indexOf(v) !== -1;
+                })) res.push(v);
+                return res;
+            }, []);
+
+            // console.log(commonInnerTerms);
+
+
+        }
+
+        // filter the keyboard input
+        $scope.searchResults = $scope.searchResults.filter(function(term){
+
+            // searchBar.input is in searchResults
+            if(term.toLowerCase().startsWith(string.toLowerCase())) {
+                return term;
+            }
+
+        });
+
+        // append common cooccs to the search results
+        for(i = 0; i < commonInnerTerms.length; i++) {
+            $scope.searchResults.push(commonInnerTerms[i]);
+        }
+    };
 
     // appends the suggestion to the existing input
     $scope.choose_textbox = function(string) {
