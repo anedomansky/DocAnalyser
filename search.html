@@ -56,7 +56,7 @@
         <input value="003813809171160788124:z54qpilp6j4" name="cx" type="hidden"/>
         <textarea ng-model="searchBar.input" ng-keyup="searching(searchBar.input)" id="q" name="q" cols="20" rows="1" ng-change="change()"></textarea>
         <ul ng-hide="showSuggestions">
-            <li ng-repeat="result in searchResults" ng-click="choose_textbox(result)">{{ result }}</li>
+            <li ng-repeat="result in searchResults track by $index" ng-click="choose_textbox(result)">{{ result }}</li>
         </ul>
         <input id="customSearch" name="customSearch" type="button" value="{{ 'SEARCH_BUTTON' | translate }}" ng-click="click()"/>
     </form>
