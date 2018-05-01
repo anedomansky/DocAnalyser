@@ -823,9 +823,12 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         }
     }
 
-    // TODO: append to existing string instead of replacing it
+    // appends the suggestion to the existing input
     $scope.choose_textbox = function(string) {
-        $scope.searchBar.input = string;
+        var tempArray = $scope.searchBar.input.split(/\s+/);
+        tempArray.pop();
+        $scope.searchBar.input = tempArray.join(" ") + " ";
+        $scope.searchBar.input += string;
         $scope.showSuggestions = true;
     };
 
