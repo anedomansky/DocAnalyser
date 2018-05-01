@@ -330,7 +330,27 @@ app.service('ConverterService', function () {
             }
         }
         return rv;
-    }
+    };
+
+    /* check if two arrays are equal or not */
+    this.arraysEqual = function (a, b) {
+        if (a instanceof Array && b instanceof Array) {
+            if (a === b) return true;
+            if (a == null || b == null) return false;
+            if (a.length != b.length) return false;
+
+            a.sort();
+            b.sort();
+
+            for (var i = 0, len = a.length; i < len; i++) {
+                if (a[i] !== b[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    };
 
     /* Rounding function, see:
      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
@@ -577,25 +597,6 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             }
         };
 
-        $scope.arraysEqual = function (a, b) {
-            if (a instanceof Array && b instanceof Array) {
-                if (a === b) return true;
-                if (a == null || b == null) return false;
-                if (a.length != b.length) return false;
-
-                a.sort();
-                b.sort();
-
-                for (var i = 0, len = a.length; i < len; i++) {
-                    if (a[i] !== b[i]) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            return false;
-        };
-
         $scope.populateLocalStorage = function (keywords, topics, title) {
             if (LocalStorageService.storageAvailable('localStorage')) {
                 // LocalStorage is available
@@ -611,7 +612,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
                 for (var i = 0, len = queries.length; i < len; i++) {
                     if (title === queries[i].title) { // query with same page title is already stored
                         storedKeywords = Object.keys(queries[i].keywords); // its an array
-                        if ($scope.arraysEqual(currentKeywords, storedKeywords)) { // compare both arrays
+                        if (ConverterService.arraysEqual(currentKeywords, storedKeywords)) { // compare both arrays
                             return; // an equal query has already been saved; do not save it again
                         }
                     }
@@ -775,8 +776,8 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
     $scope.searchBar = SearchBarService.getSearchBar(); // search bar
     $scope.searchBarArr = []; // search bar items as array
     $scope.cooccs = {}; // co-occurrences
-    $scope.frequency = {};
-    $scope.selectedTerms = [];
+    $scope.previousSearchBar = []; // is used so that only different search trigger updatecooccs()
+    $scope.selectedTerms = []; // selected keywords + source topics
     $scope.diff = [];
 
     $scope.hash = {
@@ -972,9 +973,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
         }, {});
 
-
-        var outerKeys = []; // new co-occurences: worda
-        var innerKeysObj = {}; // new co-occurences: wordb
+        $scope.previousSearchBar = $scope.searchBarArr; // save current search bar input
 
         for (var i = 0, len = $scope.searchBarArr.length; i < len; i++) {
             currentWord = $scope.searchBarArr[i]; // a word that occurred in the search input
@@ -1051,7 +1050,8 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         if ($state.is('analyze')) { // change the url only in the analyze view
             $scope.changeUrl();
         }
-        if ($scope.searchBarArr.length > 1) { // at least two terms are needed
+        if ($scope.searchBarArr.length > 1 &&
+            !ConverterService.arraysEqual($scope.searchBarArr, $scope.previousSearchBar)) {
             $scope.updateCooccs();
         }
         //console.log("my object: " + $scope.cooccs['Mathematik']['Wissenschaft']);
