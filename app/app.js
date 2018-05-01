@@ -71,7 +71,7 @@ app.config(['$stateProvider', function ($stateProvider) {
 }]);
 
 // translations English('en') - German('de')
-app.config(function($translateProvider) {
+app.config(function ($translateProvider) {
     $translateProvider.translations('en', {
         // search.html
         SEARCH_BUTTON: 'Search',
@@ -157,99 +157,99 @@ app.config(function($translateProvider) {
         'That way you can accept or decline every cookie before it is stored on your computer. ' +
         'Furthermore you can modify the browser settings in order to automatically delete cookies when closing the browser.'
     })
-    .translations('de', {
-        // search.html
-        SEARCH_BUTTON: 'Suchen',
-        SELECT_DE: 'Deutsch',
-        SELECT_EN: 'Englisch',
-        VIEWS: 'Ansicht wechseln',
-        ANALYZE_VIEW: 'Analysieren',
-        CHRONICLE_VIEW: 'Chronik',
-        CHAIR_COM_NETWORK: 'Lehrstuhl für Kommunikationsnetze',
-        COOKIE_WARNING: 'Diese Internetseite nutzt Cookies. ' +
-        'Bei Weiterverwendung dieser Internetseite sind die einverstanden mit der Verwendung von Cookies.',
-        LEARN_MORE: 'Mehr erfahren',
+        .translations('de', {
+            // search.html
+            SEARCH_BUTTON: 'Suchen',
+            SELECT_DE: 'Deutsch',
+            SELECT_EN: 'Englisch',
+            VIEWS: 'Ansicht wechseln',
+            ANALYZE_VIEW: 'Analysieren',
+            CHRONICLE_VIEW: 'Chronik',
+            CHAIR_COM_NETWORK: 'Lehrstuhl für Kommunikationsnetze',
+            COOKIE_WARNING: 'Diese Internetseite nutzt Cookies. ' +
+            'Bei Weiterverwendung dieser Internetseite sind die einverstanden mit der Verwendung von Cookies.',
+            LEARN_MORE: 'Mehr erfahren',
 
-        // analyze.html
-        KEYWORDS_HEADLINE: 'Schlüsselwörter',
-        TOPICS_HEADLINE: 'Quellthemen',
+            // analyze.html
+            KEYWORDS_HEADLINE: 'Schlüsselwörter',
+            TOPICS_HEADLINE: 'Quellthemen',
 
-        // chronicle.html
-        PASTQUERIES_HEADLINE: 'Vergangene Suchläufe',
-        DATESELECT_DEFAULT: 'auswählen ...',
-        DATESELECT_ALL: 'alle',
-        DATESELECT_TODAY: 'heute',
-        DATESELECT_WEEK: 'diese Woche',
-        DATESELECT_MONTH: 'diesen Monat',
-        DATESELECT_OLDER: 'älter als einen Monat',
-        SEARCH_PLACEHOLDER: 'Suchläufe durchsuchen',
-        HISTORY_OFF: 'Suchlaufspeicher abschalten',
-        HISTORY_ON: 'Suchlaufspeicher aktivieren',
-        CLEARHISTORY_BUTTON: 'Suchläufe entfernen',
+            // chronicle.html
+            PASTQUERIES_HEADLINE: 'Vergangene Suchläufe',
+            DATESELECT_DEFAULT: 'auswählen ...',
+            DATESELECT_ALL: 'alle',
+            DATESELECT_TODAY: 'heute',
+            DATESELECT_WEEK: 'diese Woche',
+            DATESELECT_MONTH: 'diesen Monat',
+            DATESELECT_OLDER: 'älter als einen Monat',
+            SEARCH_PLACEHOLDER: 'Suchläufe durchsuchen',
+            HISTORY_OFF: 'Suchlaufspeicher abschalten',
+            HISTORY_ON: 'Suchlaufspeicher aktivieren',
+            CLEARHISTORY_BUTTON: 'Suchläufe entfernen',
 
-        // help.html
-        DOCANALYSER_HELP: 'Die wichtigsten Schlüsselwörter und Quellthemen befinden sich auf der linken Seite. ' +
-        'Sie können den rechts dargestellten Suchlauf durch auswählen von Schlüsselwörtern und Quellthemen beeinflussen. ' +
-        'Desweiteren ist es möglich den Suchlauf durch manuelle Eingaben zu ergänzen. ' +
-        'Gegebenenfalls werden relevante Werbeartikel rechts neben den Suchergebnissen erscheinen.',
+            // help.html
+            DOCANALYSER_HELP: 'Die wichtigsten Schlüsselwörter und Quellthemen befinden sich auf der linken Seite. ' +
+            'Sie können den rechts dargestellten Suchlauf durch auswählen von Schlüsselwörtern und Quellthemen beeinflussen. ' +
+            'Desweiteren ist es möglich den Suchlauf durch manuelle Eingaben zu ergänzen. ' +
+            'Gegebenenfalls werden relevante Werbeartikel rechts neben den Suchergebnissen erscheinen.',
 
-        // helpKeywords.html
-        KEYWORDS_HELP: 'Diese Schlüsselwörter repräsentieren Authoritäten. ' +
-        'Eine Authorität ist eine Internetseite zu der von vielen Quellthemen aus verlinkt wird.',
+            // helpKeywords.html
+            KEYWORDS_HELP: 'Diese Schlüsselwörter repräsentieren Authoritäten. ' +
+            'Eine Authorität ist eine Internetseite zu der von vielen Quellthemen aus verlinkt wird.',
 
-        // helpTopics.html
-        TOPICS_HELP: 'Diese Quellthemen repräsentieren sogenannte Zentren. ' +
-        'Zentren sind Verzeichnisse von Schlüsselwörtern die zu Schlüsselwortseiten verlinken.',
+            // helpTopics.html
+            TOPICS_HELP: 'Diese Quellthemen repräsentieren sogenannte Zentren. ' +
+            'Zentren sind Verzeichnisse von Schlüsselwörtern die zu Schlüsselwortseiten verlinken.',
 
-        // helpPastQueries.html
-        PASTQUERIES_HELP: 'Hier können Sie Ihre vergangenen Suchläufe einsehen. ' +
-        'Um die gewünschten Suchläufe zu finden können Sie die verschiedenen Filterungsmöglichkeiten nutzen. ' +
-        'Sie können die Suchlaufspeicherfunktion jederzeit abschalten. ' +
-        'Desweiteren ist es möglich den Suchlaufspeicher manuell zu leeren.',
+            // helpPastQueries.html
+            PASTQUERIES_HELP: 'Hier können Sie Ihre vergangenen Suchläufe einsehen. ' +
+            'Um die gewünschten Suchläufe zu finden können Sie die verschiedenen Filterungsmöglichkeiten nutzen. ' +
+            'Sie können die Suchlaufspeicherfunktion jederzeit abschalten. ' +
+            'Desweiteren ist es möglich den Suchlaufspeicher manuell zu leeren.',
 
-        // emptyKeywordsTopics.html
-        EMPTY_KEYWORDS_TOPICS_HEADLINE: 'Es konnten keine Schlüsselwörter oder Quellthemen gefunden werden!',
+            // emptyKeywordsTopics.html
+            EMPTY_KEYWORDS_TOPICS_HEADLINE: 'Es konnten keine Schlüsselwörter oder Quellthemen gefunden werden!',
 
-        // exception.html
-        EXCEPTION_HEADLINE: 'Ein Fehler ist aufgetreten!',
+            // exception.html
+            EXCEPTION_HEADLINE: 'Ein Fehler ist aufgetreten!',
 
-        // timeout.html
-        TIMEOUT_HEADLINE: 'Verbindung wurde unterbrochen!',
+            // timeout.html
+            TIMEOUT_HEADLINE: 'Verbindung wurde unterbrochen!',
 
-        // noData.html
-        NO_KEYWORDS: 'Keine Schlüsselwörter gefunden...',
-        NO_TOPICS: 'Keine Quellthemen gefunden...',
+            // noData.html
+            NO_KEYWORDS: 'Keine Schlüsselwörter gefunden...',
+            NO_TOPICS: 'Keine Quellthemen gefunden...',
 
-        ERROR_HEADLINE: 'Bitte analysieren Sie ein anderes Dokument oder versuchen Sie es erneut.',
+            ERROR_HEADLINE: 'Bitte analysieren Sie ein anderes Dokument oder versuchen Sie es erneut.',
 
-        // dataProtection.html
-        DATA_PROT_HEADLINE: 'Datenschutzerklärung',
-        DATA_PROT: 'Datenschutz',
-        DATA_PROT_P_1: 'Die Betreiber dieser Seiten nehmen ' +
-        'den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten ' +
-        'vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser ' +
-        'Datenschutzerklärung.',
-        DATA_PROT_P_2: 'Die Nutzung unserer Website ist in der Regel ohne Angabe ' +
-        'personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten ' +
-        '(beispielsweise eingegebene Suchbegriffe) erhoben werden, erfolgt dies, soweit ' +
-        'möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung ' +
-        'nicht an Dritte weitergegeben.',
-        DATA_PROT_P_3: 'Wir weisen darauf hin, dass die Daten&uuml;bertragung im Internet ' +
-        '(z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser ' +
-        'Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.',
-        DATA_PROT_COOKIES_P_1: 'Die Internetseiten verwenden teilweise so genannte Cookies. Cookies richten auf ' +
-        'Ihrem Rechner keinen Schaden an und enthalten keine Viren. Cookies dienen dazu, unser Angebot ' +
-        'nutzerfreundlicher, effektiver und sicherer zu machen. Cookies sind kleine Textdateien, die auf Ihrem ' +
-        'Rechner abgelegt werden und die Ihr Browser speichert.',
-        DATA_PROT_COOKIES_P_2: 'Wir verwenden Cookies, um die Standard Browserfunktionalität, das ' +
-        'Neuladen der Seite, auf unserer Seite zu unterstützen.',
-        DATA_PROT_COOKIES_P_3: 'Sie können Ihren Browser so einstellen, dass Sie über das Setzen ' +
-        'von Cookies informiert werden und Cookies nur im Einzelfall erlauben, die Annahme von Cookies für ' +
-        'bestimmte Fälle oder generell ausschliessen sowie das automatische Löschen der ' +
-        'Cookies beim Schlie&szlig;en des Browser aktivieren. Bei der Deaktivierung von Cookies kann die ' +
-        'Funktionalität dieser Website eingeschränkt sein.'
+            // dataProtection.html
+            DATA_PROT_HEADLINE: 'Datenschutzerklärung',
+            DATA_PROT: 'Datenschutz',
+            DATA_PROT_P_1: 'Die Betreiber dieser Seiten nehmen ' +
+            'den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten ' +
+            'vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser ' +
+            'Datenschutzerklärung.',
+            DATA_PROT_P_2: 'Die Nutzung unserer Website ist in der Regel ohne Angabe ' +
+            'personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten ' +
+            '(beispielsweise eingegebene Suchbegriffe) erhoben werden, erfolgt dies, soweit ' +
+            'möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung ' +
+            'nicht an Dritte weitergegeben.',
+            DATA_PROT_P_3: 'Wir weisen darauf hin, dass die Daten&uuml;bertragung im Internet ' +
+            '(z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser ' +
+            'Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.',
+            DATA_PROT_COOKIES_P_1: 'Die Internetseiten verwenden teilweise so genannte Cookies. Cookies richten auf ' +
+            'Ihrem Rechner keinen Schaden an und enthalten keine Viren. Cookies dienen dazu, unser Angebot ' +
+            'nutzerfreundlicher, effektiver und sicherer zu machen. Cookies sind kleine Textdateien, die auf Ihrem ' +
+            'Rechner abgelegt werden und die Ihr Browser speichert.',
+            DATA_PROT_COOKIES_P_2: 'Wir verwenden Cookies, um die Standard Browserfunktionalität, das ' +
+            'Neuladen der Seite, auf unserer Seite zu unterstützen.',
+            DATA_PROT_COOKIES_P_3: 'Sie können Ihren Browser so einstellen, dass Sie über das Setzen ' +
+            'von Cookies informiert werden und Cookies nur im Einzelfall erlauben, die Annahme von Cookies für ' +
+            'bestimmte Fälle oder generell ausschliessen sowie das automatische Löschen der ' +
+            'Cookies beim Schlie&szlig;en des Browser aktivieren. Bei der Deaktivierung von Cookies kann die ' +
+            'Funktionalität dieser Website eingeschränkt sein.'
 
-    });
+        });
     // default language
     $translateProvider.preferredLanguage('en');
 });
@@ -331,6 +331,22 @@ app.service('ConverterService', function () {
         }
         return rv;
     }
+
+    /* Rounding function, see:
+     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
+     * for more info
+     */
+    this.round = function (number, precision) {
+        var shift = function (number, precision, reverseShift) {
+            if (reverseShift) {
+                precision = -precision;
+            }
+            var numArray = ("" + number).split("e");
+            return +(numArray[0] + "e" + (numArray[1] ? (+numArray[1] + precision) : precision));
+        };
+        return shift(Math.round(shift(number, precision, false)), precision, true);
+    }
+
 });
 
 app.service('FooterService', function () {
@@ -753,7 +769,7 @@ app.controller('TopicsMenuCtrl', function ($scope, $rootScope, TopicsService, Ke
 });
 
 app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, TopicsService, KeywordsService,
-                                            SearchBarService, $state, LocalStorageService) {
+                                            SearchBarService, $state, LocalStorageService, ConverterService) {
     $scope.topicsService = TopicsService;
     $scope.keywordsService = KeywordsService;
     $scope.searchBar = SearchBarService.getSearchBar(); // search bar
@@ -786,8 +802,8 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
     /** Functions */
 
-    $scope.lastWord= function(str) {
-        if (str.trim() === ""){
+    $scope.lastWord = function (str) {
+        if (str.trim() === "") {
             return 0;
         } else {
             var splitStr = str.split(' ');
@@ -796,30 +812,30 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         }
     };
 
-    $scope.lengthFilter = function(str){
+    $scope.lengthFilter = function (str) {
         return str.length >= 1;
     };
 
-    $scope.searching = function(string) {
-        if(string.length > 0) {
+    $scope.searching = function (string) {
+        if (string.length > 0) {
             string = $scope.lastWord(string);
             $scope.showSuggestions = false;
             $scope.outerTerms = Object.keys($scope.hash);
 
-            for(var i = 0; i < $scope.outerTerms.length; i++) {
+            for (var i = 0; i < $scope.outerTerms.length; i++) {
                 $scope.innerTerms = Object.keys($scope.hash[$scope.outerTerms[i]]);
                 // console.log($scope.innerTerms);
-                for(var j = 0; j < $scope.innerTerms.length; j++) {
+                for (var j = 0; j < $scope.innerTerms.length; j++) {
                     var temp = $scope.outerTerms[i] + " " + $scope.innerTerms[j];
                     $scope.searchResults.push(temp);
 
                 }
             }
 
-            $scope.searchResults = $scope.searchResults.filter(function(term){
+            $scope.searchResults = $scope.searchResults.filter(function (term) {
 
                 // searchBar.input is in searchResults
-                if(term.toLowerCase().startsWith(string.toLowerCase())) {
+                if (term.toLowerCase().startsWith(string.toLowerCase())) {
                     return term;
                 }
 
@@ -828,12 +844,10 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
     }
 
     // TODO: append to existing string instead of replacing it
-    $scope.choose_textbox = function(string) {
+    $scope.choose_textbox = function (string) {
         $scope.searchBar.input = string;
         $scope.showSuggestions = true;
     };
-
-
 
 
     $scope.symmetricDifference = function (a1, a2) {
@@ -941,19 +955,22 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         var currentWord;
         var frequency; // Frequencies of the words
         var significance;
+        var keys = {}; // separate keys object is used to calculate only the significance of new terms
+        var innerKeys = [];
+        var outerKeys = [];
 
         // add words => occurences to the hash:
         // example: frequency[Mathematik] = 1 means Mathematik once occurred in the search input
-        frequency = $scope.searchBarArr.reduce(function ( stats, word ) {
+        frequency = $scope.searchBarArr.reduce(function (stats, word) {
 
-            if ( stats.hasOwnProperty( word ) ) {
-                stats[ word ] = stats[ word ] + 1;
+            if (stats.hasOwnProperty(word)) {
+                stats[word] = stats[word] + 1;
             } else {
-                stats[ word ] = 1;
+                stats[word] = 1;
             }
             return stats;
 
-        }, {} );
+        }, {});
 
 
         var outerKeys = []; // new co-occurences: worda
@@ -961,45 +978,32 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
         for (var i = 0, len = $scope.searchBarArr.length; i < len; i++) {
             currentWord = $scope.searchBarArr[i]; // a word that occurred in the search input
-
+            keys[currentWord] = [];
             for (var j = 0, len = $scope.searchBarArr.length; j < len; j++) {
                 var wordb = $scope.searchBarArr[j];
                 // add every other word to the inner hash of cooccs[currentWord]
-                if ( currentWord !== wordb ) {
+                if (currentWord !== wordb) {
+                    keys[currentWord].push(wordb); // fill separate keys object
+                    if ($scope.cooccs.hasOwnProperty(currentWord)) {
 
-                    if ( $scope.cooccs.hasOwnProperty( currentWord ) ) {
-
-                        if ( $scope.cooccs[currentWord].hasOwnProperty( wordb ) ) {
-                            $scope.cooccs[ currentWord ][ wordb ] = ($scope.cooccs[ currentWord ][ wordb ]) + 1;
-                            console.log("in has Property(wordb): cooccs[" + currentWord + "][" +
-                                wordb + "] = " + $scope.cooccs[currentWord][wordb]);
-                            if (!innerKeysObj.hasOwnProperty( currentWord )) {
-                                innerKeysObj[currentWord] = [];
-                                outerKeys.push(currentWord);
-                            }
-                            innerKeysObj[currentWord].push(wordb);
+                        if ($scope.cooccs[currentWord].hasOwnProperty(wordb)) {
+                            $scope.cooccs[currentWord][wordb] = ($scope.cooccs[currentWord][wordb]) + 1;
+                            //console.log("in has Property(wordb): cooccs[" + currentWord + "][" +
+                            //   wordb + "] = " + $scope.cooccs[currentWord][wordb]);
 
                         }
                         else {
-                            var innerHash = $scope.cooccs[ currentWord ];
-                            innerHash[ wordb ] = 1;
-                            $scope.cooccs[ currentWord ] = innerHash;
-                            if (!innerKeysObj.hasOwnProperty( currentWord )) {
-                                innerKeysObj[currentWord] = [];
-                                outerKeys.push(currentWord);
-                            }
-                            innerKeysObj[currentWord].push(wordb);
-                            console.log("innerKeysObj[" + currentWord + "] = " + innerKeysObj[currentWord]);
+                            var innerHash = $scope.cooccs[currentWord];
+                            innerHash[wordb] = 1;
+                            $scope.cooccs[currentWord] = innerHash;
+                            //console.log("innerKeysObj[" + currentWord + "] = " + innerKeysObj[currentWord]);
                         }
                     }
                     else { // first pass of the inner loop
 
                         var innerHash = {};
-                        innerHash[ wordb ] = 1;
-                        $scope.cooccs[ currentWord ] = innerHash;
-                        outerKeys.push(currentWord);
-                        innerKeysObj[currentWord] = [];
-                        innerKeysObj[currentWord].push(wordb);
+                        innerHash[wordb] = 1;
+                        $scope.cooccs[currentWord] = innerHash;
 
                         /* For example, the result has the form:
                          * cooccs['Mathematik']['Wissenschaft'] = 1;
@@ -1022,18 +1026,19 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             }
         }
 
-        var innerKeys = [];
+        outerKeys = Object.keys(keys);
         outerKeys.forEach(function (worda) {
-            innerKeys = innerKeysObj[worda];
+            innerKeys = keys[worda];
             //console.log(innerKeys);
             innerKeys.forEach(function (wordb) {
                 /*
                  * (DICE-method): calculate significance =
                  * (2 * occurences of worda with wordb) / (occurences of worda + occurences of wordb)
                  */
-               significance = (2 * $scope.cooccs[worda][wordb]) / (frequency[worda] + frequency[wordb]);
-               $scope.cooccs[worda][wordb] = significance;
-               console.log('Signifikanzberechnung: cooccs[' + worda + '][' + wordb + '] = ' + $scope.cooccs[worda][wordb])
+                significance = (2 * $scope.cooccs[worda][wordb]) / (frequency[worda] + frequency[wordb]);
+                significance = ConverterService.round(significance, 2);
+                $scope.cooccs[worda][wordb] = significance;
+                console.log('Signifikanzberechnung: cooccs[' + worda + '][' + wordb + '] = ' + $scope.cooccs[worda][wordb])
             });
         });
 
@@ -1101,7 +1106,7 @@ app.controller('FooterCtrl', function ($scope, $cookies, FooterService) {
 });
 
 // handles the translation through a 'translate'-filter
-app.controller('TranslateController', function($translate, $scope) {
+app.controller('TranslateController', function ($translate, $scope) {
     $scope.changeLanguage = function (langKey) {
         $translate.use(langKey);
     };
