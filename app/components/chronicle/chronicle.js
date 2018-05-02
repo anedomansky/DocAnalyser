@@ -2,6 +2,7 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
 
     this.queries = []; // contains all saved queries after the page is loaded
     this.chronicleStatus = "undefined"; // indicates whether the chronicle function is activated or deactivated
+    this.cooccs = {}; // co-occurences
 
     this.addQuery = function (query) {
         this.queries.push(query);
@@ -19,6 +20,14 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
         return this.chronicleStatus;
     };
 
+    this.setCooccs = function (cooccs) {
+        this.cooccs = cooccs;
+    };
+
+    this.getCooccs = function () {
+        return this.cooccs || {};
+    };
+
     /* Create a new query object
     * NOTE: Prototype; few properties are still missing */
     this.newQuery = function (date, keywords, topics, title) {
@@ -34,6 +43,10 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
         $window.localStorage.setItem('chronicleStatus', this.chronicleStatus);
     };
 
+    this.saveCooccs = function () {
+        $window.localStorage.setItem('cooccs', JSON.stringify(this.cooccs));
+    };
+
     /* Load all saved queries and store them in this.queries */
     this.loadQueries = function () {
         if ($window.localStorage.getItem('queries')) { // queries must not be empty
@@ -44,6 +57,12 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
     this.loadChronicleStatus = function () {
         if ($window.localStorage.getItem('chronicleStatus')) {
             this.chronicleStatus = $window.localStorage.getItem('chronicleStatus');
+        }
+    };
+
+    this.loadCooccs = function () {
+        if ($window.localStorage.getItem('cooccs')) { // queries must not be empty
+            this.cooccs = JSON.parse($window.localStorage.getItem('cooccs')) || {};
         }
     };
 
