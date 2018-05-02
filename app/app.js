@@ -1006,7 +1006,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
         $scope.getSortedCooccs = function (outerKey) {
             var keysSorted = Object.keys($scope.cooccs[outerKey]).sort(function (a, b) {
-                console.log("cooccs[" + outerKey + "][" + b + "] - cooccs[" + outerKey + "][" + a + "]");
+                //console.log("cooccs[" + outerKey + "][" + b + "] - cooccs[" + outerKey + "][" + a + "]");
                 return $scope.cooccs[outerKey][b] - $scope.cooccs[outerKey][a];
             });
             return keysSorted;
@@ -1056,6 +1056,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
             $scope.previousSearchBar = $scope.searchBarArr; // save current search bar input
 
+            /* fill cooccs object */
             for (var i = 0, len = searchBarArr.length; i < len; i++) {
                 currentWord = searchBarArr[i]; // a word that occurred in the search input
                 keys[currentWord] = [];
@@ -1063,7 +1064,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                     var wordb = searchBarArr[j];
                     // add every other word to the inner hash of cooccs[currentWord]
                     if (currentWord !== wordb) {
-                        if(keys[currentWord].indexOf(wordb) === -1) {
+                        if (keys[currentWord].indexOf(wordb) === -1) {
                             keys[currentWord].push(wordb); // fill separate keys object
                         }
                         if ($scope.cooccs.hasOwnProperty(currentWord)) {
@@ -1094,6 +1095,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 }
             }
 
+            /* calculate significance */
             outerKeys = Object.keys(keys);
             outerKeys.forEach(function (worda) {
                 innerKeys = keys[worda];
@@ -1110,10 +1112,23 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 });
             });
 
-            var result = $scope.getSortedCooccs('mathematik');
-            console.log("result: " + result);
+            /* maintain cooccs : save only the top 10 search terms (determination by significance) */
+            outerKeys.forEach(function (worda) {
+                var unsortedKeys = Object.keys($scope.cooccs[worda]);
+                if (unsortedKeys.length > 10) { // has more than 10 properties (=search terms)
+                    var sortedKeys = $scope.getSortedCooccs(worda); // sorted descending by significance
+                    var needlessKeys = sortedKeys.slice(10);
+                    //console.log("needless Keys = " + needlessKeys);
+                    needlessKeys.forEach(function (needlessKey) {
+                        delete $scope.cooccs[worda][needlessKey]; // delete search terms with the lowest significance
 
+                        var str = JSON.stringify($scope.cooccs[worda], null, 4);
+                        console.log("cooccs[" + worda + "] = " + str);
+                    });
+                }
+            });
 
+            /* store cooccs in local web storage */
             LocalStorageService.setCooccs($scope.cooccs);
             LocalStorageService.saveCooccs();
             console.log("---------------------------------------------------------------------------------------------");

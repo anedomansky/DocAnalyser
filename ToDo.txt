@@ -27,9 +27,6 @@ Muss:
     -> Bei der Seiteneinstellung "deutsch", werden alle Wörter beachtet.
     -> Bei der Seiteneinstellung "englisch", werden nur englische Nomen, Namen etc. beachtet.
 
-2. (Tom,Alex)
-    Top 10 Berechnung bereits in updateCooccs implementieren.
-
 4. (Alex)
 ...
 Weniger wichtig:
