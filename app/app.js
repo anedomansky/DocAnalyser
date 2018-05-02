@@ -866,8 +866,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         var tempString = tempArray.join(" ") + " ";
         var finalInput = tempString + string;
         SearchBarService.setInput(finalInput);
-        // $scope.searchBar.input = tempArray.join(" ") + " ";
-        // $scope.searchBar.input += string;
         $scope.showSuggestions = true;
     };
 
