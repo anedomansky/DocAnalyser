@@ -832,7 +832,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         $scope.lengthFilter = function (str) {
             return str.length >= 1;
         };
-
+        
         $scope.searching = function (string) {
             var inputArray = $scope.searchBar.input.split(/\s+/);
             // console.log(inputArray);
@@ -877,6 +877,18 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
             }
 
+            // append common cooccs to the search results
+            for (i = 0; i < commonInnerTerms.length; i++) {
+                if(commonInnerTerms[i] in $scope.searchResults) {
+                    continue;
+                }
+                else {
+                    $scope.searchResults.push(commonInnerTerms[i]);
+                }
+            }
+
+            $scope.searchResults = Array.from(new Set($scope.searchResults));
+
             // filter the keyboard input
             $scope.searchResults = $scope.searchResults.filter(function (term) {
 
@@ -887,13 +899,8 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
             });
 
-            // append common cooccs to the search results
-            for (i = 0; i < commonInnerTerms.length; i++) {
-                $scope.searchResults.push(commonInnerTerms[i]);
-            }
         };
 
-        // TODO: it wrongly removes the last word form the input if no new character is typed into the input field. It should append to the input when a space is at the end of the search bar input.
         // appends the suggestion to the existing input
         $scope.choose_textbox = function (string) {
             var tempArray = $scope.searchBar.input.split(/\s+/);
@@ -901,11 +908,8 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             var tempString = tempArray.join(" ") + " ";
             var finalInput = tempString + string;
             SearchBarService.setInput(finalInput);
-            // $scope.searchBar.input = tempArray.join(" ") + " ";
-            // $scope.searchBar.input += string;
             $scope.showSuggestions = true;
         };
-
 
         $scope.symmetricDifference = function (a1, a2) {
             var result = [];

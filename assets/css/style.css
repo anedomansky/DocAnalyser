@@ -1,12 +1,11 @@
 
 .main {
-    background: url("../img/textured_paper.png") repeat;
+    background-color: white;
     font-family: "Calibri", sans-serif;
     margin-top: 80px;
 }
 
 .main textarea[name="q"] {
-
     font-family: "Calibri", sans-serif;
     font-size: 100%; /* needed for ie9-11*/
     resize: horizontal;
@@ -15,15 +14,34 @@
     max-width: 90%;
     width: 50%;
     float: left;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     white-space: nowrap;
     height: 40px;
+}
+
+.main ul:not(#pastQueriesList) {
+    position: absolute;
+    z-index: 1;
+    list-style-type: none;
+    padding-left: 0;
+    width: 50%;
+    top: 40px;
+}
+
+.main li:not(#pastQueryItem) {
+    border: 1px solid black;
+    padding: 7px 7px 7px 7px;
+    background-color: white;
+    margin-top: -1px;
+}
+
+.main li:not(#pastQueryItem):hover {
+    background-color: #4c8ffa;
+    color: white;
 }
 
 .main input#customSearch {
     border: none;
     background-color: #4c8ffa;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 0px;
     color: white;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
@@ -38,7 +56,6 @@
 
 .main #search {
     padding: 10px 10px 30px 10px;
-    /*margin-left: 400px;*/
     box-sizing: border-box;
     width: 77%;
     float: right;
@@ -56,12 +73,11 @@
     height: 100%;
     position: fixed;
     min-width: 1%;
-    max-width: 23%;
+    max-width: 49%;
     width: 23%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
     overflow-y: scroll;
-    background: url("../img/blu_stripes.png") repeat;
-    background-color: #0099ff;
+    background-color: rgba(76,143,250,0.13);
     resize: horizontal;
 }
 
@@ -96,8 +112,7 @@
     height: 250px;
     overflow-y: scroll;
     z-index: 1;
-    background: url("../img/textured_paper.png") repeat;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: rgba(76,143,250,0.13);
 }
 
 .menu div#topics {
@@ -111,8 +126,7 @@
     height: 250px;
     overflow-y: scroll;
     z-index: 1;
-    background: url("../img/textured_paper.png") repeat;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: rgba(76,143,250,0.13);
 }
 
 .menu div#pastQueries {
@@ -125,15 +139,13 @@
     height: 500px;
     overflow-y: scroll;
     z-index: 1;
-    background: url("../img/textured_paper.png") repeat;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: rgba(76,143,250,0.13);
 }
 
 .menu div h3 {
     color: black;
     text-align: center;
     margin-top: 3px;
-
 }
 
 .menu .copy {
@@ -166,16 +178,6 @@
     box-shadow: 0px 0px 2px 2px #4c8ffa;
 }
 
-.menu a {
-    text-decoration: none;
-    color: black;
-}
-
-.menu a:hover {
-    text-decoration: underline;
-    color: blue;
-}
-
 .dropdown {
     position: relative;
     display: inline-block;
@@ -187,9 +189,7 @@
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
-    /*margin-left: 125px;*/
     margin-left: auto;
     margin-right: auto;
     top: 37px;
@@ -271,13 +271,13 @@ span#copyright {
 }
 
 .queryButton {
-    background: url("../img/textured_paper.png") repeat;
+    background-color: transparent;
     color: black;
     text-shadow: none;
     width: 100%;
     border-style: none none inset none;
     border-width: thin;
-    border-color: #7c7f7e;
+    border-color: #4c8ffa;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -287,8 +287,8 @@ span#copyright {
 
 .queryButton:hover {
     background-image: none;
-    box-shadow: 0px 0px 2px 2px #b2b6b5;
-    background: #b2b6b5 none;
+    box-shadow: 0px 0px 2px 2px rgba(76,143,250,0.13);
+    background: rgba(76,143,250,0.13) none;
     color: white;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
