@@ -832,7 +832,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         $scope.lengthFilter = function (str) {
             return str.length >= 1;
         };
-        
+
         $scope.searching = function (string) {
             var inputArray = $scope.searchBar.input.split(/\s+/);
             // console.log(inputArray);
@@ -843,7 +843,9 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             for (var i = 0; i < $scope.outerTerms.length; i++) {
                 // $scope.innerTerms = Object.keys($scope.cooccs[$scope.outerTerms[i]]);
                 var outer = $scope.outerTerms[i];
-                $scope.innerTerms = $scope.getSortedCooccs(outer);
+                if (typeof outer !== "undefined") {
+                    $scope.innerTerms = $scope.getSortedCooccs(outer);
+                }
 
                 for (var j = 0; j < $scope.innerTerms.length; j++) {
                     var temp = $scope.outerTerms[i] + " " + $scope.innerTerms[j];
@@ -883,7 +885,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
             // append common cooccs to the search results
             for (i = 0; i < commonInnerTerms.length; i++) {
-                if(commonInnerTerms[i] in $scope.searchResults) {
+                if (commonInnerTerms[i] in $scope.searchResults) {
                     continue;
                 }
                 else {
@@ -980,17 +982,22 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 }
             }
             SearchBarService.setInput(query.join(" "));
+            setTimeout(function () {
+                angular.element(document.querySelector('#customSearch')).click(); // execute google search
+            }, 0);
         });
 
         /* terms were selected or deselected */
         $scope.$watchGroup(['keywordsService.selectedKeywords()', 'topicsService.selectedTopics()'], function (newValues) {
 
+            /*
             setTimeout(function () {
                 angular.element(document.querySelector('#customSearch')).click(); // execute google search
             }, 0);
+            */
             // newValues array contains the current values of the watch expressions
-            $scope.selectedKeywords = newValues[0].split(" ");
-            $scope.selectedTopics = newValues[1].split(" ");
+            $scope.selectedKeywords = newValues[0].split(/\s+/);
+            $scope.selectedTopics = newValues[1].split(/\s+/);
             $scope.selectedTerms = $scope.selectedKeywords.concat($scope.selectedTopics);
         });
 
@@ -1020,6 +1027,30 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             return keysSorted;
         };
 
+        $scope.filterGermanWords = function () {
+            var searchBarArr = [];
+
+            for (var i = 0, lengthI = $scope.searchBarArr.length; i < lengthI; i++) {
+                if (typeof $scope.searchBarArr[i] === "undefined") { // ignore undefined elements
+                    continue;
+                }
+                var word = $scope.searchBarArr[i];
+                if (word[0] !== word[0].toLowerCase()) { // must be a noun or name
+                    searchBarArr.push(word);
+                }
+            }
+            return searchBarArr;
+        };
+
+        $scope.filterEnglishWords = function () {
+            // only work with english words:
+            var doc = nlp($scope.searchBarArr);
+            var nouns = doc.nouns().out('array');
+            var topics = doc.topics().out('array'); // people, places, organizations...
+            return nouns.concat(topics);
+            //console.log("result: " + searchBarArr);
+        };
+
         $scope.updateCooccs = function () {
 
             /* ! IMPORTANT !
@@ -1036,17 +1067,10 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             var langKey = LanguageService.getLanguage();
 
             if (langKey === "en") {
-                // only work with english words:
-                var doc = nlp($scope.searchBarArr);
-                var nouns = doc.nouns().out('array');
-                var topics = doc.topics().out('array'); // people, places, organizations...
-                searchBarArr = nouns.concat(topics);
-                //console.log("result: " + searchBarArr);
+                searchBarArr = $scope.filterEnglishWords();
             }
             else {
-                for (var i = 0, length = $scope.searchBarArr.length; i < length; i++) {
-                    searchBarArr[i] = $scope.searchBarArr[i].toLowerCase();
-                } // search bar input to lower case, cause that happens in nlp, too
+                searchBarArr = $scope.filterGermanWords();
             }
 
             // add words => occurences to the cooccs:
@@ -1209,6 +1233,7 @@ app.controller('FooterCtrl', function ($scope, $cookies, FooterService) {
 app.controller('TranslateController', function ($translate, $scope, LanguageService) {
 
     $scope.enLanguage = true;
+    LanguageService.setLanguage("en");
 
     $scope.changeLanguage = function () {
         if ($scope.enLanguage) {
