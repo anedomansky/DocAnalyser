@@ -1,3 +1,14 @@
+@media screen and (min-width: 900px) {
+    body {
+        font-size: 16px;
+    }
+}
+@media screen and (min-width: 1600px) {
+    body {
+        font-size: 18px;
+    }
+}
+
 
 .main {
     background-color: white;
@@ -26,10 +37,12 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 0px;
     color: white;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
     width: 8%;
     min-width: 50px;
     height: 45px;
+    font-size: 0.9rem;
+    font-weight: bold;
 }
 
 .main input#customSearch:hover {
@@ -59,7 +72,7 @@
     width: 23%;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
     overflow-y: scroll;
-    background-color: rgba(76,143,250,0.13);
+    background-color: rgba(76, 143, 250, 0.13);
     resize: horizontal;
 }
 
@@ -79,8 +92,9 @@
 
 .menu h2 {
     color: white;
-    text-align: center;
+    /*text-align: center;*/
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    margin-left: 5vh;
 }
 
 .menu div#keywords {
@@ -94,7 +108,7 @@
     height: 250px;
     overflow-y: scroll;
     z-index: 1;
-    background-color: rgba(76,143,250,0.13);
+    background-color: rgba(76, 143, 250, 0.13);
 }
 
 .menu div#topics {
@@ -110,7 +124,7 @@
     z-index: 1;
     /*background: url("../img/textured_paper.png") repeat;*/
     /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
-    background-color: rgba(76,143,250,0.13);
+    background-color: rgba(76, 143, 250, 0.13);
 }
 
 .menu div#pastQueries {
@@ -125,7 +139,7 @@
     z-index: 1;
     /*background: url("../img/textured_paper.png") repeat;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
-    background-color: rgba(76,143,250,0.13);
+    background-color: rgba(76, 143, 250, 0.13);
 }
 
 .menu div h3 {
@@ -150,9 +164,10 @@
     background-color: #4c8ffa;
     border: none;
     border-radius: 0px;
-    font-size: 12px;
+    font-size: 0.9rem;
+    font-weight: bold;
     color: white;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
 }
 
 .menu button a {
@@ -176,7 +191,7 @@
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
     margin-left: auto;
     margin-right: auto;
@@ -188,15 +203,15 @@
     padding: 12px 16px;
     display: block;
     margin-bottom: 10px;
-    font-size: 14px;
+    font-size: 1rem;
 }
 
-.dropdown:hover .dropdown-content{
+.dropdown:hover .dropdown-content {
     display: block;
 }
 
 span#copyright {
-    font-size: 20px;
+    font-size: 1.2rem;
 
 }
 
@@ -275,20 +290,26 @@ span#copyright {
 
 .queryButton:hover {
     background-image: none;
-    box-shadow: 0px 0px 2px 2px rgba(76,143,250,0.13);
-    background: rgba(76,143,250,0.13) none;
+    box-shadow: 0px 0px 2px 2px rgba(76, 143, 250, 0.13);
+    background: rgba(76, 143, 250, 0.13) none;
     color: white;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
+.equal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 .chronicleButton {
-    padding: 10px 10px 10px 10px;
     background-color: #4c8ffa;
     border: none;
     border-radius: 0px;
-    font-size: 12px;
+    font-size: 0.9rem;
+    font-weight: bold;
     color: white;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
     width: 45%;
 }
 
@@ -296,7 +317,7 @@ span#copyright {
     box-shadow: 0px 0px 2px 2px #4c8ffa;
     background: #4c8ffa none;
     color: white;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    /*: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
 }
 
 #dateSelect {
@@ -334,11 +355,27 @@ ul#pastQueriesList {
     border-style: solid;
     border-radius: 1px;
     border-color: white;
-    font-size: 12px;
+    font-size: 1rem;
+    font-weight: bold;
     color: white;
 }
 
-.language {
-    float: left;
-    margin-top: 0;
+#gerLanguageButton {
+    background: url("../img/de_icon.png");
+    background-size: 20px 20px;
+    float: right;
+    margin-top: 10px;
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+#enLanguageButton {
+    background: url("../img/en_icon.png");
+    background-size: 20px 20px;
+    float: right;
+    margin-top: 10px;
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
 }

@@ -1116,9 +1116,11 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             outerKeys.forEach(function (worda) {
                 var unsortedKeys = Object.keys($scope.cooccs[worda]);
                 if (unsortedKeys.length > 10) { // has more than 10 properties (=search terms)
-                    var sortedKeys = $scope.getSortedCooccs(worda); // sorted descending by significance
+                    var sortedKeys = unsortedKeys.sort(function (a, b) {
+                        return $scope.cooccs[worda][b] - $scope.cooccs[worda][a];
+                    }); // sorted descending by significance
                     var needlessKeys = sortedKeys.slice(10);
-                    //console.log("needless Keys = " + needlessKeys);
+                    console.log("needless Keys = " + needlessKeys);
                     needlessKeys.forEach(function (needlessKey) {
                         delete $scope.cooccs[worda][needlessKey]; // delete search terms with the lowest significance
 
@@ -1197,10 +1199,22 @@ app.controller('FooterCtrl', function ($scope, $cookies, FooterService) {
 
 // handles the translation through a 'translate'-filter
 app.controller('TranslateController', function ($translate, $scope, LanguageService) {
-    $scope.changeLanguage = function (langKey) {
-        $translate.use(langKey);
-        LanguageService.setLanguage(langKey);
+
+    $scope.enLanguage = true;
+
+    $scope.changeLanguage = function () {
+        if ($scope.enLanguage) {
+            $scope.enLanguage = false;
+            $translate.use("de");
+            LanguageService.setLanguage("de");
+        }
+        else {
+            $scope.enLanguage = true;
+            $translate.use("en");
+            LanguageService.setLanguage("en");
+        }
     };
+
 });
 
 /** End Angular Controllers */

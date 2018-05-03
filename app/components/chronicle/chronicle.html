@@ -22,12 +22,14 @@
         </ul>
     </div>
     <br/>
-    <button class="chronicleButton" ng-click="clearHistory()">{{ 'CLEARHISTORY_BUTTON' | translate }}</button>
-    <button ng-if="!chronicleStatus" class="chronicleButton" ng-click="changeChronicleStatus()">
-        {{ 'HISTORY_ON' | translate }}
-    </button>
-    <button ng-if="chronicleStatus" class="chronicleButton" ng-click="changeChronicleStatus()">
-        {{ 'HISTORY_OFF' | translate}}
-    </button>
+    <div class="equal">
+        <button class="chronicleButton" ng-click="clearHistory()">{{ 'CLEARHISTORY_BUTTON' | translate }}</button>
+        <button ng-if="!chronicleStatus" class="chronicleButton" ng-click="changeChronicleStatus()">
+            {{ 'HISTORY_ON' | translate }}
+        </button>
+        <button ng-if="chronicleStatus" class="chronicleButton" ng-click="changeChronicleStatus()">
+            {{ 'HISTORY_OFF' | translate}}
+        </button>
+    </div>
 </div>
 <ui-view></ui-view> <!-- AngularJS Bugfix; needed to use $stateParams -->
