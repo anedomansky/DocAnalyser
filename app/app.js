@@ -832,8 +832,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         $scope.lengthFilter = function (str) {
             return str.length >= 1;
         };
-
-        // TODO: style the unordered list  + testing
+        
         $scope.searching = function (string) {
             var inputArray = $scope.searchBar.input.split(/\s+/);
             // console.log(inputArray);
