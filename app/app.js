@@ -648,7 +648,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             try {
                 var expireDate = new Date();
                 expireDate.setDate(expireDate.getDate() + 1);
-                url = '#!' + url; // convert to hash bang url
+                url = '#!' + url; // convert to cooccs bang url
                 $cookies.put('reloadInfo', url, {expires: expireDate});
             }
             catch (err) {
@@ -794,23 +794,23 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         $scope.selectedTerms = []; // selected keywords + source topics
         $scope.diff = [];
 
-        $scope.hash = {
-            BMW: {
-                Auto: 1,
-                Hersteller: 1,
-                Getriebe: 1
-            },
-            Auto: {
-                BMW: 1,
-                Hersteller: 1,
-                Getriebe: 1
-            },
-            Hersteller: {
-                Auto: 1,
-                BMW: 1,
-                Getriebe: 1
-            }
-        };
+        // $scope.hash = {
+        //     BMW: {
+        //         Auto: 1,
+        //         Hersteller: 1,
+        //         Getriebe: 1
+        //     },
+        //     Auto: {
+        //         BMW: 1,
+        //         Hersteller: 1,
+        //         Getriebe: 1
+        //     },
+        //     Hersteller: {
+        //         Auto: 1,
+        //         BMW: 1,
+        //         Getriebe: 1
+        //     }
+        // };
 
         $scope.showSuggestions = false;
         $scope.searchResults = [];
@@ -838,10 +838,12 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             // console.log(inputArray);
             string = $scope.lastWord(string);
             $scope.showSuggestions = false;
-            $scope.outerTerms = Object.keys($scope.hash);
+            $scope.outerTerms = Object.keys($scope.cooccs);
 
             for (var i = 0; i < $scope.outerTerms.length; i++) {
-                $scope.innerTerms = Object.keys($scope.hash[$scope.outerTerms[i]]);
+                // $scope.innerTerms = Object.keys($scope.cooccs[$scope.outerTerms[i]]);
+                var outer = $scope.outerTerms[i];
+                $scope.innerTerms = $scope.getSortedCooccs(outer);
 
                 for (var j = 0; j < $scope.innerTerms.length; j++) {
                     var temp = $scope.outerTerms[i] + " " + $scope.innerTerms[j];
@@ -853,8 +855,10 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             // create an array of arrays with all cooccs from the search bar input
             $scope.innerTerms = [];
             for (i = 0; i < inputArray.length; i++) {
-                if (inputArray[i] in $scope.hash) {
-                    $scope.innerTerms.push(Object.keys($scope.hash[inputArray[i]]));
+                if (inputArray[i] in $scope.cooccs) {
+                    // $scope.innerTerms.push(Object.keys($scope.cooccs[inputArray[i]]));
+                    var inputOuter = $scope.cooccs[inputArray[i]];
+                    $scope.innerTerms.push($scope.getSortedCooccs(inputOuter));
                 }
 
 
@@ -1045,7 +1049,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 } // search bar input to lower case, cause that happens in nlp, too
             }
 
-            // add words => occurences to the hash:
+            // add words => occurences to the cooccs:
             // example: frequency[Mathematik] = 1 means Mathematik once occurred in the search input
             frequency = searchBarArr.reduce(function (stats, word) {
 
@@ -1066,7 +1070,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 keys[currentWord] = [];
                 for (var j = 0, len = searchBarArr.length; j < len; j++) {
                     var wordb = searchBarArr[j];
-                    // add every other word to the inner hash of cooccs[currentWord]
+                    // add every other word to the inner cooccs of cooccs[currentWord]
                     if (currentWord !== wordb) {
                         if (keys[currentWord].indexOf(wordb) === -1) {
                             keys[currentWord].push(wordb); // fill separate keys object
@@ -1080,17 +1084,17 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
                             }
                             else {
-                                var innerHash = $scope.cooccs[currentWord];
-                                innerHash[wordb] = 1;
-                                $scope.cooccs[currentWord] = innerHash;
+                                var innercooccs = $scope.cooccs[currentWord];
+                                innercooccs[wordb] = 1;
+                                $scope.cooccs[currentWord] = innercooccs;
                                 //console.log("innerKeysObj[" + currentWord + "] = " + innerKeysObj[currentWord]);
                             }
                         }
                         else { // first pass of the inner loop
 
-                            var innerHash = {};
-                            innerHash[wordb] = 1;
-                            $scope.cooccs[currentWord] = innerHash;
+                            var innercooccs = {};
+                            innercooccs[wordb] = 1;
+                            $scope.cooccs[currentWord] = innercooccs;
 
                             /* For example, the result has the form: cooccs['Mathematik']['Wissenschaft'] = 1; */
                             //console.log('cooccs[' + currentWord + '] = ' + $scope.cooccs[ currentWord ][ wordb ]);
