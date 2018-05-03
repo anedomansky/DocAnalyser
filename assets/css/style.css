@@ -34,7 +34,7 @@
     margin-top: -1px;
 }
 
-.main li:not(#pastQueryItem).selected {
+.main li:not(#pastQueryItem):hover {
     background-color: #4c8ffa;
     color: white;
 }
