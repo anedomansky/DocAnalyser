@@ -24,7 +24,7 @@ Muss:
 1. (Tom)
     Nur Nomen und Namen beachten
     -> Es wird wohl nur für englische Wörter funktionieren
-    -> Bei der Seiteneinstellung "deutsch", werden alle Wörter beachtet.
+    -> Bei der Seiteneinstellung "deutsch", werden alle Wörter beachtet, die mit einem Großbuchstaben beginnen.
     -> Bei der Seiteneinstellung "englisch", werden nur englische Nomen, Namen etc. beachtet.
 
 4. (Alex)

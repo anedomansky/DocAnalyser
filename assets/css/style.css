@@ -37,7 +37,9 @@
     list-style-type: none;
     padding-left: 0;
     width: 50%;
+    height: 30vh;
     top: 40px;
+    overflow-y: auto;
 }
 
 .main li:not(#pastQueryItem) {
