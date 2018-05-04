@@ -1019,12 +1019,12 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             }
         };
 
+        /* returns the top 10 search terms of a given word (=outerKey) */
         $scope.getSortedCooccs = function (outerKey) {
             var keysSorted = Object.keys($scope.cooccs[outerKey]).sort(function (a, b) {
-                //console.log("cooccs[" + outerKey + "][" + b + "] - cooccs[" + outerKey + "][" + a + "]");
                 return $scope.cooccs[outerKey][b] - $scope.cooccs[outerKey][a];
             });
-            return keysSorted;
+            return keysSorted.slice(0, 10);
         };
 
         $scope.filterGermanWords = function () {
@@ -1051,6 +1051,19 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             //console.log("result: " + searchBarArr);
         };
 
+        $scope.countFrequency = function (arr) {
+            return arr.reduce(function (stats, word) {
+
+                if (stats.hasOwnProperty(word)) {
+                    stats[word] = stats[word] + 1;
+                } else {
+                    stats[word] = 1;
+                }
+                return stats;
+
+            }, {});
+        };
+
         $scope.updateCooccs = function () {
 
             /* ! IMPORTANT !
@@ -1062,6 +1075,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             var keys = {}; // separate keys object is used to calculate only the significance of new terms
             var innerKeys = [];
             var outerKeys = [];
+            var newKeys = []; // is needed so that new terms are not deleted directly when the cooccs hash is full.
             var searchBarArr = [];
 
             var langKey = LanguageService.getLanguage();
@@ -1073,18 +1087,8 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 searchBarArr = $scope.filterGermanWords();
             }
 
-            // add words => occurences to the cooccs:
             // example: frequency[Mathematik] = 1 means Mathematik once occurred in the search input
-            frequency = searchBarArr.reduce(function (stats, word) {
-
-                if (stats.hasOwnProperty(word)) {
-                    stats[word] = stats[word] + 1;
-                } else {
-                    stats[word] = 1;
-                }
-                return stats;
-
-            }, {});
+            frequency = $scope.countFrequency(searchBarArr);
 
             $scope.previousSearchBar = $scope.searchBarArr; // save current search bar input
 
@@ -1103,15 +1107,14 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
                             if ($scope.cooccs[currentWord].hasOwnProperty(wordb)) {
                                 $scope.cooccs[currentWord][wordb] = ($scope.cooccs[currentWord][wordb]) + 1;
-                                //console.log("in has Property(wordb): cooccs[" + currentWord + "][" +
-                                //   wordb + "] = " + $scope.cooccs[currentWord][wordb]);
-
                             }
                             else {
                                 var innercooccs = $scope.cooccs[currentWord];
                                 innercooccs[wordb] = 1;
                                 $scope.cooccs[currentWord] = innercooccs;
-                                //console.log("innerKeysObj[" + currentWord + "] = " + innerKeysObj[currentWord]);
+                                if (newKeys.indexOf(wordb) === -1) {
+                                    newKeys.push(wordb); // a new term has been added
+                                }
                             }
                         }
                         else { // first pass of the inner loop
@@ -1131,7 +1134,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             outerKeys = Object.keys(keys);
             outerKeys.forEach(function (worda) {
                 innerKeys = keys[worda];
-                //console.log(innerKeys);
                 innerKeys.forEach(function (wordb) {
                     /*
                      * (DICE-method): calculate significance =
@@ -1144,29 +1146,50 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 });
             });
 
-            /* maintain cooccs : save only the top 10 search terms (determination by significance) */
+            /* maintain cooccs : save a maximum of 50 search terms (determination by significance) */
             outerKeys.forEach(function (worda) {
-                var unsortedKeys = Object.keys($scope.cooccs[worda]);
-                if (unsortedKeys.length > 10) { // has more than 10 properties (=search terms)
-                    var sortedKeys = unsortedKeys.sort(function (a, b) {
-                        return $scope.cooccs[worda][b] - $scope.cooccs[worda][a];
-                    }); // sorted descending by significance
-                    var needlessKeys = sortedKeys.slice(10);
-                    console.log("needless Keys = " + needlessKeys);
-                    needlessKeys.forEach(function (needlessKey) {
-                        delete $scope.cooccs[worda][needlessKey]; // delete search terms with the lowest significance
+                    var unsortedKeys = Object.keys($scope.cooccs[worda]);
+
+                    if (unsortedKeys.length > 50) { // cooccs has reached its maximum. Delete all unimportant terms.
+                        var sortedKeys = unsortedKeys.sort(function (a, b) {
+                            return $scope.cooccs[worda][b] - $scope.cooccs[worda][a];
+                        }); // sorted descending by significance
+                        sortedKeys = sortedKeys.filter(function (innerKey) { // remove all inner keys newly added in this run
+                            return newKeys.indexOf(innerKey) < 0;
+                        });
+                        var needlessKeys = sortedKeys.slice(50);
+                        console.log("needless Keys = " + needlessKeys);
+                        needlessKeys.forEach(function (needlessKey) {
+                            delete $scope.cooccs[worda][needlessKey]; // delete search terms with the lowest significance
+
+                            var str = JSON.stringify($scope.cooccs[worda], null, 4);
+                            console.log("cooccs[" + worda + "] = " + str);
+                        });
+                    }
+                    else if (unsortedKeys.length > 25) { // cooccs is getting too full, delete the least important term
+                        var sortedKeys = unsortedKeys.sort(function (a, b) {
+                            return $scope.cooccs[worda][b] - $scope.cooccs[worda][a];
+                        }); // sorted descending by significance
+                        sortedKeys = sortedKeys.filter(function (innerKey) { // remove all inner keys newly added in this run
+                            return newKeys.indexOf(innerKey) < 0;
+                        });
+                        var needlessKey = sortedKeys.pop();
+                        console.log("needlessKey = " + needlessKey);
+                        delete $scope.cooccs[worda][needlessKey];
 
                         var str = JSON.stringify($scope.cooccs[worda], null, 4);
                         console.log("cooccs[" + worda + "] = " + str);
-                    });
+                    }
                 }
-            });
+            )
+            ;
 
             /* store cooccs in local web storage */
             LocalStorageService.setCooccs($scope.cooccs);
             LocalStorageService.saveCooccs();
             console.log("---------------------------------------------------------------------------------------------");
-        };
+        }
+        ;
 
         $scope.click = function () {
             if ($state.is('analyze')) { // change the url only in the analyze view
