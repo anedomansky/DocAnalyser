@@ -259,19 +259,26 @@ app.directive('resizable', function ($window) {
 
         $scope.leftMenu = document.getElementById('menu');
         $scope.scrollbarWidth = getScrollbarWidth($scope.leftMenu);
-        $scope.scrollbarWidth = Math.round($scope.scrollbarWidth) * 2; // we have 2 scrollbars
 
         /** Functions */
 
         /* get browser default scrollbar width */
         function getScrollbarWidth(element) {
-            var scrollbarWidth = element.getBoundingClientRect().width - element.scrollWidth;
-            if (isNaN(scrollbarWidth)) {
-                console.log("cannot retrieve scrollbar width. Default value will be used");
-                scrollbarWidth = 15; // default value
+            var scrollbarWidth;
+            var isMac = navigator.platform.toUpperCase().indexOf('MAC')>=0;
+            if (isMac) {
+                console.log("mac os detected. Default value for scrollbar width will be used");
+                scrollbarWidth = 15; // default value for mac os
             }
-            return scrollbarWidth;
-        };
+            else {
+                scrollbarWidth = element.getBoundingClientRect().width - element.scrollWidth;
+                if (isNaN(scrollbarWidth)) {
+                    console.log("cannot retrieve scrollbar width. Default value will be used");
+                    scrollbarWidth = 20;
+                }
+            }
+            return Math.round(scrollbarWidth) * 2; // we have two scrollbars
+        }
 
         /* adjusts the width of google search and results */
         $scope.onResizeFunction = function () {
