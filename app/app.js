@@ -801,7 +801,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         $scope.previousSearchBar = []; // is used so that only different search trigger updatecooccs()
         $scope.selectedTerms = []; // selected keywords + source topics
         $scope.diff = [];
-        $scope.showSuggestions = false;
+        $scope.showSuggestions = true;
         $scope.searchResults = [];
         $scope.outerTerms = [];
         $scope.innerTerms = [];
