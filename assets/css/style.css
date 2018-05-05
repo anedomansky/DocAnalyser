@@ -17,7 +17,6 @@
 }
 
 .main textarea[name="q"] {
-
     font-family: "Calibri", sans-serif;
     font-size: 100%; /* needed for ie9-11*/
     resize: horizontal;
@@ -26,7 +25,6 @@
     max-width: 90%;
     width: 50%;
     float: left;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     white-space: nowrap;
     height: 40px;
 }
@@ -57,7 +55,6 @@
 .main input#customSearch {
     border: none;
     background-color: #4c8ffa;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 0px;
     color: white;
     width: 8%;
@@ -68,6 +65,24 @@
 }
 
 .main input#customSearch:hover {
+    box-shadow: 0px 0px 2px 2px #4c8ffa;
+}
+
+.main .autoCompleteBtn {
+    float:left;
+    border: none;
+    background-color: #4c8ffa;
+    border-radius: 0px;
+    color: white;
+    width: 2%;
+    min-width: 30px;
+    height: 45px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+.main .autoCompleteBtn:hover {
     box-shadow: 0px 0px 2px 2px #4c8ffa;
 }
 
@@ -144,8 +159,6 @@
     height: 250px;
     overflow-y: scroll;
     z-index: 1;
-    /*background: url("../img/textured_paper.png") repeat;*/
-    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
     background-color: rgba(76, 143, 250, 0.13);
 }
 
@@ -159,8 +172,6 @@
     height: 500px;
     overflow-y: scroll;
     z-index: 1;
-    /*background: url("../img/textured_paper.png") repeat;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
     background-color: rgba(76, 143, 250, 0.13);
 }
 
@@ -217,6 +228,7 @@
     margin-left: auto;
     margin-right: auto;
     top: 37px;
+    width: inherit;
 }
 
 .dropdown-content p {
@@ -230,6 +242,10 @@
 .dropdown:hover .dropdown-content {
     display: block;
     color:white;
+}
+
+.dropdown-content .innerDropdownBtn{
+    width: 100%;
 }
 
 span#copyright {

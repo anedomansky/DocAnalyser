@@ -250,6 +250,9 @@ app.config(function ($translateProvider) {
             'Funktionalität dieser Website eingeschränkt sein.'
 
         });
+
+    // escapes HTML in the translation for security purposes
+    $translateProvider.useSanitizeValueStrategy('escape');
     // default language
     $translateProvider.preferredLanguage('en');
 });
@@ -800,31 +803,18 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         $scope.previousSearchBar = []; // is used so that only different search trigger updatecooccs()
         $scope.selectedTerms = []; // selected keywords + source topics
         $scope.diff = [];
-
-        // $scope.hash = {
-        //     BMW: {
-        //         Auto: 1,
-        //         Hersteller: 1,
-        //         Getriebe: 1
-        //     },
-        //     Auto: {
-        //         BMW: 1,
-        //         Hersteller: 1,
-        //         Getriebe: 1
-        //     },
-        //     Hersteller: {
-        //         Auto: 1,
-        //         BMW: 1,
-        //         Getriebe: 1
-        //     }
-        // };
-
         $scope.showSuggestions = false;
         $scope.searchResults = [];
         $scope.outerTerms = [];
         $scope.innerTerms = [];
+        $scope.autoComplete = true;
 
         /** Functions */
+
+        /* user clicked the activate/deactivate autocomplete button */
+        $scope.changeAutoComplete = function () {
+            $scope.autoComplete = !$scope.autoComplete;
+        };
 
         $scope.lastWord = function (str) {
             if (str.trim() === "") {
@@ -842,22 +832,18 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
         $scope.searching = function (string) {
             var inputArray = $scope.searchBar.input.split(/\s+/);
-            // console.log(inputArray);
             string = $scope.lastWord(string);
             $scope.showSuggestions = false;
             $scope.outerTerms = Object.keys($scope.cooccs);
 
             for (var i = 0; i < $scope.outerTerms.length; i++) {
-                // $scope.innerTerms = Object.keys($scope.cooccs[$scope.outerTerms[i]]);
                 var outer = $scope.outerTerms[i];
-                if (typeof outer !== "undefined") {
+                if (typeof outer !== "undefined" && outer in $scope.cooccs) {
                     $scope.innerTerms = $scope.getSortedCooccs(outer);
                 }
-
                 for (var j = 0; j < $scope.innerTerms.length; j++) {
                     var temp = $scope.outerTerms[i] + " " + $scope.innerTerms[j];
                     $scope.searchResults.push(temp);
-
                 }
             }
 
@@ -865,15 +851,9 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             $scope.innerTerms = [];
             for (i = 0; i < inputArray.length; i++) {
                 if (inputArray[i] in $scope.cooccs) {
-                    // $scope.innerTerms.push(Object.keys($scope.cooccs[inputArray[i]]));
-                    var inputOuter = $scope.cooccs[inputArray[i]];
-                    $scope.innerTerms.push($scope.getSortedCooccs(inputOuter));
+                    $scope.innerTerms.push(Object.keys($scope.cooccs[inputArray[i]]));
                 }
-
-
             }
-
-            // console.log($scope.innerTerms);
 
             // find all common cooccs from the search bar input
             var commonInnerTerms = [];
@@ -884,10 +864,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                     })) res.push(v);
                     return res;
                 }, []);
-
-                // console.log(commonInnerTerms);
-
-
             }
 
             // append common cooccs to the search results
@@ -900,6 +876,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 }
             }
 
+            // keep only unique items in the array
             $scope.searchResults = Array.from(new Set($scope.searchResults));
 
             // filter the keyboard input
@@ -911,7 +888,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 }
 
             });
-
         };
 
         // appends the suggestion to the existing input
@@ -1149,7 +1125,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                     significance = (2 * $scope.cooccs[worda][wordb]) / (frequency[worda] + frequency[wordb]);
                     significance = ConverterService.round(significance, 2);
                     $scope.cooccs[worda][wordb] = significance;
-                    console.log('Signifikanzberechnung: cooccs[' + worda + '][' + wordb + '] = ' + $scope.cooccs[worda][wordb])
+                    // console.log('Signifikanzberechnung: cooccs[' + worda + '][' + wordb + '] = ' + $scope.cooccs[worda][wordb])
                 });
             });
 
@@ -1194,7 +1170,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             /* store cooccs in local web storage */
             LocalStorageService.setCooccs($scope.cooccs);
             LocalStorageService.saveCooccs();
-            console.log("---------------------------------------------------------------------------------------------");
+            // console.log("---------------------------------------------------------------------------------------------");
         }
         ;
 
