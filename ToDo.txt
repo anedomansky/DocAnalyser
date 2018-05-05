@@ -1,8 +1,7 @@
 ---Generell---
 Muss:
-1.(Tom)-> Cross-Browser-Testing
--> Safari für Mac kann nächste Woche getestet werden
-2.(Tom)-> Dokumentation aus Quellodekommentaren
+
+2. Dokumentation aus Quellodekommentaren
 -> ngdocs
 3. Code sortieren:
    - Direktiven in app/shared/directives.js
@@ -21,14 +20,7 @@ Weniger wichtig:
 
 ---Suchtermerweiterung---
 Muss:
-1. (Tom)
-    Nur Nomen und Namen beachten
-    -> Es wird wohl nur für englische Wörter funktionieren
-    -> Bei der Seiteneinstellung "deutsch", werden alle Wörter beachtet, die mit einem Großbuchstaben beginnen.
-    -> Bei der Seiteneinstellung "englisch", werden nur englische Nomen, Namen etc. beachtet.
 
-4. (Alex)
-...
 Weniger wichtig:
 1. gespeicherte Keywords + Topics mit in den cooccs hash einbeziehen.
 (Performance & Speicherkapazitätsprobleme = pro Suchlauf 40 neue Terme?)

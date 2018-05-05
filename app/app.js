@@ -265,7 +265,7 @@ app.directive('resizable', function ($window) {
         /* get browser default scrollbar width */
         function getScrollbarWidth(element) {
             var scrollbarWidth;
-            var isMac = navigator.platform.toUpperCase().indexOf('MAC')>=0;
+            var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
             if (isMac) {
                 console.log("mac os detected. Default value for scrollbar width will be used");
                 scrollbarWidth = 15; // default value for mac os
@@ -311,8 +311,6 @@ app.directive('resizable', function ($window) {
 
         /* responds to resize events of the window object */
         return angular.element($window).bind('resize', function () {
-            //$scope.onResizeFunction();
-            //return $scope.safeApply();
             $scope.resize();
         });
 
@@ -1284,7 +1282,7 @@ app.controller('TranslateController', function ($translate, $scope, LanguageServ
 
 /** Angular Run Block */
 
-app.run(['$route', '$rootScope', '$location', '$window', function ($route, $rootScope, $location) {
+app.run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
     var original = $location.path;
     $location.path = function (path, reload) {
         if (reload === false) {
