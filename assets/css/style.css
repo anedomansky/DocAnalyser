@@ -27,6 +27,7 @@
     float: left;
     white-space: nowrap;
     height: 40px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .main ul:not(#pastQueriesList) {
@@ -56,6 +57,7 @@
     border: none;
     background-color: #4c8ffa;
     border-radius: 0px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     color: white;
     width: 8%;
     min-width: 50px;
@@ -73,6 +75,7 @@
     border: none;
     background-color: #4c8ffa;
     border-radius: 0px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     color: white;
     width: 2%;
     min-width: 30px;

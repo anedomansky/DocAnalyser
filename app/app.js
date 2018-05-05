@@ -971,11 +971,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         /* terms were selected or deselected */
         $scope.$watchGroup(['keywordsService.selectedKeywords()', 'topicsService.selectedTopics()'], function (newValues) {
 
-            /*
-            setTimeout(function () {
-                angular.element(document.querySelector('#customSearch')).click(); // execute google search
-            }, 0);
-            */
             // newValues array contains the current values of the watch expressions
             $scope.selectedKeywords = newValues[0].split(/\s+/);
             $scope.selectedTopics = newValues[1].split(/\s+/);
