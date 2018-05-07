@@ -5,6 +5,7 @@ app.config(['$stateProvider', function ($stateProvider) {
     $stateProvider
         .state('analyze', {
             url: '/search/:searchTerms',
+            params: {searchTerms: {dynamic: true}},
             templateUrl: './app/components/analyze/analyze.html',
         })
 
@@ -373,7 +374,28 @@ app.service('ConverterService', function () {
             return +(numArray[0] + "e" + (numArray[1] ? (+numArray[1] + precision) : precision));
         };
         return shift(Math.round(shift(number, precision, false)), precision, true);
-    }
+    };
+
+    /* helper function for getCommonElements */
+    this.intersect = function (leftArr, rightArr) {
+        return leftArr.filter(function (leftTerm) {
+            return rightArr.some(function (rightTerm) {
+                return rightTerm === leftTerm;
+            });
+        });
+    };
+
+    /* Determine the intersection of a set of arrays.
+     * Array structure should be: array[array1, array2, ..., arrayN] */
+    this.getCommonElements = function (array) {
+        var leftArr = array[0];
+        var rightArr = array[1];
+        var rest = array.slice(2);
+        if (rightArr === undefined) {
+            return leftArr;
+        }
+        return this.getCommonElements([this.intersect(leftArr, rightArr)].concat(rest));
+    };
 
 });
 
@@ -552,7 +574,6 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
         /** Functions */
         /* Get the request parameters from the url and place them as keywords and topics */
         $scope.processRequestParameter = function () {
-            //window.alert("in processRequestParameter");
             var keywords = [];
             var topics = [];
             var topKeywords = [];
@@ -572,16 +593,16 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
                 }
                 KeywordsService.setTopKeywords(topKeywords);
                 keywordsObj = ConverterService.arrToObject(keywords);
+                // preselect the top 4 keywords
+                for (var i = 0; i < 4; i++) {
+                    keywordsObj[keywords[i]] = true;
+                }
                 KeywordsService.setKeywords(keywordsObj);
                 // fill table with topics:
                 topics = $stateParams.h.split(";");
                 if (topics.length > 0) {
                     topicsObj = ConverterService.arrToObject(topics);
                     TopicsService.setTopics(topicsObj);
-                    // preselect the top 4 keywords
-                    for (var i = 0; i < 4; i++) {
-                        keywordsObj[keywords[i]] = true;
-                    }
                 }
                 // get the url of the analysed web file
                 title = $stateParams.title;
@@ -708,7 +729,6 @@ app.controller('DropdownMenuCtrl', function ($scope, $state, SearchBarService) {
 app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, $state, KeywordsService, TopicsService, SearchBarService,
                                              ReloadService) {
         $scope.keywords = KeywordsService.keywords;
-        $scope.keywordsService = KeywordsService.keywords;
 
         /* a query is loaded (from the Chronicle View) */
         $rootScope.$on('queryLoaded', function () {
@@ -730,7 +750,6 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, $state, Keyword
             var status = KeywordsService.keywords[keyword];
             if (TopicsService.getAll().indexOf(keyword) > -1) { //selected keyword is also a topic
                 TopicsService.setStatus(keyword, status);
-                //window.alert("keyword = " + keyword + " status = " + status);
             }
             //notify SearchInputCtrl:
             $rootScope.$emit('selectedTermsChanged', {term: keyword, status: status});
@@ -747,9 +766,7 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, $state, Keyword
                 // The objects are already set to true, but if the keywords are topics at the same time,
                 // they must also be manually clicked to transfer the object status of the keywords to the topics
                 $scope.topKeywords = KeywordsService.getTopKeywords();
-                //window.alert("Länge scope.topkeywords = " + $scope.topKeywords.length);
                 if (angular.isDefined($scope.keywords) && $scope.topKeywords.length >= 4) {
-                    //window.alert("Scope.keywords ist valide!");
                     for (var i = 0; i < 4; i++) {
                         $scope.clicked($scope.topKeywords[i]);
                     }
@@ -800,11 +817,10 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         $scope.cooccs = {}; // co-occurrences
         $scope.previousSearchBar = []; // is used so that only different search trigger updatecooccs()
         $scope.selectedTerms = []; // selected keywords + source topics
-        $scope.diff = [];
-        $scope.showSuggestions = true;
-        $scope.searchResults = [];
-        $scope.outerTerms = [];
-        $scope.innerTerms = [];
+        $scope.outerKeys = [];
+        $scope.showSuggestions = false;
+        $scope.searchSuggestions = [];
+        $scope.relevantTerms = [];
         $scope.autoComplete = true;
 
         /** Functions */
@@ -816,7 +832,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
         $scope.lastWord = function (str) {
             if (str.trim() === "") {
-                return 0;
+                return "";
             } else {
                 var splitStr = str.split(' ');
                 splitStr = splitStr.filter($scope.lengthFilter);
@@ -828,74 +844,86 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             return str.length >= 1;
         };
 
-        $scope.searching = function (string) {
-            var inputArray = $scope.searchBar.input.split(/\s+/);
-            string = $scope.lastWord(string);
-            $scope.showSuggestions = false;
-            $scope.outerTerms = Object.keys($scope.cooccs);
-
-            for (var i = 0; i < $scope.outerTerms.length; i++) {
-                var outer = $scope.outerTerms[i];
-                if (typeof outer !== "undefined" && outer in $scope.cooccs) {
-                    $scope.innerTerms = $scope.getSortedCooccs(outer);
-                }
-                for (var j = 0; j < $scope.innerTerms.length; j++) {
-                    var temp = $scope.outerTerms[i] + " " + $scope.innerTerms[j];
-                    $scope.searchResults.push(temp);
-                }
+        $scope.searching = function () {
+            var outerTerms;
+            var innerTerms = [];
+            var outerTerm = "";
+            var innerTerm = "";
+            var suggestionString = "";
+            var searchBarArr = $scope.searchBar.input.toLowerCase().split(/\s+/); // search terms (all lower case)
+            var userInput = $scope.lastWord($scope.searchBar.input); // last word of the search bar
+            if (userInput === "") {
+                return; // no user Input; do nothing
             }
+            userInput = userInput.toLowerCase();
 
-            // create an array of arrays with all cooccs from the search bar input
-            $scope.innerTerms = [];
-            for (i = 0; i < inputArray.length; i++) {
-                if (inputArray[i] in $scope.cooccs) {
-                    $scope.innerTerms.push(Object.keys($scope.cooccs[inputArray[i]]));
-                }
-            }
-
-            // find all common cooccs from the search bar input
-            var commonInnerTerms = [];
-            if ($scope.innerTerms.length > 1) {
-                commonInnerTerms = $scope.innerTerms.shift().reduce(function (res, v) {
-                    if (res.indexOf(v) === -1 && $scope.innerTerms.every(function (a) {
-                        return a.indexOf(v) !== -1;
-                    })) res.push(v);
-                    return res;
-                }, []);
-            }
-
-            // append common cooccs to the search results
-            for (i = 0; i < commonInnerTerms.length; i++) {
-                if (commonInnerTerms[i] in $scope.searchResults) {
-                    continue;
-                }
-                else {
-                    $scope.searchResults.push(commonInnerTerms[i]);
-                }
-            }
-
-            // keep only unique items in the array
-            $scope.searchResults = Array.from(new Set($scope.searchResults));
-
-            // filter the keyboard input
-            $scope.searchResults = $scope.searchResults.filter(function (term) {
-
-                // searchBar.input is in searchResults
-                if (term.toLowerCase().startsWith(string.toString().toLowerCase())) {
+            outerTerms = $scope.outerKeys.filter(function (term) { // outerTerms must match the last word
+                if (term.lastIndexOf(userInput, 0) === 0) { // = term.startsWith(userInput)
                     return term;
                 }
-
             });
+
+
+            $scope.searchSuggestions = []; // delete all data from last call
+
+            for (var i = 0, outerLength = outerTerms.length; i < outerLength; i++) {
+                outerTerm = outerTerms[i];
+                if (typeof outerTerm !== "undefined") {
+                    innerTerms = $scope.getTopSortedCooccs(outerTerm); // top 3 inner Terms
+                    for (var j = 0, innerLength = innerTerms.length; j < innerLength; j++) {
+                        innerTerm = innerTerms[j];
+                        if (typeof innerTerm !== "undefined" && searchBarArr.indexOf(innerTerm) === -1) {
+                            // capitalize first letters
+                            outerTerm = outerTerm.charAt(0).toUpperCase() + outerTerm.slice(1);
+                            innerTerm = innerTerm.charAt(0).toUpperCase() + innerTerm.slice(1);
+                            suggestionString = outerTerm + " " + innerTerm; // this is displayed to the user
+                            $scope.searchSuggestions.push(suggestionString);
+                        }
+                    }
+                }
+            }
+
+            $scope.searchSuggestions.slice(0, 25); // only show the top 25 suggestions
+
+
+            /* Determine relevant term. The intersection of all cooccs of search terms currently in the search bar. */
+            //TODO display $scope.relevanTerms under the search suggestions
+            $scope.relevantTerms = []; // delete all data from last call
+            innerTerms = [];
+
+            for (var i = 0, length = searchBarArr.length; i < length; i++) {
+                outerTerm = searchBarArr[i];
+                // term must be a outerKey in cooccs.
+                if (typeof outerTerm !== "undefined" && $scope.outerKeys.indexOf(outerTerm) !== -1) {
+                    innerTerms.push($scope.getSortedCooccs(outerTerm)); // all inner Terms; max 50
+                }
+            }
+
+            var str = JSON.stringify(innerTerms, null, 4);
+            console.log("innerTerms : " + str);
+
+            $scope.relevantTerms = ConverterService.getCommonElements(innerTerms); // intersection of all arrays
+            if (typeof $scope.relevantTerms !== "undefined" && $scope.relevantTerms.length > 10) {
+                $scope.relevantTerms = $scope.relevantTerms.slice(0, 10); // only display the top 10 common terms
+            }
+
+            console.log("commonInnerTerms = " + $scope.relevantTerms);
+            $scope.showSuggestions = true;
         };
 
-        // appends the suggestion to the existing input
-        $scope.choose_textbox = function (string) {
+        /* appends the suggestion to the existing input*/
+        $scope.chooseSuggestion = function (string) {
             var tempArray = $scope.searchBar.input.split(/\s+/);
             tempArray.pop();
             var tempString = tempArray.join(" ") + " ";
             var finalInput = tempString + string;
             SearchBarService.setInput(finalInput);
-            $scope.showSuggestions = true;
+            $scope.showSuggestions = false;
+        };
+
+        //TODO
+        $scope.chooseRelevantTerm = function (string) {
+
         };
 
         $scope.symmetricDifference = function (a1, a2) {
@@ -914,7 +942,8 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         };
 
         $scope.changeUrl = function () {
-            $location.path('/search/' + $scope.searchBar.input, false); // change url without reloading
+            //$location.path('/search/' + $scope.searchBar.input, false); // change url without reloading
+            $state.go('analyze', {searchTerms: $scope.searchBar.input});
         };
 
         /** End Functions */
@@ -975,6 +1004,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             $scope.selectedKeywords = newValues[0].split(/\s+/);
             $scope.selectedTopics = newValues[1].split(/\s+/);
             $scope.selectedTerms = $scope.selectedKeywords.concat($scope.selectedTopics);
+            $scope.searchBarArr = $scope.searchBar.input.split(/\s+/); // maintain searchBarArr
         });
 
 
@@ -982,25 +1012,33 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         $scope.change = function () {
             $scope.searchBarArr = $scope.searchBar.input.split(/\s+/);
 
-            $scope.diff = $scope.symmetricDifference($scope.searchBarArr, $scope.selectedTerms);
+            var diff = $scope.symmetricDifference($scope.searchBarArr, $scope.selectedTerms);
 
-            for (var i = 0; i < $scope.diff.length; i++) {
+            for (var i = 0; i < diff.length; i++) {
                 // term must be keyword or topic
-                if (KeywordsService.getAll().indexOf($scope.diff[i]) > -1) { // it is a keyword
-                    KeywordsService.changeStatus($scope.diff[i]);
+                if (KeywordsService.getAll().indexOf(diff[i]) > -1) { // it is a keyword
+                    KeywordsService.changeStatus(diff[i]);
                 }
-                if (TopicsService.getAll().indexOf($scope.diff[i]) > -1) { // it is a topic
-                    TopicsService.changeStatus($scope.diff[i]);
+                if (TopicsService.getAll().indexOf(diff[i]) > -1) { // it is a topic
+                    TopicsService.changeStatus(diff[i]);
                 }
             }
         };
 
-        /* returns the top 10 search terms of a given word (=outerKey) */
+        /* returns all search terms of a given word (=outerKey) */
         $scope.getSortedCooccs = function (outerKey) {
             var keysSorted = Object.keys($scope.cooccs[outerKey]).sort(function (a, b) {
                 return $scope.cooccs[outerKey][b] - $scope.cooccs[outerKey][a];
             });
-            return keysSorted.slice(0, 10);
+            return keysSorted;
+        };
+
+        /* returns the top 3 search terms of a given word (=outerKey) */
+        $scope.getTopSortedCooccs = function (outerKey) {
+            var keysSorted = Object.keys($scope.cooccs[outerKey]).sort(function (a, b) {
+                return $scope.cooccs[outerKey][b] - $scope.cooccs[outerKey][a];
+            });
+            return keysSorted.slice(0, 3);
         };
 
         $scope.filterGermanWords = function () {
@@ -1012,7 +1050,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 }
                 var word = $scope.searchBarArr[i];
                 if (word[0] !== word[0].toLowerCase()) { // must be a noun or name
-                    searchBarArr.push(word);
+                    searchBarArr.push(word.toLowerCase());
                 }
             }
             return searchBarArr;
@@ -1118,7 +1156,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                     significance = (2 * $scope.cooccs[worda][wordb]) / (frequency[worda] + frequency[wordb]);
                     significance = ConverterService.round(significance, 2);
                     $scope.cooccs[worda][wordb] = significance;
-                    // console.log('Signifikanzberechnung: cooccs[' + worda + '][' + wordb + '] = ' + $scope.cooccs[worda][wordb])
+                    //console.log('Signifikanzberechnung: cooccs[' + worda + '][' + wordb + '] = ' + $scope.cooccs[worda][wordb])
                 });
             });
 
@@ -1160,6 +1198,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             )
             ;
 
+            $scope.outerKeys = Object.keys($scope.cooccs); // maintain outerKeys
             /* store cooccs in local web storage */
             LocalStorageService.setCooccs($scope.cooccs);
             LocalStorageService.saveCooccs();
@@ -1175,11 +1214,10 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 !ConverterService.arraysEqual($scope.searchBarArr, $scope.previousSearchBar)) {
                 $scope.updateCooccs();
             }
-            //console.log("my object: " + $scope.cooccs['Mathematik']['Wissenschaft']);
         };
 
-        $rootScope.$on('keywordsInitFinished', function (event, args) {
-            $scope.change();
+        $rootScope.$on('keywordsInitFinished', function () {
+            $scope.searchBarArr = $scope.searchBar.input.split(/\s+/);
         });
 
         /* initialization things that have to be done while loading the controller */
@@ -1253,18 +1291,7 @@ app.controller('TranslateController', function ($translate, $scope, LanguageServ
 
 /** Angular Run Block */
 
-app.run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
-    var original = $location.path;
-    $location.path = function (path, reload) {
-        if (reload === false) {
-            var lastRoute = $route.current;
-            var un = $rootScope.$on('$locationChangeSuccess', function () {
-                $route.current = lastRoute;
-                un();
-            });
-        }
-        return original.apply($location, [path]);
-    };
+app.run(['$rootScope', function ($rootScope) {
 
     $rootScope.safeApply = function () {
         var phase = this.$root.$$phase;

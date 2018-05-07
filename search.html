@@ -57,7 +57,7 @@
               name="customSearchForm" target="hidden-frame" method="post"
               action="search.html?form=1">
             <input value="003813809171160788124:z54qpilp6j4" name="cx" type="hidden"/>
-            <textarea ng-model="searchBar.input" ng-keyup="searching(searchBar.input)" id="q" name="q" cols="20"
+            <textarea ng-model="searchBar.input" ng-keyup="searching()" id="q" name="q" cols="20"
                       rows="1" ng-change="change()"></textarea>
             <button class="autoCompleteBtn" ng-if="!autoComplete" ng-click="changeAutoComplete()">
                 &darr;&darr;
@@ -69,9 +69,9 @@
                    ng-click="click()"/>
             <br/>
             <div class="suggestions" ng-show="autoComplete">
-                <ul id="list" ng-hide="showSuggestions">
-                    <li ng-repeat="result in searchResults track by $index" ng-click="choose_textbox(result)">{{ result
-                        }}
+                <ul id="list" ng-show="showSuggestions">
+                    <li ng-repeat="suggestion in searchSuggestions track by $index"
+                        ng-click="chooseSuggestion(suggestion)">{{ suggestion }}
                     </li>
                 </ul>
             </div>
