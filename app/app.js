@@ -866,10 +866,24 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
             $scope.searchSuggestions = []; // delete all data from last call
 
-            for (var i = 0, outerLength = outerTerms.length; i < outerLength; i++) {
+            // Determine how many terms are proposed, depending on how many outerTerms there are
+            var outerLength = outerTerms.length;
+            console.log("length = " + outerLength);
+            var numberInnerTerms;
+            if (outerLength <= 1) {
+                numberInnerTerms = 25;
+            }
+            else if (outerLength <= 2) {
+                numberInnerTerms = 5;
+            }
+            else {
+                numberInnerTerms = 3;
+            }
+
+            for (var i = 0; i < outerLength; i++) {
                 outerTerm = outerTerms[i];
                 if (typeof outerTerm !== "undefined") {
-                    innerTerms = $scope.getTopSortedCooccs(outerTerm); // top 3 inner Terms
+                    innerTerms = $scope.getTopSortedCooccs(outerTerm, numberInnerTerms); // get top n inner Terms
                     for (var j = 0, innerLength = innerTerms.length; j < innerLength; j++) {
                         innerTerm = innerTerms[j];
                         if (typeof innerTerm !== "undefined" && searchBarArr.indexOf(innerTerm) === -1) {
@@ -883,7 +897,9 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 }
             }
 
-            $scope.searchSuggestions.slice(0, 25); // only show the top 25 suggestions
+            if ($scope.searchSuggestions.length > 25) {
+                $scope.showSuggestions = $scope.searchSuggestions.slice(0, 25); // only show the top 25 suggestions
+            }
 
 
             /* Determine relevant term. The intersection of all cooccs of search terms currently in the search bar. */
@@ -899,8 +915,8 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 }
             }
 
-            var str = JSON.stringify(innerTerms, null, 4);
-            console.log("innerTerms : " + str);
+            //var str = JSON.stringify(innerTerms, null, 4);
+            //console.log("innerTerms : " + str);
 
             $scope.relevantTerms = ConverterService.getCommonElements(innerTerms); // intersection of all arrays
             if (typeof $scope.relevantTerms !== "undefined" && $scope.relevantTerms.length > 10) {
@@ -1034,11 +1050,11 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         };
 
         /* returns the top 3 search terms of a given word (=outerKey) */
-        $scope.getTopSortedCooccs = function (outerKey) {
+        $scope.getTopSortedCooccs = function (outerKey, number) {
             var keysSorted = Object.keys($scope.cooccs[outerKey]).sort(function (a, b) {
                 return $scope.cooccs[outerKey][b] - $scope.cooccs[outerKey][a];
             });
-            return keysSorted.slice(0, 3);
+            return keysSorted.slice(0, number);
         };
 
         $scope.filterGermanWords = function () {
