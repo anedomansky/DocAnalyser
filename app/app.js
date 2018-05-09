@@ -929,7 +929,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
         /* appends the suggestion to the existing input*/
         $scope.chooseSuggestion = function (string) {
-            var tempArray = $scope.searchBar.input.split(/\s+/);
+            var tempArray = $scope.searchBarArr;
             tempArray.pop();
             var tempString = tempArray.join(" ") + " ";
             var finalInput = tempString + string;
@@ -937,9 +937,11 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             $scope.showSuggestions = false;
         };
 
-        //TODO
         $scope.chooseRelevantTerm = function (string) {
-
+            var finalInput = $scope.searchBarArr;
+            finalInput.push(string);
+            SearchBarService.setInput(finalInput.join(" "));
+            $scope.showSuggestions = false;
         };
 
         $scope.symmetricDifference = function (a1, a2) {
