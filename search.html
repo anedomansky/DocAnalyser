@@ -69,11 +69,28 @@
                    ng-click="click()"/>
             <br/>
             <div class="suggestions" ng-show="autoComplete">
-                <ul id="list" ng-show="showSuggestions">
-                    <li ng-repeat="suggestion in searchSuggestions track by $index"
-                        ng-click="chooseSuggestion(suggestion)">{{ suggestion }}
-                    </li>
-                </ul>
+                <!--<h3 id="heading1" ng-show="showSuggestions">Cooccurences</h3>-->
+                <!--<ul id="list1" ng-show="showSuggestions">-->
+                    <!--<li ng-repeat="suggestion in searchSuggestions track by $index"-->
+                        <!--ng-click="chooseSuggestion(suggestion)">{{ suggestion }}-->
+                    <!--</li>-->
+                <!--</ul>-->
+                <!--<br/>-->
+                <!--<h3 ng-show="showSuggestions">Relevant Terms</h3>-->
+                <!--<ul id="list2" ng-show="showSuggestions">-->
+                    <!--<li ng-repeat="suggestion in searchSuggestions track by $index"-->
+                        <!--ng-click="chooseSuggestion(suggestion)">{{ suggestion }}-->
+                    <!--</li>-->
+                <!--</ul>-->
+                <dl id="list1" ng-show="showSuggestions">
+                    <dt>Cooccurences</dt>
+                    <dd ng-repeat="suggestion in searchSuggestions track by $index" ng-click="chooseSuggestion(suggestion)">{{ suggestion }}</dd>
+                </dl>
+                <br/>
+                <dl id="list2" ng-show="showSuggestions">
+                    <dt>Relevant Terms</dt>
+                    <dd ng-repeat="suggestion in searchSuggestions track by $index" ng-click="chooseSuggestion(suggestion)">{{ suggestion }}</dd>
+                </dl>
             </div>
         </form>
     </div>

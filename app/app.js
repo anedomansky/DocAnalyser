@@ -928,11 +928,11 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         };
 
         /* appends the suggestion to the existing input*/
-        $scope.chooseSuggestion = function (string) {
+        $scope.chooseSuggestion = function (userInput) {
             var tempArray = $scope.searchBar.input.split(/\s+/);
             tempArray.pop();
             var tempString = tempArray.join(" ") + " ";
-            var finalInput = tempString + string;
+            var finalInput = tempString + userInput;
             SearchBarService.setInput(finalInput);
             $scope.showSuggestions = false;
         };
