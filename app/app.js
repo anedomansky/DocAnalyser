@@ -935,6 +935,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             var finalInput = tempString + string;
             SearchBarService.setInput(finalInput);
             $scope.showSuggestions = false;
+            $scope.change(); // sync checkboxes with search bar input
         };
 
         $scope.chooseRelevantTerm = function (string) {
@@ -942,6 +943,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             finalInput.push(string);
             SearchBarService.setInput(finalInput.join(" "));
             $scope.showSuggestions = false;
+            $scope.change(); // sync checkboxes with search bar input
         };
 
         $scope.symmetricDifference = function (a1, a2) {
