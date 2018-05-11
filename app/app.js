@@ -928,18 +928,22 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         };
 
         /* appends the suggestion to the existing input*/
-        $scope.chooseSuggestion = function (userInput) {
-            var tempArray = $scope.searchBar.input.split(/\s+/);
+        $scope.chooseSuggestion = function (string) {
+            var tempArray = $scope.searchBarArr;
             tempArray.pop();
             var tempString = tempArray.join(" ") + " ";
-            var finalInput = tempString + userInput;
+            var finalInput = tempString + string;
             SearchBarService.setInput(finalInput);
             $scope.showSuggestions = false;
+            $scope.change(); // sync checkboxes with search bar input
         };
 
-        //TODO
         $scope.chooseRelevantTerm = function (string) {
-
+            var finalInput = $scope.searchBarArr;
+            finalInput.push(string);
+            SearchBarService.setInput(finalInput.join(" "));
+            $scope.showSuggestions = false;
+            $scope.change(); // sync checkboxes with search bar input
         };
 
         $scope.symmetricDifference = function (a1, a2) {
