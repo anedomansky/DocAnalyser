@@ -30,76 +30,47 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-/*.main h3#heading1 {*/
-    /*position: absolute;*/
-    /*margin-top: 0;*/
-    /*display: block;*/
-/*}*/
-
-/*.main h3#heading2 {*/
-    /*position: absolute;*/
-    /*margin-top: 80px;*/
-    /*display: block;*/
-/*}*/
-
-/*.main ul:not(#pastQueriesList) {*/
-    /*!*margin-top: 0;*!*/
-    /*position: absolute;*/
-    /*z-index: 1;*/
-    /*list-style-type: none;*/
-    /*padding-left: 0;*/
-    /*width: 50%;*/
-    /*height: 30vh;*/
-    /*!*top: 40px;*!*/
-    /*overflow-y: auto;*/
-    /*clear:both;*/
-/*}*/
-
-.main dt:first-of-type {
-    /*position: absolute;*/
-    /*margin-top: 0;*/
-}
 .main dt {
-    /*position: absolute;*/
-    /*margin-top: 50px;*/
+    /*position: fixed;*/
+    font-weight: bold;
     background-color: white;
 }
 
-.main dl#list1 {
+.main dl.cooccs {
     margin-top: 2px;
     position: absolute;
     z-index: 1;
     list-style-type: none;
-    padding-left: 0;
+    padding: 0 0 0.5em 0;
     width: 50%;
-    height: 10vh; /* TODO: We will need to use px instead because it is impossible to position two absolute positioned blocks with height in %.*/
-    /*top: 40px;*/
+    height: 10vh;
+    min-height: 70px;
     overflow-y: auto;
     background-color: white;
 }
 
-.main dl#list2 {
+.main dl.relevant {
     margin-top: 80px;
     position: absolute;
     z-index: 1;
     list-style-type: none;
-    padding-left: 0;
+    padding: 0 0 0.5em 0;
     width: 50%;
-    height: 10vh; /* TODO: We will need to use px instead because it is impossible to position two absolute positioned blocks with height in %.*/
-    /*top: 80px;*/
+    height: 10vh;
+    min-height: 70px;
     overflow-y: auto;
     background-color: white;
-    /*clear: both;*/
 }
 
-.main dd:not(#pastQueryItem) {
+.main dd {
     border: 1px solid black;
     padding: 7px 7px 7px 7px;
     background-color: white;
     margin-top: -1px;
+    margin-left: 0;
 }
 
-.main dd:not(#pastQueryItem):hover {
+.main dd:hover {
     background-color: #4c8ffa;
     color: white;
 }
@@ -435,6 +406,7 @@ ul#pastQueriesList {
     background-color: #4c8ffa;
     color: white;
     text-align: center;
+    z-index: 2;
 }
 
 .footerButton {

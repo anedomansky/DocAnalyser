@@ -76,6 +76,8 @@ app.config(function ($translateProvider) {
     $translateProvider.translations('en', {
         // search.html
         SEARCH_BUTTON: 'Search',
+        DT_COOCCS: 'Cooccurrences',
+        DT_RELEVANT: 'Relevant Terms',
         SELECT_DE: 'German',
         SELECT_EN: 'English',
         VIEWS: 'Change View',
@@ -161,6 +163,8 @@ app.config(function ($translateProvider) {
         .translations('de', {
             // search.html
             SEARCH_BUTTON: 'Suchen',
+            DT_COOCCS: 'Kookkurrenzen',
+            DT_RELEVANT: 'Relevante Begriffe',
             SELECT_DE: 'Deutsch',
             SELECT_EN: 'Englisch',
             VIEWS: 'Ansicht wechseln',
