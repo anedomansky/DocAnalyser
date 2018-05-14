@@ -10,22 +10,22 @@
 }
 @media screen and (max-height: 690px) {
     .main dl.relevant {
-        margin-top: 59px;
+        margin-top: 80px;
     }
 }
 @media screen and (min-height: 700px) {
     .main dl.relevant {
-        margin-top: 66px;
+        margin-top: 97px;
     }
 }
 @media screen and (min-height: 900px) {
     .main dl.relevant {
-        margin-top: 80px;
+        margin-top: 101px;
     }
 }
 @media screen and (min-height: 960px) {
     .main dl.relevant {
-        margin-top: 85px;
+        margin-top: 106px;
     }
 }
 
@@ -63,7 +63,7 @@
     list-style-type: none;
     padding: 0 0 0.5em 0;
     width: 50%;
-    height: 10vh;
+    height: 15vh;
     min-height: 70px;
     overflow-y: auto;
     background-color: white;
@@ -76,7 +76,7 @@
     list-style-type: none;
     padding: 0 0 0.5em 0;
     width: 50%;
-    height: 10vh;
+    height: 15vh;
     min-height: 70px;
     overflow-y: auto;
     background-color: white;

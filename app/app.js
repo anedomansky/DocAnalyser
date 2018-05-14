@@ -76,7 +76,7 @@ app.config(function ($translateProvider) {
     $translateProvider.translations('en', {
         // search.html
         SEARCH_BUTTON: 'Search',
-        DT_COOCCS: 'Cooccurrences',
+        DT_COOCCS: 'Search Suggestions',
         DT_RELEVANT: 'Relevant Terms',
         SELECT_DE: 'German',
         SELECT_EN: 'English',
@@ -163,7 +163,7 @@ app.config(function ($translateProvider) {
         .translations('de', {
             // search.html
             SEARCH_BUTTON: 'Suchen',
-            DT_COOCCS: 'Kookkurrenzen',
+            DT_COOCCS: 'Suchvorschläge',
             DT_RELEVANT: 'Relevante Begriffe',
             SELECT_DE: 'Deutsch',
             SELECT_EN: 'Englisch',
@@ -239,7 +239,7 @@ app.config(function ($translateProvider) {
             '(beispielsweise eingegebene Suchbegriffe) erhoben werden, erfolgt dies, soweit ' +
             'möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung ' +
             'nicht an Dritte weitergegeben.',
-            DATA_PROT_P_3: 'Wir weisen darauf hin, dass die Daten&uuml;bertragung im Internet ' +
+            DATA_PROT_P_3: 'Wir weisen darauf hin, dass die Datenübertragung im Internet ' +
             '(z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser ' +
             'Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.',
             DATA_PROT_COOKIES_P_1: 'Die Internetseiten verwenden teilweise so genannte Cookies. Cookies richten auf ' +
@@ -805,7 +805,6 @@ app.controller('TopicsMenuCtrl', function ($scope, $rootScope, TopicsService, Ke
 
         if (KeywordsService.getAll().indexOf(topic) > -1) { //selected topic is also a keyword
             KeywordsService.setStatus(topic, status);
-            //window.alert("topic = " + topic + " status = " + status);
         }
         //notify SearchInputCtrl:
         $rootScope.$emit('selectedTermsChanged', {term: topic, status: status});
@@ -821,18 +820,13 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         $scope.cooccs = {}; // co-occurrences
         $scope.previousSearchBar = []; // is used so that only different search trigger updatecooccs()
         $scope.selectedTerms = []; // selected keywords + source topics
-        $scope.outerKeys = [];
-        $scope.showSuggestions = false;
+        $scope.outerKeys = []; // outer keys of cooccs hash
+        $scope.showSuggestions = false; // determines whether search suggestions are displayed
         $scope.searchSuggestions = [];
         $scope.relevantTerms = [];
-        $scope.autoComplete = true;
+        $scope.autoComplete = true; // determines whether search suggestions and relevant terms are displayed
 
         /** Functions */
-
-        /* user clicked the activate/deactivate autocomplete button */
-        $scope.changeAutoComplete = function () {
-            $scope.autoComplete = !$scope.autoComplete;
-        };
 
         $scope.lastWord = function (str) {
             if (str.trim() === "") {
@@ -846,108 +840,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
         $scope.lengthFilter = function (str) {
             return str.length >= 1;
-        };
-
-        $scope.searching = function () {
-            var outerTerms;
-            var innerTerms = [];
-            var outerTerm = "";
-            var innerTerm = "";
-            var suggestionString = "";
-            var searchBarArr = $scope.searchBar.input.toLowerCase().split(/\s+/); // search terms (all lower case)
-            var userInput = $scope.lastWord($scope.searchBar.input); // last word of the search bar
-            if (userInput === "") {
-                return; // no user Input; do nothing
-            }
-            userInput = userInput.toLowerCase();
-
-            outerTerms = $scope.outerKeys.filter(function (term) { // outerTerms must match the last word
-                if (term.lastIndexOf(userInput, 0) === 0) { // = term.startsWith(userInput)
-                    return term;
-                }
-            });
-
-
-            $scope.searchSuggestions = []; // delete all data from last call
-
-            // Determine how many terms are proposed, depending on how many outerTerms there are
-            var outerLength = outerTerms.length;
-            console.log("length = " + outerLength);
-            var numberInnerTerms;
-            if (outerLength <= 1) {
-                numberInnerTerms = 25;
-            }
-            else if (outerLength <= 2) {
-                numberInnerTerms = 5;
-            }
-            else {
-                numberInnerTerms = 3;
-            }
-
-            for (var i = 0; i < outerLength; i++) {
-                outerTerm = outerTerms[i];
-                if (typeof outerTerm !== "undefined") {
-                    innerTerms = $scope.getTopSortedCooccs(outerTerm, numberInnerTerms); // get top n inner Terms
-                    for (var j = 0, innerLength = innerTerms.length; j < innerLength; j++) {
-                        innerTerm = innerTerms[j];
-                        if (typeof innerTerm !== "undefined" && searchBarArr.indexOf(innerTerm) === -1) {
-                            // capitalize first letters
-                            outerTerm = outerTerm.charAt(0).toUpperCase() + outerTerm.slice(1);
-                            innerTerm = innerTerm.charAt(0).toUpperCase() + innerTerm.slice(1);
-                            suggestionString = outerTerm + " " + innerTerm; // this is displayed to the user
-                            $scope.searchSuggestions.push(suggestionString);
-                        }
-                    }
-                }
-            }
-
-            if ($scope.searchSuggestions.length > 25) {
-                $scope.showSuggestions = $scope.searchSuggestions.slice(0, 25); // only show the top 25 suggestions
-            }
-
-
-            /* Determine relevant term. The intersection of all cooccs of search terms currently in the search bar. */
-            //TODO display $scope.relevanTerms under the search suggestions
-            $scope.relevantTerms = []; // delete all data from last call
-            innerTerms = [];
-
-            for (var i = 0, length = searchBarArr.length; i < length; i++) {
-                outerTerm = searchBarArr[i];
-                // term must be a outerKey in cooccs.
-                if (typeof outerTerm !== "undefined" && $scope.outerKeys.indexOf(outerTerm) !== -1) {
-                    innerTerms.push($scope.getSortedCooccs(outerTerm)); // all inner Terms; max 50
-                }
-            }
-
-            //var str = JSON.stringify(innerTerms, null, 4);
-            //console.log("innerTerms : " + str);
-
-            $scope.relevantTerms = ConverterService.getCommonElements(innerTerms); // intersection of all arrays
-            if (typeof $scope.relevantTerms !== "undefined" && $scope.relevantTerms.length > 10) {
-                $scope.relevantTerms = $scope.relevantTerms.slice(0, 10); // only display the top 10 common terms
-            }
-
-            console.log("commonInnerTerms = " + $scope.relevantTerms);
-            $scope.showSuggestions = true;
-        };
-
-        /* appends the suggestion to the existing input*/
-        $scope.chooseSuggestion = function (string) {
-            var tempArray = $scope.searchBarArr;
-            tempArray.pop();
-            var tempString = tempArray.join(" ") + " ";
-            var finalInput = tempString + string;
-            SearchBarService.setInput(finalInput);
-            $scope.showSuggestions = false;
-            $scope.change(); // sync checkboxes with search bar input
-        };
-
-        $scope.chooseRelevantTerm = function (string) {
-            var finalInput = $scope.searchBarArr;
-            finalInput.push(string);
-            SearchBarService.setInput(finalInput.join(" "));
-            $scope.showSuggestions = false;
-            $scope.change(); // sync checkboxes with search bar input
         };
 
         $scope.symmetricDifference = function (a1, a2) {
@@ -968,6 +860,62 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         $scope.changeUrl = function () {
             //$location.path('/search/' + $scope.searchBar.input, false); // change url without reloading
             $state.go('analyze', {searchTerms: $scope.searchBar.input});
+        };
+
+        /* returns all search terms of a given word (=outerKey) */
+        $scope.getSortedCooccs = function (outerKey) {
+            var keysSorted = Object.keys($scope.cooccs[outerKey]).sort(function (a, b) {
+                return $scope.cooccs[outerKey][b] - $scope.cooccs[outerKey][a];
+            });
+            // capitalize first letters
+            keysSorted.forEach(function (element, i) {
+                keysSorted[i] = keysSorted[i].charAt(0).toUpperCase() + keysSorted[i].slice(1);
+            });
+            return keysSorted;
+        };
+
+        /* returns the top 3 search terms of a given word (=outerKey) */
+        $scope.getTopSortedCooccs = function (outerKey, number) {
+            var keysSorted = Object.keys($scope.cooccs[outerKey]).sort(function (a, b) {
+                return $scope.cooccs[outerKey][b] - $scope.cooccs[outerKey][a];
+            });
+            return keysSorted.slice(0, number);
+        };
+
+        $scope.filterGermanWords = function () {
+            var searchBarArr = [];
+
+            for (var i = 0, lengthI = $scope.searchBarArr.length; i < lengthI; i++) {
+                if (typeof $scope.searchBarArr[i] === "undefined") { // ignore undefined elements
+                    continue;
+                }
+                var word = $scope.searchBarArr[i];
+                if (word[0] !== word[0].toLowerCase()) { // must be a noun or name
+                    searchBarArr.push(word.toLowerCase());
+                }
+            }
+            return searchBarArr;
+        };
+
+        $scope.filterEnglishWords = function () {
+            // only work with english words:
+            var doc = nlp($scope.searchBarArr);
+            var nouns = doc.nouns().out('array');
+            var topics = doc.topics().out('array'); // people, places, organizations...
+            return nouns.concat(topics);
+        };
+
+        $scope.countFrequency = function (arr) {
+            return arr.reduce(function (stats, word) {
+
+                if (stats.hasOwnProperty(word)) {
+                    stats[word] = stats[word] + 1;
+                } else {
+                    stats[word] = 1;
+                }
+                return stats;
+
+            }, {});
         };
 
         /** End Functions */
@@ -1049,57 +997,105 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             }
         };
 
-        /* returns all search terms of a given word (=outerKey) */
-        $scope.getSortedCooccs = function (outerKey) {
-            var keysSorted = Object.keys($scope.cooccs[outerKey]).sort(function (a, b) {
-                return $scope.cooccs[outerKey][b] - $scope.cooccs[outerKey][a];
-            });
-            return keysSorted;
-        };
+        $scope.searching = function () {
+            var outerTerms;
+            var innerTerms = [];
+            var outerTerm = "";
+            var innerTerm = "";
+            var suggestionString = "";
+            var searchBarArr = $scope.searchBar.input.toLowerCase().split(/\s+/); // search terms (all lower case)
+            var userInput = $scope.lastWord($scope.searchBar.input); // last word of the search bar
+            if (userInput === "") {
+                return; // no user Input; do nothing
+            }
+            userInput = userInput.toLowerCase();
 
-        /* returns the top 3 search terms of a given word (=outerKey) */
-        $scope.getTopSortedCooccs = function (outerKey, number) {
-            var keysSorted = Object.keys($scope.cooccs[outerKey]).sort(function (a, b) {
-                return $scope.cooccs[outerKey][b] - $scope.cooccs[outerKey][a];
-            });
-            return keysSorted.slice(0, number);
-        };
-
-        $scope.filterGermanWords = function () {
-            var searchBarArr = [];
-
-            for (var i = 0, lengthI = $scope.searchBarArr.length; i < lengthI; i++) {
-                if (typeof $scope.searchBarArr[i] === "undefined") { // ignore undefined elements
-                    continue;
+            outerTerms = $scope.outerKeys.filter(function (term) { // outerTerms must match the last word
+                if (term.lastIndexOf(userInput, 0) === 0) { // = term.startsWith(userInput)
+                    return term;
                 }
-                var word = $scope.searchBarArr[i];
-                if (word[0] !== word[0].toLowerCase()) { // must be a noun or name
-                    searchBarArr.push(word.toLowerCase());
+            });
+
+
+            $scope.searchSuggestions = []; // delete all data from last call
+
+            // Determine how many terms are proposed, depending on how many outerTerms there are
+            var outerLength = outerTerms.length;
+            var numberInnerTerms;
+            if (outerLength <= 1) {
+                numberInnerTerms = 25;
+            }
+            else if (outerLength <= 2) {
+                numberInnerTerms = 5;
+            }
+            else {
+                numberInnerTerms = 3;
+            }
+
+            for (var i = 0; i < outerLength; i++) {
+                outerTerm = outerTerms[i];
+                if (typeof outerTerm !== "undefined") {
+                    innerTerms = $scope.getTopSortedCooccs(outerTerm, numberInnerTerms); // get top n inner Terms
+                    for (var j = 0, innerLength = innerTerms.length; j < innerLength; j++) {
+                        innerTerm = innerTerms[j];
+                        if (typeof innerTerm !== "undefined" && searchBarArr.indexOf(innerTerm) === -1) {
+                            // capitalize first letters
+                            outerTerm = outerTerm.charAt(0).toUpperCase() + outerTerm.slice(1);
+                            innerTerm = innerTerm.charAt(0).toUpperCase() + innerTerm.slice(1);
+                            suggestionString = outerTerm + " " + innerTerm; // this is displayed to the user
+                            $scope.searchSuggestions.push(suggestionString);
+                        }
+                    }
                 }
             }
-            return searchBarArr;
-        };
 
-        $scope.filterEnglishWords = function () {
-            // only work with english words:
-            var doc = nlp($scope.searchBarArr);
-            var nouns = doc.nouns().out('array');
-            var topics = doc.topics().out('array'); // people, places, organizations...
-            return nouns.concat(topics);
-            //console.log("result: " + searchBarArr);
-        };
+            if (typeof $scope.searchSuggestions !== "undefined" && $scope.searchSuggestions.length > 25) {
+                $scope.showSuggestions = $scope.searchSuggestions.slice(0, 25); // only show the top 25 suggestions
+            }
 
-        $scope.countFrequency = function (arr) {
-            return arr.reduce(function (stats, word) {
 
-                if (stats.hasOwnProperty(word)) {
-                    stats[word] = stats[word] + 1;
-                } else {
-                    stats[word] = 1;
+            /* Determine relevant term. The intersection of all cooccs of search terms currently in the search bar. */
+            $scope.relevantTerms = []; // delete all data from last call
+            innerTerms = [];
+
+            for (var i = 0, length = searchBarArr.length; i < length; i++) {
+                outerTerm = searchBarArr[i];
+                // term must be a outerKey in cooccs.
+                if (typeof outerTerm !== "undefined" && $scope.outerKeys.indexOf(outerTerm) !== -1) {
+                    innerTerms.push($scope.getSortedCooccs(outerTerm)); // all inner Terms; max 50
                 }
-                return stats;
+            }
 
-            }, {});
+            $scope.relevantTerms = ConverterService.getCommonElements(innerTerms); // intersection of all arrays
+            if (typeof $scope.relevantTerms !== "undefined" && $scope.relevantTerms.length > 10) {
+                $scope.relevantTerms = $scope.relevantTerms.slice(0, 10); // only display the top 10 common terms
+            }
+
+            $scope.showSuggestions = true;
+        };
+
+        /* appends the suggestion to the existing input*/
+        $scope.chooseSuggestion = function (string) {
+            var tempArray = $scope.searchBarArr;
+            tempArray.pop();
+            var tempString = tempArray.join(" ") + " ";
+            var finalInput = tempString + string;
+            SearchBarService.setInput(finalInput);
+            $scope.showSuggestions = false;
+            $scope.change(); // sync checkboxes with search bar input
+        };
+
+        $scope.chooseRelevantTerm = function (string) {
+            var finalInput = $scope.searchBarArr;
+            finalInput.push(string);
+            SearchBarService.setInput(finalInput.join(" "));
+            $scope.showSuggestions = false;
+            $scope.change(); // sync checkboxes with search bar input
+        };
+
+        /* user clicked the activate/deactivate autocomplete button */
+        $scope.changeAutoComplete = function () {
+            $scope.autoComplete = !$scope.autoComplete;
         };
 
         $scope.updateCooccs = function () {
@@ -1160,9 +1156,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                             var innercooccs = {};
                             innercooccs[wordb] = 1;
                             $scope.cooccs[currentWord] = innercooccs;
-
                             /* For example, the result has the form: cooccs['Mathematik']['Wissenschaft'] = 1; */
-                            //console.log('cooccs[' + currentWord + '] = ' + $scope.cooccs[ currentWord ][ wordb ]);
                         }
                     }
                 }
@@ -1196,12 +1190,8 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                             return newKeys.indexOf(innerKey) < 0;
                         });
                         var needlessKeys = sortedKeys.slice(50);
-                        console.log("needless Keys = " + needlessKeys);
                         needlessKeys.forEach(function (needlessKey) {
                             delete $scope.cooccs[worda][needlessKey]; // delete search terms with the lowest significance
-
-                            var str = JSON.stringify($scope.cooccs[worda], null, 4);
-                            console.log("cooccs[" + worda + "] = " + str);
                         });
                     }
                     else if (unsortedKeys.length > 25) { // cooccs is getting too full, delete the least important term
@@ -1212,11 +1202,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                             return newKeys.indexOf(innerKey) < 0;
                         });
                         var needlessKey = sortedKeys.pop();
-                        console.log("needlessKey = " + needlessKey);
                         delete $scope.cooccs[worda][needlessKey];
-
-                        var str = JSON.stringify($scope.cooccs[worda], null, 4);
-                        console.log("cooccs[" + worda + "] = " + str);
                     }
                 }
             )
@@ -1226,7 +1212,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             /* store cooccs in local web storage */
             LocalStorageService.setCooccs($scope.cooccs);
             LocalStorageService.saveCooccs();
-            // console.log("---------------------------------------------------------------------------------------------");
         }
         ;
 
