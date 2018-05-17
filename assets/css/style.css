@@ -137,6 +137,17 @@
     width: 77%;
     float: right;
     position: relative;
+    left: 2%;
+}
+
+.main .results {
+    position: relative;
+    left: 2%;
+}
+
+.main #error {
+    position: relative;
+    left: 2%;
 }
 
 .menu {
@@ -146,16 +157,20 @@
     box-sizing: border-box;
     top: 0px;
     left: 0;
-    overflow: auto;
     height: 100%;
     position: fixed;
     min-width: 1%;
     max-width: 49%;
     width: 23%;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-    overflow-y: scroll;
+    overflow-y: hidden;
     background-color: rgba(76, 143, 250, 0.13);
     resize: horizontal;
+    z-index: 1;
+}
+
+.menu:hover {
+    overflow-y: scroll;
 }
 
 .menu input[type="button"] {
@@ -189,7 +204,7 @@
     margin: auto;
     height: 250px;
     overflow-y: scroll;
-    z-index: 1;
+    z-index: 2;
     background-color: rgba(76, 143, 250, 0.13);
 }
 
@@ -203,7 +218,7 @@
     margin: auto;
     height: 250px;
     overflow-y: scroll;
-    z-index: 1;
+    z-index: 2;
     background-color: rgba(76, 143, 250, 0.13);
 }
 
