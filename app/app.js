@@ -29,7 +29,6 @@ app.config(['$stateProvider', function ($stateProvider) {
                     templateUrl: './app/components/errors/emptyKeywordsTopics.html'
                 }
             }
-
         })
 
         .state('timeout', {
@@ -63,12 +62,7 @@ app.config(['$stateProvider', function ($stateProvider) {
                     templateUrl: './app/components/help/dataProtection.html'
                 }
             }
-        })
-
-        .state('error', {
-            templateUrl: '{link}'
         });
-
 }]);
 
 // translations English('en') - German('de')
@@ -681,7 +675,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             try {
                 var expireDate = new Date();
                 expireDate.setDate(expireDate.getDate() + 1);
-                url = '#!' + url; // convert to cooccs bang url
+                url = '#!' + url; // convert to hash bang url
                 $cookies.put('reloadInfo', url, {expires: expireDate});
             }
             catch (err) {
