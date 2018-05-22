@@ -260,12 +260,12 @@ app.directive('resizable', function ($window) {
     return function ($scope) {
 
         $scope.leftMenu = document.getElementById('menu');
-        $scope.scrollbarWidth = getScrollbarWidth($scope.leftMenu);
+        $scope.scrollbarWidth = getScrollbarWidth();
 
         /** Functions */
 
         /* get browser default scrollbar width */
-        function getScrollbarWidth(element) {
+        function getScrollbarWidth() {
             var scrollbarWidth;
             var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
             if (isMac) {
@@ -273,13 +273,9 @@ app.directive('resizable', function ($window) {
                 scrollbarWidth = 15; // default value for mac os
             }
             else {
-                scrollbarWidth = element.getBoundingClientRect().width - element.scrollWidth;
-                if (isNaN(scrollbarWidth)) {
-                    console.log("cannot retrieve scrollbar width. Default value will be used");
-                    scrollbarWidth = 20;
-                }
+                scrollbarWidth = 20; // default scrollbar width
             }
-            return Math.round(scrollbarWidth) * 2; // we have two scrollbars
+            return scrollbarWidth;
         }
 
         /* adjusts the width of google search and results */

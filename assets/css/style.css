@@ -137,17 +137,20 @@
     width: 77%;
     float: right;
     position: relative;
-    left: 2%;
 }
 
 .main .results {
     position: relative;
-    left: 2%;
 }
 
 .main #error {
     position: relative;
-    left: 2%;
+    padding-left: 2%;
+}
+
+.main #dataProtection {
+    position: relative;
+    padding-left: 2%;
 }
 
 .menu {
@@ -160,7 +163,7 @@
     height: 100%;
     position: fixed;
     min-width: 1%;
-    max-width: 49%;
+    max-width: 40%;
     width: 23%;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
     overflow-y: hidden;
