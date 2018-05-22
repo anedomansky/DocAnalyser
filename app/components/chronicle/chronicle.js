@@ -1,4 +1,18 @@
-angular.module('myApp').service('LocalStorageService', function ($window) {
+/**
+ * @ngdoc service
+ * @name docanalyser.LocalStorageService
+ * @description This service provides a custom interface to the Webstorage API.
+ * Data can be stored persistently in the user's local memory.
+ * The standard way to store a object is:
+ * addObject(myObject); or setObject(object);
+ * and then
+ * saveObject(object);
+ * The standard way to load a object is:
+ * loadObject();
+ * and then
+ * getObject();
+ */
+angular.module('docanalyser').service('LocalStorageService', function ($window) {
 
     this.queries = []; // contains all saved queries after the page is loaded
     this.chronicleStatus = "undefined"; // indicates whether the chronicle function is activated or deactivated
@@ -28,8 +42,7 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
         return this.cooccs || {};
     };
 
-    /* Create a new query object
-    * NOTE: Prototype; few properties are still missing */
+    /* Create a new query object */
     this.newQuery = function (date, keywords, topics, title) {
         return {date: date, keywords: keywords, topics: topics, title: title};
     };
@@ -66,7 +79,16 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
         }
     };
 
-    /* Delete all saved queries */
+    /**
+     * @ngdoc
+     * @name docanalyser.LocalStorageService#clearQueries
+     * @methodOf docanalyser.LocalStorageService
+     *
+     * @description remove all Query Items stored in the local Storage.
+     * @example
+     * ret = LocalStorageService.clearQueries();
+     * @returns {boolean} indicates whether the deletion was successful
+     */
     this.clearQueries = function () {
         var ret = true;
         $window.localStorage.removeItem('queries');
@@ -79,8 +101,18 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
         return ret;
     };
 
-    /*  detects whether localStorage is both supported and available
-     * Credits to: https://developer.mozilla.org/de/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API */
+    /**
+     * @ngdoc
+     * @name docanalyser.LocalStorageService#clearQueries
+     * @methodOf docanalyser.LocalStorageService
+     *
+     * @description detects whether localStorage is both supported and available
+     * Credits to: https://developer.mozilla.org/de/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
+     * @example
+     * ret = LocalStorageService.storageAvailable("localStorage");
+     * @param {String} type specifies which storage type should be checked
+     * @returns {boolean} indicates whether the storage is available
+     */
     this.storageAvailable = function (type) {
         try {
             var storage = window[type],
@@ -108,7 +140,12 @@ angular.module('myApp').service('LocalStorageService', function ($window) {
 
 });
 
-angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $rootScope, LocalStorageService,
+/**
+ * @ngdoc controller
+ * @name docanalyser.controller:PastQueriesMenuCtrl
+ * @description test
+ */
+angular.module('docanalyser').controller('PastQueriesMenuCtrl', function ($scope, $rootScope, LocalStorageService,
                                                                     KeywordsService, TopicsService, FooterService) {
 
     $scope.queries = LocalStorageService.getQueries(); // array of queries
@@ -172,9 +209,14 @@ angular.module('myApp').controller('PastQueriesMenuCtrl', function ($scope, $roo
     $scope.init();
 });
 
-// custom filter to filter queries by date
-// items = all query items
-// dateRange = all, today, week, month, older
+/**
+ * @ngdoc filter
+ * @name docanalyser.filter:filterByDate
+ * @function
+ * @description custom filter to filter queries by date.
+ * The filter options are filtering by day, week, month or older than one month
+ * @returns {Object} filtered items
+ */
 app.filter('filterByDate', function () {
     return function (items, dateRange) {
         var filtered = [];

@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ui.router', 'ngRoute', 'ngCookies', 'pascalprecht.translate']);
+var app = angular.module('docanalyser', ['ui.router', 'ngRoute', 'ngCookies', 'pascalprecht.translate']);
 
 app.config(['$stateProvider', function ($stateProvider) {
 
@@ -256,6 +256,22 @@ app.config(function ($translateProvider) {
     $translateProvider.preferredLanguage('en');
 });
 
+/**
+ * @ngdoc directive
+ * @name docanalyser.directive:resizable
+ * @restrict 'AC'
+ * @element ANY
+ * @priority 1000
+ * @scope
+ * @description This directive causes the right-hand pane to adjust its width when resize events occur.
+ * "resize" events occur when the user changes the width of the left menu or the browser window size changes.
+ * @example
+    <example module="docanalyser">
+        <file name="search.html">
+            <div resizable ng-style="{width: searchWidth]"></div>
+        </file>
+    </example>
+ **/
 app.directive('resizable', function ($window) {
     return function ($scope) {
 
@@ -320,11 +336,23 @@ app.directive('resizable', function ($window) {
 
 /**
  * @ngdoc service
- * @name myApp.ConverterService // Provide the module and the service name
+ * @name docanalyser.UtilsService
+ * @description Provides a lot of useful features needed by multiple controllers.
  **/
-app.service('ConverterService', function () {
+app.service('UtilsService', function () {
 
-    /* convert array to Keywords/Topics Object */
+    /**
+     * @ngdoc
+     * @name docanalyser.UtilsService#arrToObject
+     * @methodOf docanalyser.UtilsService
+     *
+     * @description
+     * Method to convert an array to an term Object. The "selected" status is set to false for all elements.
+     * @example
+     * object = UtilsService.arrToObject(arr);
+     * @param {Array} arr the array to be converted.
+     * @returns {Object} converted term object.
+     */
     this.arrToObject = function (arr) {
         var rv = {};
         for (var i = 0, len = arr.length; i < len; ++i) {
@@ -335,7 +363,20 @@ app.service('ConverterService', function () {
         return rv;
     };
 
-    /* check if two arrays are equal or not */
+
+    /**
+     * @ngdoc
+     * @name docanalyser.UtilsService#arraysEqual
+     * @methodOf docanalyser.UtilsService
+     *
+     * @description
+     * checks if two arrays are equal or not.
+     * @example
+     * ret = UtilsService.arraysEqual(arr1, arr2);
+     * @param {Array} arr1 first array
+     * @param {Array} arr2 second array
+     * @returns {boolean} true if both arrays are equal, false if not.
+     */
     this.arraysEqual = function (a, b) {
         if (a instanceof Array && b instanceof Array) {
             if (a === b) return true;
@@ -355,9 +396,20 @@ app.service('ConverterService', function () {
         return false;
     };
 
-    /* Rounding function, see:
+    /**
+     * @ngdoc
+     * @name docanalyser.UtilsService#round
+     * @methodOf docanalyser.UtilsService
+     *
+     * @description
+     * Rounding function, see:
      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
      * for more info
+     * @example
+     * object = UtilsService.arrToObject(arr);
+     * @param {float} number number to be rounded
+     * @param {int} precision digits after the comma
+     * @returns {float} rounded number
      */
     this.round = function (number, precision) {
         var shift = function (number, precision, reverseShift) {
@@ -379,8 +431,18 @@ app.service('ConverterService', function () {
         });
     };
 
-    /* Determine the intersection of a set of arrays.
-     * Array structure should be: array[array1, array2, ..., arrayN] */
+    /**
+     * @ngdoc
+     * @name docanalyser.UtilsService#getCommonElements
+     * @methodOf docanalyser.UtilsService
+     *
+     * @description Determine the intersection of a set of arrays.
+     * Array structure should be array[array1, array2, ..., arrayN]
+     * @example
+     * newArr = UtilsService.getCommonElements(arrayContainer);
+     * @param {Array} array the array, that contains a set of arrays
+     * @returns {Array} intersection of all arrays
+     */
     this.getCommonElements = function (array) {
         var leftArr = array[0];
         var rightArr = array[1];
@@ -393,7 +455,12 @@ app.service('ConverterService', function () {
 
 });
 
-/* Service to get the current Language */
+
+/**
+ * @ngdoc service
+ * @name docanalyser.LanguageService
+ * @description Service for changing the language of the user interface
+ */
 app.service('LanguageService', function () {
     this.language = "";
 
@@ -407,6 +474,11 @@ app.service('LanguageService', function () {
 
 });
 
+/**
+ * @ngdoc service
+ * @name docanalyser.FooterService
+ * @description The service is responsible for displaying alerts in the lower footer area.
+ */
 app.service('FooterService', function () {
 
     this.warningDiv = {message: ""};
@@ -420,17 +492,41 @@ app.service('FooterService', function () {
         return this.showWarning;
     };
 
+    /**
+     * @ngdoc
+     * @name docanalyser.FooterService#showWarning
+     * @methodOf docanalyser.FooterService
+     *
+     * @description show a message in the footer area of the website.
+     * @example
+     * FooterService.showWarning("custom Message");
+     * @param {String} message message to be displayed
+     */
     this.showWarning = function (message) {
         this.warningDiv.message = message;
         this.showWarning.value = true;
     };
 
+    /**
+     * @ngdoc
+     * @name docanalyser.FooterService#hideWarning
+     * @methodOf docanalyser.FooterService
+     *
+     * @description close the custom message in the footer area of the website.
+     * @example
+     * FooterService.hideWarning();
+     */
     this.hideWarning = function () {
         this.showWarning.value = false;
     };
 
 });
 
+/**
+ * @ngdoc service
+ * @name docanalyser.TopicsService
+ * @description This service provides a custom interface for the topics.
+ */
 app.service('TopicsService', function () {
     this.topics = {};
 
@@ -440,6 +536,16 @@ app.service('TopicsService', function () {
         this.topics = topics;
     };
 
+    /**
+     * @ngdoc
+     * @name docanalyser.TopicsService#selectedTopics
+     * @methodOf docanalyser.TopicsService
+     *
+     * @description get the current selected topics.
+     * @example
+     * mySelectedTopics = TopicsService.selectedTopics();
+     * @returns {String} selected topics
+     */
     this.selectedTopics = function () {
         var selectedTopics = "";
         for (var topicName in this.topics) {
@@ -450,6 +556,16 @@ app.service('TopicsService', function () {
         return selectedTopics;
     };
 
+    /**
+     * @ngdoc
+     * @name docanalyser.TopicsService#getAll
+     * @methodOf docanalyser.TopicsService
+     *
+     * @description get all topics as array.
+     * @example
+     * myTopics = TopicsService.getAll();
+     * @returns {Array} all topics
+     */
     this.getAll = function () {
         for (var prop in this.topics) {
             if (Object.prototype.hasOwnProperty.call(this.topics, prop)) {
@@ -460,6 +576,16 @@ app.service('TopicsService', function () {
         return ret;
     };
 
+    /**
+     * @ngdoc
+     * @name docanalyser.TopicsService#changeStatus
+     * @methodOf docanalyser.TopicsService
+     *
+     * @description change the status of an topic
+     * @example
+     * TopicsService.changeStatus(myTopic);
+     * @param {Object} topic topic whose status is to be changed
+     */
     this.changeStatus = function (topic) {
         this.topics[topic] = !this.topics[topic];
     };
@@ -471,6 +597,11 @@ app.service('TopicsService', function () {
     /** End Functions */
 });
 
+/**
+ * @ngdoc service
+ * @name docanalyser.KeywordsService
+ * @description This service provides a custom interface for the keywords.
+ */
 app.service('KeywordsService', function () {
     this.keywords = {}; // all keywords
     this.topKeywords = []; // top 4 keywords
@@ -480,6 +611,16 @@ app.service('KeywordsService', function () {
         this.keywords = keywords;
     };
 
+    /**
+     * @ngdoc
+     * @name docanalyser.KeywordsService#selectedKeywords
+     * @methodOf docanalyser.KeywordsService
+     *
+     * @description get the current selected keywords.
+     * @example
+     * mySelectedKeywords = KeywordsService.selectedKeywords();
+     * @returns {String} selected keywords
+     */
     this.selectedKeywords = function () {
         var selectedKeywords = "";
         for (var keywordName in this.keywords) {
@@ -490,6 +631,16 @@ app.service('KeywordsService', function () {
         return selectedKeywords;
     };
 
+    /**
+     * @ngdoc
+     * @name docanalyser.KeywordsService#selectedKeywordsAsArr
+     * @methodOf docanalyser.KeywordsService
+     *
+     * @description get the current selected keywords as array.
+     * @example
+     * mySelectedKeywords = KeywordsService.selectedKeywordsAsArr();
+     * @returns {Array} selected keywords as Array
+     */
     this.selectedKeywordsAsArr = function () {
         var selectedKeywords = [];
         for (var keywordName in this.keywords) {
@@ -500,6 +651,16 @@ app.service('KeywordsService', function () {
         return selectedKeywords;
     };
 
+    /**
+     * @ngdoc
+     * @name docanalyser.KeywordsService#getAll
+     * @methodOf docanalyser.KeywordsService
+     *
+     * @description get all keywords as array.
+     * @example
+     * myTopics = KeywordsService.getAll();
+     * @returns {Array} all keywords
+     */
     this.getAll = function () {
         for (var prop in this.keywords) {
             if (Object.prototype.hasOwnProperty.call(this.keywords, prop)) {
@@ -510,6 +671,16 @@ app.service('KeywordsService', function () {
         return ret;
     };
 
+    /**
+     * @ngdoc
+     * @name docanalyser.KeywordsService#changeStatus
+     * @methodOf docanalyser.KeywordsService
+     *
+     * @description change the status of an keyword
+     * @example
+     * KeywordsService.changeStatus(myKeyword);
+     * @param {Object} keyword keyword whose status is to be changed
+     */
     this.changeStatus = function (keyword) {
         this.keywords[keyword] = !this.keywords[keyword];
     };
@@ -529,6 +700,11 @@ app.service('KeywordsService', function () {
     /** End Functions */
 });
 
+/**
+ * @ngdoc service
+ * @name docanalyser.SearchBarService
+ * @description This service provides a custom interface for the search bar.
+ */
 app.service('SearchBarService', function () {
     this.searchBar = {input: ""};
 
@@ -544,9 +720,22 @@ app.service('SearchBarService', function () {
     /** End Functions */
 });
 
+/**
+ * @ngdoc service
+ * @name docanalyser.ReloadService
+ * @description This service allows reloading the SPA.
+ */
 app.service('ReloadService', function ($cookies, $state, $location, $window) {
 
-    /* Changes the URL to the state stored in the cookie */
+    /**
+     * @ngdoc
+     * @name docanalyser.ReloadService#reloadUrl
+     * @methodOf docanalyser.ReloadService
+     *
+     * @description Changes the URL to the state stored in the reloadCookie.
+     * @example
+     * ReloadService.reloadUrl();
+     */
     this.reloadUrl = function () {
         var reloadCookie = $cookies.get('reloadInfo');
         if (angular.isDefined(reloadCookie)) { // cookie must be set
@@ -561,9 +750,9 @@ app.service('ReloadService', function ($cookies, $state, $location, $window) {
 /** Begin Angular Controllers */
 
 app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 'KeywordsService', 'TopicsService',
-    'LocalStorageService', 'ConverterService', '$cookies', 'FooterService',
+    'LocalStorageService', 'UtilsService', '$cookies', 'FooterService',
     function ($scope, $state, $stateParams, $location, KeywordsService,
-              TopicsService, LocalStorageService, ConverterService, $cookies, FooterService) {
+              TopicsService, LocalStorageService, UtilsService, $cookies, FooterService) {
 
         /** Functions */
         /* Get the request parameters from the url and place them as keywords and topics */
@@ -586,7 +775,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
                     topKeywords.push(keywords[i]);
                 }
                 KeywordsService.setTopKeywords(topKeywords);
-                keywordsObj = ConverterService.arrToObject(keywords);
+                keywordsObj = UtilsService.arrToObject(keywords);
                 // preselect the top 4 keywords
                 for (var i = 0; i < 4; i++) {
                     keywordsObj[keywords[i]] = true;
@@ -595,7 +784,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
                 // fill table with topics:
                 topics = $stateParams.h.split(";");
                 if (topics.length > 0) {
-                    topicsObj = ConverterService.arrToObject(topics);
+                    topicsObj = UtilsService.arrToObject(topics);
                     TopicsService.setTopics(topicsObj);
                 }
                 // get the url of the analysed web file
@@ -649,7 +838,7 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
                 for (var i = 0, len = queries.length; i < len; i++) {
                     if (title === queries[i].title) { // query with same page title is already stored
                         storedKeywords = Object.keys(queries[i].keywords); // its an array
-                        if (ConverterService.arraysEqual(currentKeywords, storedKeywords)) { // compare both arrays
+                        if (UtilsService.arraysEqual(currentKeywords, storedKeywords)) { // compare both arrays
                             return; // an equal query has already been saved; do not save it again
                         }
                     }
@@ -802,7 +991,7 @@ app.controller('TopicsMenuCtrl', function ($scope, $rootScope, TopicsService, Ke
 });
 
 app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, TopicsService, KeywordsService,
-                                            SearchBarService, $state, LocalStorageService, ConverterService, LanguageService) {
+                                            SearchBarService, $state, LocalStorageService, UtilsService, LanguageService) {
         $scope.topicsService = TopicsService;
         $scope.keywordsService = KeywordsService;
         $scope.searchBar = SearchBarService.getSearchBar(); // search bar
@@ -1056,7 +1245,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 }
             }
 
-            $scope.relevantTerms = ConverterService.getCommonElements(innerTerms); // intersection of all arrays
+            $scope.relevantTerms = UtilsService.getCommonElements(innerTerms); // intersection of all arrays
             if (typeof $scope.relevantTerms !== "undefined" && $scope.relevantTerms.length > 10) {
                 $scope.relevantTerms = $scope.relevantTerms.slice(0, 10); // only display the top 10 common terms
             }
@@ -1162,7 +1351,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                      * (2 * occurences of worda with wordb) / (occurences of worda + occurences of wordb)
                      */
                     significance = (2 * $scope.cooccs[worda][wordb]) / (frequency[worda] + frequency[wordb]);
-                    significance = ConverterService.round(significance, 2);
+                    significance = UtilsService.round(significance, 2);
                     $scope.cooccs[worda][wordb] = significance;
                     //console.log('Signifikanzberechnung: cooccs[' + worda + '][' + wordb + '] = ' + $scope.cooccs[worda][wordb])
                 });
@@ -1210,7 +1399,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 $scope.changeUrl();
             }
             if ($scope.searchBarArr.length > 1 &&
-                !ConverterService.arraysEqual($scope.searchBarArr, $scope.previousSearchBar)) {
+                !UtilsService.arraysEqual($scope.searchBarArr, $scope.previousSearchBar)) {
                 $scope.updateCooccs();
             }
         };

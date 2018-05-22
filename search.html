@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DocAnalyser Results</title>
+    <!-- build:css css/app-name.min.css -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <!-- endbuild -->
+
+    <!-- build:js js/app-name.min.js -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
@@ -16,8 +20,10 @@
 
     <script type="text/javascript" src="app/app.js"></script>
     <script type="text/javascript" src="app/components/chronicle/chronicle.js"></script>
+    <!-- endbuild -->
+
 </head>
-<body class="main" ng-app="myApp" ng-controller="TranslateController">
+<body class="main" ng-app="docanalyser" ng-controller="TranslateController">
 <div id="menu" class="menu" ng-controller="SideMenuCtrl">
     <div ng-controller="TranslateController">
         <button ng-if="!enLanguage" id="enLanguageButton" ng-click="changeLanguage()"></button>

@@ -1,0 +1,19 @@
+{
+  "name": "docanalyser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "npm": "^6.0.1"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.2",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-ngdocs": "^0.2.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tom2002/DocAnalyser.git"
+  },
+  "license": "ISC"
+}
