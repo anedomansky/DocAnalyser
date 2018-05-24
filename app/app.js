@@ -286,12 +286,12 @@ app.directive('resizable', function ($window) {
             var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
             if (isMac) {
                 console.log("mac os detected. Default value for scrollbar width will be used");
-                scrollbarWidth = 15; // default value for mac os
+                scrollbarWidth = 25; // default value for mac os
             }
             else {
-                scrollbarWidth = 20; // default scrollbar width
+                scrollbarWidth = 30; // default scrollbar width
             }
-            return scrollbarWidth;
+            return scrollbarWidth; // we have two scroll bars
         }
 
         /* adjusts the width of google search and results */
