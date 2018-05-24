@@ -266,9 +266,9 @@ app.config(function ($translateProvider) {
  * @description This directive causes the right-hand pane to adjust its width when resize events occur.
  * "resize" events occur when the user changes the width of the left menu or the browser window size changes.
  * @example
-    <example module="docanalyser">
-        <file name="search.html">
-            <div resizable ng-style="{width: searchWidth]"></div>
+ <example module="docanalyser">
+ <file name="search.html">
+ <div resizable ng-style="{width: searchWidth]"></div>
         </file>
     </example>
  **/
@@ -460,6 +460,7 @@ app.service('UtilsService', function () {
  * @ngdoc service
  * @name docanalyser.LanguageService
  * @description Service for changing the language of the user interface
+ * @property {String} language:String Global String that contains the current language.
  */
 app.service('LanguageService', function () {
     this.language = "";
@@ -478,6 +479,8 @@ app.service('LanguageService', function () {
  * @ngdoc service
  * @name docanalyser.FooterService
  * @description The service is responsible for displaying alerts in the lower footer area.
+ * @property {Object} warningDiv:Object Global object for the warning message.
+ * @property {Object} showWarning:Object Global object indicating whether to display a warning.
  */
 app.service('FooterService', function () {
 
@@ -526,6 +529,7 @@ app.service('FooterService', function () {
  * @ngdoc service
  * @name docanalyser.TopicsService
  * @description This service provides a custom interface for the topics.
+ * @property {Object} topics:Object Global object for the source topics.
  */
 app.service('TopicsService', function () {
     this.topics = {};
@@ -601,6 +605,8 @@ app.service('TopicsService', function () {
  * @ngdoc service
  * @name docanalyser.KeywordsService
  * @description This service provides a custom interface for the keywords.
+ * @property {Object} keywords:Object Global object for the keywords.
+ * @property {Array} topKeywords:Array Global array for the top four keywords.
  */
 app.service('KeywordsService', function () {
     this.keywords = {}; // all keywords
@@ -704,6 +710,7 @@ app.service('KeywordsService', function () {
  * @ngdoc service
  * @name docanalyser.SearchBarService
  * @description This service provides a custom interface for the search bar.
+ * @property {Object} searchBar:Object global object for the search bar.
  */
 app.service('SearchBarService', function () {
     this.searchBar = {input: ""};
@@ -749,13 +756,27 @@ app.service('ReloadService', function ($cookies, $state, $location, $window) {
 
 /** Begin Angular Controllers */
 
+/**
+ * @ngdoc controller
+ * @name docanalyser.controller:RequestCtrl
+ * @description Controller that receives and processes the request parameters.
+ */
 app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 'KeywordsService', 'TopicsService',
     'LocalStorageService', 'UtilsService', '$cookies', 'FooterService',
     function ($scope, $state, $stateParams, $location, KeywordsService,
               TopicsService, LocalStorageService, UtilsService, $cookies, FooterService) {
 
         /** Functions */
-        /* Get the request parameters from the url and place them as keywords and topics */
+
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:RequestCtrl#processRequestParameter
+         * @methodOf docanalyser.controller:RequestCtrl
+         * @description Get the request parameters from the url and place them as keywords and topics.
+         * Preselect the top four keywords. If all goes well, the program changes to the analysis view.
+         * @example
+         * processRequestParameter();
+         */
         $scope.processRequestParameter = function () {
             var keywords = [];
             var topics = [];
@@ -811,6 +832,14 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             }
         };
 
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:RequestCtrl#loadLocaleStroage
+         * @methodOf docanalyser.controller:RequestCtrl
+         * @description load all saved queries.
+         * @example
+         * loadLocaleStorage();
+         */
         $scope.loadLocaleStorage = function () {
             if (LocalStorageService.storageAvailable('localStorage')) {
                 // LocalStorage is available
@@ -823,6 +852,14 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
             }
         };
 
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:RequestCtrl#populateLocalStorage
+         * @methodOf docanalyser.controller:RequestCtrl
+         * @description save the current query into the local storage.
+         * @example
+         * populateLocalStorage();
+         */
         $scope.populateLocalStorage = function (keywords, topics, title) {
             if (LocalStorageService.storageAvailable('localStorage')) {
                 // LocalStorage is available
@@ -854,8 +891,14 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
 
         };
 
-        /* saves a cookie with the actual url;
-        * is used for the browser reload button */
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:RequestCtrl#setCookie
+         * @methodOf docanalyser.controller:RequestCtrl
+         * @description Saves a cookie with the actual url; is used for the browser reload button
+         * @example
+         * setCookie(url);
+         */
         $scope.setCookie = function (url) {
             try {
                 var expireDate = new Date();
@@ -873,7 +916,12 @@ app.controller('RequestCtrl', ['$scope', '$state', '$stateParams', '$location', 
 
     }]);
 
-
+/**
+ * @ngdoc controller
+ * @name docanalyser.controller:HelpCtrl
+ * @description Controller responsible for displaying or hiding the help texts.
+ * @property {boolean} popoverIsVisible:boolean Specifies whether the help text should be displayed.
+ */
 app.controller('HelpCtrl', function ($scope) {
     $scope.showHelp = function () {
         $scope.popoverIsVisible = true;
@@ -888,6 +936,11 @@ app.controller('SideMenuCtrl', function () {
 
 });
 
+/**
+ * @ngdoc controller
+ * @name docanalyser.controller:DropdownMenuCtrl
+ * @description Controller responsible for switching between analyse and chronicle view.
+ */
 app.controller('DropdownMenuCtrl', function ($scope, $state, SearchBarService) {
 
     /* user clicks on a drop down menu entry */
@@ -909,11 +962,25 @@ app.controller('DropdownMenuCtrl', function ($scope, $state, SearchBarService) {
     };
 });
 
+/**
+ * @ngdoc controller
+ * @name docanalyser.controller:KeywordsMenuCtrl
+ * @description Controller for the management of the keywords. Here user interactions are treated.
+ * @property {Object} keywords:Object Contains all keywords.
+ */
 app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, $state, KeywordsService, TopicsService, SearchBarService,
                                              ReloadService) {
         $scope.keywords = KeywordsService.keywords;
 
-        /* a query is loaded (from the Chronicle View) */
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:KeywordsMenuCtrl#queryLoaded
+         * @methodOf docanalyser.controller:KeywordsMenuCtrl
+         * @description A query is loaded (from the Chronicle View).
+         * The top four keywords are written in the search bar and a google search is performed.
+         * @example
+         * $rootScope.$broadcast('queryLoaded');
+         */
         $rootScope.$on('queryLoaded', function () {
             SearchBarService.setInput(""); // clear search bar input
             $scope.performSearch(); // 'click' the top 4 Keywords => put them into the search bar
@@ -928,7 +995,14 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, $state, Keyword
             return true;
         };
 
-        // user clicked a checkbox:
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:KeywordsMenuCtrl#clicked
+         * @methodOf docanalyser.controller:KeywordsMenuCtrl
+         * @description The user has checked a keywords checkbox.
+         * Informs the SearchInputCtrl that a term has been selected.
+         * @params {Object} keyword the selected keyword
+         */
         $scope.clicked = function (keyword) {
             var status = KeywordsService.keywords[keyword];
             if (TopicsService.getAll().indexOf(keyword) > -1) { //selected keyword is also a topic
@@ -939,7 +1013,13 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, $state, Keyword
 
         };
 
-        /* initialization */
+
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:KeywordsMenuCtrl#init
+         * @methodOf docanalyser.controller:KeywordsMenuCtrl
+         * @description Initialization stuff. Synchronizes the status of keywords and source topics.
+         */
         $scope.init = function () {
             if ($state.is('analyze')) { // we only need this function in the analyze view
                 // no keywords found; maybe a page reload
@@ -958,6 +1038,12 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, $state, Keyword
             }
         };
 
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:KeywordsMenuCtrl#performSearch
+         * @methodOf docanalyser.controller:KeywordsMenuCtrl
+         * @description Synchronizes the status of keywords and source topics and perform a google search.
+         */
         $scope.performSearch = function () {
             // The objects are already set to true, but if the keywords are topics at the same time,
             // they must also be manually clicked to transfer the object status of the keywords to the topics
@@ -972,13 +1058,25 @@ app.controller('KeywordsMenuCtrl', function ($scope, $rootScope, $state, Keyword
         $scope.init();
 
     }
-)
-;
+);
 
+/**
+ * @ngdoc controller
+ * @name docanalyser.controller:TopicsMenuCtrl
+ * @description Controller for the management of the source topics. Here user interactions are treated.
+ * @property {Object} topics:Object Contains all source topics.
+ */
 app.controller('TopicsMenuCtrl', function ($scope, $rootScope, TopicsService, KeywordsService) {
     $scope.topics = TopicsService.topics;
 
-    // user clicked a checkbox:
+    /**
+     * @ngdoc function
+     * @name docanalyser.controller:TopicsMenuCtrl#clicked
+     * @methodOf docanalyser.controller:TopicsMenuCtrl
+     * @description The user has checked a source topics checkbox.
+     * Informs the SearchInputCtrl that a term has been selected.
+     * @params {Object} topic the selected source topic
+     */
     $scope.clicked = function (topic) {
         var status = $scope.topics[topic];
 
@@ -990,6 +1088,21 @@ app.controller('TopicsMenuCtrl', function ($scope, $rootScope, TopicsService, Ke
     }
 });
 
+/**
+ * @ngdoc controller
+ * @name docanalyser.controller:SearchInputCtrl
+ * @description Controller for the management of the search bar. Here user interactions are treated and the cooccs hash
+ * is maintained.
+ * @property {Object} searchBar:Object The search bar Object.
+ * @property {Array} searchBarArr:Array The search bar input as array.
+ * @property {Object} cooccs:Object The cooccs hash.
+ * @property {Array} selectedTerms:Array Contains the selected Terms (checkboxes).
+ * @property {boolean} showSuggestions:boolean Determines whether search suggestions are displayed.
+ * @property {boolean} autoComplete:boolean Determines whether search suggestions and relevant terms are displayed.
+ * @property {Array} searchSuggestions:Array Contains the search suggestions.
+ * @property {Array} relevantTerms:Array Contains the relevant terms.
+ *
+ */
 app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, TopicsService, KeywordsService,
                                             SearchBarService, $state, LocalStorageService, UtilsService, LanguageService) {
         $scope.topicsService = TopicsService;
@@ -1101,7 +1214,16 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
         /** Angular Functions */
 
-        /* url has changed -> maybe back or previous button was pressed */
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:SearchInputCtrl#locationChangeSuccess
+         * @methodOf docanalyser.controller:SearchInputCtrl
+         * @description The url has changed -> maybe back or previous button was pressed.
+         * Synchronize the search bar input with the url. Disable the browser back button for the chronicle view.
+         * @params {Object} scope the scope Object
+         * @params {String} next the new url
+         * @params {String} current the current url
+         */
         $rootScope.$on('$locationChangeSuccess', function (scope, next, current) {
 
             if (next !== current) { // new url must be different
@@ -1121,7 +1243,14 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             }
         });
 
-        /* a term was selected or deselected */
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:SearchInputCtrl#selectedTermsChanged
+         * @methodOf docanalyser.controller:SearchInputCtrl
+         * @description A term was selected or deselected. The term is added or removed from the search bar.
+         * @params {Object} event
+         * @params {Object} args passed parameters; the selected term.
+         */
         $rootScope.$on('selectedTermsChanged', function (event, args) {
             var status = args.status; // true for selected; false for deselected
             var selectedTerm = args.term; // keyword or topic
@@ -1148,7 +1277,13 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             }, 0);
         });
 
-        /* terms were selected or deselected */
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:SearchInputCtrl#watchGroup
+         * @methodOf docanalyser.controller:SearchInputCtrl
+         * @description Terms were selected or deselected. Maintain the selectedTerms and searchBarArr properties.
+         * @params {Array} newValues contrains the new selected terms
+         */
         $scope.$watchGroup(['keywordsService.selectedKeywords()', 'topicsService.selectedTopics()'], function (newValues) {
 
             // newValues array contains the current values of the watch expressions
@@ -1158,8 +1293,13 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             $scope.searchBarArr = $scope.searchBar.input.split(/\s+/); // maintain searchBarArr
         });
 
-
-        /*user manually change the search bar input */
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:SearchInputCtrl#change
+         * @methodOf docanalyser.controller:SearchInputCtrl
+         * @description The user manually change the search bar input.
+         * Synchronize the search bar input with the status of the checkboxes.
+         */
         $scope.change = function () {
             $scope.searchBarArr = $scope.searchBar.input.split(/\s+/);
 
@@ -1176,6 +1316,13 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             }
         };
 
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:SearchInputCtrl#searching
+         * @methodOf docanalyser.controller:SearchInputCtrl
+         * @description The user has entered something in the search bar.
+         * Search suggestions and relevant terms are determined here.
+         */
         $scope.searching = function () {
             var outerTerms;
             var innerTerms = [];
@@ -1253,7 +1400,14 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             $scope.showSuggestions = true;
         };
 
-        /* appends the suggestion to the existing input*/
+
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:SearchInputCtrl#chooseSuggestion
+         * @methodOf docanalyser.controller:SearchInputCtrl
+         * @description The user has selected a search suggestion. Appends the suggestion to the existing search bar input.
+         * @params {String} string the selected search suggestion
+         */
         $scope.chooseSuggestion = function (string) {
             var tempArray = $scope.searchBarArr;
             tempArray.pop();
@@ -1264,6 +1418,13 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             $scope.change(); // sync checkboxes with search bar input
         };
 
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:SearchInputCtrl#chooseRelevantTerm
+         * @methodOf docanalyser.controller:SearchInputCtrl
+         * @description The user has selected a relevant term. Appends the term to the existing search bar input.
+         * @params {String} string the selected relevant term
+         */
         $scope.chooseRelevantTerm = function (string) {
             var finalInput = $scope.searchBarArr;
             finalInput.push(string);
@@ -1277,6 +1438,13 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             $scope.autoComplete = !$scope.autoComplete;
         };
 
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:SearchInputCtrl#updateCooccs
+         * @methodOf docanalyser.controller:SearchInputCtrl
+         * @description The user has performed a google search. Here the cooccs hash is updated.
+         * Only nouns and names are considered.
+         */
         $scope.updateCooccs = function () {
 
             /* ! IMPORTANT !
@@ -1394,6 +1562,12 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         }
         ;
 
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:SearchInputCtrl#click
+         * @methodOf docanalyser.controller:SearchInputCtrl
+         * @description The user has clicked the search button. The url is updated with the new search terms.
+         */
         $scope.click = function () {
             if ($state.is('analyze')) { // change the url only in the analyze view
                 $scope.changeUrl();
@@ -1408,7 +1582,12 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             $scope.searchBarArr = $scope.searchBar.input.split(/\s+/);
         });
 
-        /* initialization things that have to be done while loading the controller */
+        /**
+         * @ngdoc function
+         * @name docanalyser.controller:SearchInputCtrl#init
+         * @methodOf docanalyser.controller:SearchInputCtrl
+         * @description Initialization stuff. Load the stored cooccs hash.
+         */
         $scope.init = function () {
             LocalStorageService.loadCooccs();
             $scope.cooccs = LocalStorageService.getCooccs();
@@ -1417,15 +1596,29 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
         $scope.init();
     }
-)
-;
+);
 
+/**
+ * @ngdoc controller
+ * @name docanalyser.controller:FooterCtrl
+ * @description Controller responsible for displaying alerts and other information at the bottom of the webpage.
+ * @property {boolean} showWarning:boolean Specifies whether to display a warning.
+ * @property {String} warningDiv:String Content of the warning
+ */
 app.controller('FooterCtrl', function ($scope, $cookies, FooterService) {
 
     $scope.showWarning = FooterService.getShowWarning();
     $scope.warningDiv = FooterService.getWarningDiv();
 
     /* Cookie warning */
+    /**
+     * @ngdoc function
+     * @name docanalyser.controller:FooterCtrl#setCookieValue
+     * @methodOf docanalyser.controller:FooterCtrl
+     * @description The user has consented to the use of cookies.
+     * An appropriate cookie is set for the page to remember this decision.
+     * @params {String} value 'agreed' string
+     */
     $scope.setCookieValue = function (value) {
         var now = new Date();
         var expirationDate = new Date();
@@ -1442,6 +1635,13 @@ app.controller('FooterCtrl', function ($scope, $cookies, FooterService) {
         $scope.setCookieValue('agreed');
     };
 
+    /**
+     * @ngdoc function
+     * @name docanalyser.controller:FooterCtrl#hasAgreed
+     * @methodOf docanalyser.controller:FooterCtrl
+     * @description Check if the user has consented to the use of cookies.
+     * @returns {boolean} true if yes
+     */
     $scope.hasAgreed = function () {
         var agreementCookie = $cookies.get('agreement');
         return (angular.isDefined(agreementCookie) && agreementCookie === 'agreed'); // cookie must be set
@@ -1454,8 +1654,13 @@ app.controller('FooterCtrl', function ($scope, $cookies, FooterService) {
 
 });
 
-// handles the translation through a 'translate'-filter
-app.controller('TranslateController', function ($translate, $scope, LanguageService) {
+/**
+ * @ngdoc controller
+ * @name docanalyser.controller:TranslateCtrl
+ * @description Handles the translation through a 'translate'-filter.
+ * @property {boolean} enLanguage:boolean Indicates whether the interface is English.
+ */
+app.controller('TranslateCtrl', function ($translate, $scope, LanguageService) {
 
     $scope.enLanguage = true;
     LanguageService.setLanguage("en");

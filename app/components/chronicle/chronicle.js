@@ -11,6 +11,9 @@
  * loadObject();
  * and then
  * getObject();
+ * @property {Array} queries:Array Global Array that contains the stored queries.
+ * @property {String} chronicleStatus:String Global String that indicates whether the user wants to save queries.
+ * @property {Object} cooccs:Object Global Object that contains the stored cooccs hash.
  */
 angular.module('docanalyser').service('LocalStorageService', function ($window) {
 
@@ -143,7 +146,10 @@ angular.module('docanalyser').service('LocalStorageService', function ($window) 
 /**
  * @ngdoc controller
  * @name docanalyser.controller:PastQueriesMenuCtrl
- * @description test
+ * @description Controller for the management of the saved searches.
+ * @property {boolean} chronicleStatus:boolean Specifies whether the user wants to save queries or not.
+ * @property {Array} chronicleStatus:Array Contains the stored queries.
+ * @property {String} searchText:String Contains the filter input.
  */
 angular.module('docanalyser').controller('PastQueriesMenuCtrl', function ($scope, $rootScope, LocalStorageService,
                                                                     KeywordsService, TopicsService, FooterService) {
@@ -156,13 +162,21 @@ angular.module('docanalyser').controller('PastQueriesMenuCtrl', function ($scope
         false: 0,
         0: false,
         1: true
-        // TO DO: default case?
     };
 
     /** Functions */
 
-    /* Load a query:
-     * set loaded keywords, topics, top 4 keywords and perform a google search */
+    /**
+     * @ngdoc function
+     * @name docanalyser.controller:PastQueriesMenuCtrl#loadQuery
+     * @methodOf docanalyser.controller:PastQueriesMenuCtrl
+     *
+     * @description  Load a query:
+     * set loaded keywords, topics, top 4 keywords and perform a google search
+     * @example
+     * loadQuery(mySelectedQuery);
+     * @param {Object} query Query to be loaded
+     */
     $scope.loadQuery = function (query) {
         KeywordsService.setKeywords(query.keywords);
         TopicsService.setTopics(query.topics);
@@ -171,7 +185,16 @@ angular.module('docanalyser').controller('PastQueriesMenuCtrl', function ($scope
         $rootScope.$emit('queryLoaded', ""); // Roughly speaking for the google search
     };
 
-    /* user clicked the Clear History button */
+    /**
+     * @ngdoc function
+     * @name docanalyser.controller:PastQueriesMenuCtrl#clearHistory
+     * @methodOf docanalyser.controller:PastQueriesMenuCtrl
+     *
+     * @description user clicked the Clear History button. All stored queries are deleted.
+     * @example
+     * clearHistory();
+     * @returns {boolean} true if all queries could be deleted
+     */
     $scope.clearHistory = function () {
         if (!LocalStorageService.clearQueries()) {
             FooterService.showWarning('Something went wrong. Your History can not be deleted.');
@@ -186,7 +209,15 @@ angular.module('docanalyser').controller('PastQueriesMenuCtrl', function ($scope
         LocalStorageService.saveChronicleStatus();
     };
 
-    /* initialization stuff */
+    /**
+     * @ngdoc function
+     * @name docanalyser.controller:PastQueriesMenuCtrl#init
+     * @methodOf docanalyser.controller:PastQueriesMenuCtrl
+     * @description Initialization stuff. In case of page reload, stored queries are reloaded again.
+     * The chronicle status is loaded or set to true at the first page view.
+     * @example
+     * init();
+     */
     $scope.init = function () {
         // in case of page reload; reload the stored queries again:
         if ($scope.queries != null && $scope.queries.length != null && $scope.queries.length < 1) {
