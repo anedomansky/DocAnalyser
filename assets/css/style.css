@@ -132,9 +132,7 @@
 }
 
 .main #search {
-    padding-top: 10px;
-    padding-right: 10px;
-    padding-bottom: 30px;
+    padding: 10px 10px 30px;
     box-sizing: border-box;
     width: 77%;
     float: right;
