@@ -5,6 +5,16 @@ NG_DOCS={
   "pages": [
     {
       "section": "api",
+      "id": "docanalyser",
+      "shortName": "docanalyser",
+      "type": "overview",
+      "moduleName": "docanalyser",
+      "shortDescription": "New graphical interface for the DocAnalyser.",
+      "keywords": "api de docanalyser graphical http interface overview",
+      "isDeprecated": false
+    },
+    {
+      "section": "api",
       "id": "docanalyser.controller:DropdownMenuCtrl",
       "shortName": "DropdownMenuCtrl",
       "type": "controller",
@@ -199,7 +209,7 @@ NG_DOCS={
   },
   "html5Mode": false,
   "editExample": true,
-  "startPage": "/api",
+  "startPage": "api/docanalyser",
   "scripts": [
     "angular.min.js",
     "src.js"

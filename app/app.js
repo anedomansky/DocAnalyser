@@ -1,3 +1,8 @@
+/**
+ * @ngdoc overview
+ * @name docanalyser
+ * @description New graphical interface for the {@link http://www.docanalyser.de/ DocAnalyser}.
+ */
 var app = angular.module('docanalyser', ['ui.router', 'ngRoute', 'ngCookies', 'pascalprecht.translate']);
 
 app.config(['$stateProvider', function ($stateProvider) {
