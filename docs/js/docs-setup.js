@@ -200,7 +200,7 @@ NG_DOCS={
       "type": "service",
       "moduleName": "docanalyser",
       "shortDescription": "Provides a lot of useful features needed by multiple controllers.",
-      "keywords": "api arr arr1 arr2 array array2 arrayn arrays arraysequal arrtoobject checks comma controllers convert converted determine digits docanalyser elements equal false features function getcommonelements https info intersection lot method mozilla multiple needed newarr number object org precision ret round rounded rounding second selected service set status structure term true utilsservice",
+      "keywords": "api arr arr1 arr2 array array2 arrayn arrays arraysequal arrtoobject browser checks client comma controllers convert converted determine digits docanalyser elements equal explorer false features function getcommonelements https included info internet intersection isie lot method mozilla multiple needed newarr number object org precision ret round rounded rounding second selected service set status structure term true utilsservice",
       "isDeprecated": false
     }
   ],

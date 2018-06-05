@@ -458,6 +458,27 @@ app.service('UtilsService', function () {
         return this.getCommonElements([this.intersect(leftArr, rightArr)].concat(rest));
     };
 
+    /**
+     * @ngdoc
+     * @name docanalyser.UtilsService#isIE
+     * @methodOf docanalyser.UtilsService
+     *
+     * @description Checks if the Client Browser is Internet Explorer (Edge not included).
+     * @example
+     * isIE = UtilsService.isIE();
+     * @returns {boolean} true if Browser is Internet Explorer
+     */
+    this.isIE = function () {
+        var isIE = false;
+        var userAgent = window.navigator.userAgent;
+        var old_ie = userAgent.indexOf('MSIE ');
+        var new_ie = userAgent.indexOf('Trident/');
+        if ((old_ie > -1) || (new_ie > -1)) {
+            isIE = true;
+        }
+        return isIE;
+    };
+
 });
 
 
@@ -1474,11 +1495,11 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
             var langKey = LanguageService.getLanguage();
 
-            if (langKey === "en") {
-                searchBarArr = $scope.filterEnglishWords();
+            if (langKey === "de" || UtilsService.isIE()) { // IE does not support compromise
+                searchBarArr = $scope.filterGermanWords();
             }
             else {
-                searchBarArr = $scope.filterGermanWords();
+                searchBarArr = $scope.filterEnglishWords();
             }
 
             // example: frequency[Mathematik] = 1 means Mathematik once occurred in the search input
