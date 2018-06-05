@@ -1421,6 +1421,10 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             SearchBarService.setInput(finalInput);
             $scope.showSuggestions = false;
             $scope.change(); // sync checkboxes with search bar input
+            var searchInput = document.getElementById('q');
+            if (typeof searchInput !== 'undefined' && searchInput) {
+                angular.element(searchInput).focus();
+            }
         };
 
         /**
@@ -1436,6 +1440,10 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             SearchBarService.setInput(finalInput.join(" "));
             $scope.showSuggestions = false;
             $scope.change(); // sync checkboxes with search bar input
+            var searchInput = document.getElementById('q');
+            if (typeof searchInput !== 'undefined' && searchInput) {
+                angular.element(searchInput).focus();
+            }
         };
 
         /* user clicked the activate/deactivate autocomplete button */
