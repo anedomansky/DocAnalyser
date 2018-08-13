@@ -1357,6 +1357,22 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             var suggestionString = "";
             var searchBarArr = $scope.searchBar.input.toLowerCase().split(/\s+/); // search terms (all lower case)
             var userInput = $scope.lastWord($scope.searchBar.input); // last word of the search bar
+
+            /* allow the user to execute a search with the 'enter'-key */
+            document.addEventListener("keydown", function(event) {
+                if(event.keyCode === 13) {
+                    angular.element(document.querySelector('#customSearch')).click(); // execute google search
+                }
+            });
+
+            /* hide the term suggestions if the textarea field is empty */
+            if($scope.searchBar.input.length === 0) {
+                document.getElementById("terms").style.display = "none";   
+            }
+            else if($scope.searchBar.input.length > 0) {
+                document.getElementById("terms").style.display = "block";
+            } 
+
             if (userInput === "") {
                 return; // no user Input; do nothing
             }
@@ -1425,7 +1441,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
             $scope.showSuggestions = true;
         };
-
 
         /**
          * @ngdoc function
