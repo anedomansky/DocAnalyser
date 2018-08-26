@@ -1202,7 +1202,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
         $scope.filterGermanWords = function () {
             var searchBarArr = [];
-
             for (var i = 0, lengthI = $scope.searchBarArr.length; i < lengthI; i++) {
                 if (typeof $scope.searchBarArr[i] === "undefined") { // ignore undefined elements
                     continue;
@@ -1510,7 +1509,17 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
             var langKey = LanguageService.getLanguage();
 
-            if (langKey === "de" || UtilsService.isIE()) { // IE does not support compromise
+            var umlaut = false;
+            var searchBar = SearchBarService.getSearchBar();
+
+            // check whether an "umlaut" is in the search input / cooccs
+            for(var i = 0, lengthI = $scope.searchBarArr.length; i < lengthI; i++) {
+                if($scope.searchBarArr[i].search(/[ÄÜÖäüö]/) !== -1) {
+                    umlaut = true;
+                } 
+            }
+
+            if (langKey === "de" || UtilsService.isIE() || umlaut) { // IE does not support compromise
                 searchBarArr = $scope.filterGermanWords();
             }
             else {
