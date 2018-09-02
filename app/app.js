@@ -1513,6 +1513,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             var outerKeys = [];
             var newKeys = []; // is needed so that new terms are not deleted directly when the cooccs hash is full.
             var searchBarArr = [];
+            var german = 0;
 
             var langKey = LanguageService.getLanguage();
 
@@ -1521,16 +1522,18 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             // check whether an "umlaut" is in the search input / cooccs
             for(var i = 0; i < $scope.searchBarArr.length; i++) {
                 if($scope.searchBarArr[i].search(/[ÄÜÖäüö]/) !== -1 || $scope.searchBarArr[i].charAt(0) === $scope.searchBarArr[i].charAt(0).toUpperCase()) {
-                    $scope.umlaut = true;
+                    german++;
                 } 
             }
 
+            if($scope.searchBarArr.length === german) {
+                $scope.umlaut = true;
+            }
+
             if (langKey === "de" || UtilsService.isIE() || $scope.umlaut) { // IE does not support compromise
-                console.log('german');
                 searchBarArr = $scope.filterGermanWords();
             }
             else {
-                console.log('english');
                 searchBarArr = $scope.filterEnglishWords();
             }
 
