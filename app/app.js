@@ -1143,6 +1143,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
         $scope.searchSuggestions = [];
         $scope.relevantTerms = [];
         $scope.autoComplete = true; // determines whether search suggestions and relevant terms are displayed
+        $scope.umlaut = false;
 
         /** Functions */
 
@@ -1185,10 +1186,13 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             var keysSorted = Object.keys($scope.cooccs[outerKey]).sort(function (a, b) {
                 return $scope.cooccs[outerKey][b] - $scope.cooccs[outerKey][a];
             });
-            // capitalize first letters
-            keysSorted.forEach(function (element, i) {
-                keysSorted[i] = keysSorted[i].charAt(0).toUpperCase() + keysSorted[i].slice(1);
-            });
+            // capitalize first letters for German words
+            if($scope.umlaut) {
+                keysSorted.forEach(function (element, i) {
+                    keysSorted[i] = keysSorted[i].charAt(0).toUpperCase() + keysSorted[i].slice(1);
+                });
+            }
+            
             return keysSorted;
         };
 
@@ -1406,10 +1410,12 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                     for (var j = 0, innerLength = innerTerms.length; j < innerLength; j++) {
                         innerTerm = innerTerms[j];
                         if (typeof innerTerm !== "undefined" && searchBarArr.indexOf(innerTerm) === -1) {
-                            // capitalize first letters
-                            // TODO: test for German Words
-                            outerTerm = outerTerm.charAt(0).toUpperCase() + outerTerm.slice(1);
-                            innerTerm = innerTerm.charAt(0).toUpperCase() + innerTerm.slice(1);
+                            // capitalize first letters for German words
+                            if($scope.umlaut) {
+                                outerTerm = outerTerm.charAt(0).toUpperCase() + outerTerm.slice(1);
+                                innerTerm = innerTerm.charAt(0).toUpperCase() + innerTerm.slice(1);
+                            }
+                            
                             suggestionString = outerTerm + " " + innerTerm; // this is displayed to the user
                             $scope.searchSuggestions.push(suggestionString);
                         }
@@ -1430,7 +1436,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 outerTerm = searchBarArr[i];
                 // term must be a outerKey in cooccs.
                 if (typeof outerTerm !== "undefined" && $scope.outerKeys.indexOf(outerTerm) !== -1) {
-                    // TODO: test for German words
                     innerTerms.push($scope.getSortedCooccs(outerTerm)); // all inner Terms; max 50
                 }
             }
@@ -1511,19 +1516,21 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
 
             var langKey = LanguageService.getLanguage();
 
-            var umlaut = false;
+            $scope.umlaut = false;
 
             // check whether an "umlaut" is in the search input / cooccs
             for(var i = 0; i < $scope.searchBarArr.length; i++) {
-                if($scope.searchBarArr[i].search(/[ÄÜÖäüö]/) !== -1) {
-                    umlaut = true;
+                if($scope.searchBarArr[i].search(/[ÄÜÖäüö]/) !== -1 || $scope.searchBarArr[i].charAt(0) === $scope.searchBarArr[i].charAt(0).toUpperCase()) {
+                    $scope.umlaut = true;
                 } 
             }
 
-            if (langKey === "de" || UtilsService.isIE() || umlaut) { // IE does not support compromise
+            if (langKey === "de" || UtilsService.isIE() || $scope.umlaut) { // IE does not support compromise
+                console.log('german');
                 searchBarArr = $scope.filterGermanWords();
             }
             else {
+                console.log('english');
                 searchBarArr = $scope.filterEnglishWords();
             }
 
