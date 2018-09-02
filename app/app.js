@@ -1510,10 +1510,9 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             var langKey = LanguageService.getLanguage();
 
             var umlaut = false;
-            var searchBar = SearchBarService.getSearchBar();
 
             // check whether an "umlaut" is in the search input / cooccs
-            for(var i = 0, lengthI = $scope.searchBarArr.length; i < lengthI; i++) {
+            for(var i = 0; i < $scope.searchBarArr.length; i++) {
                 if($scope.searchBarArr[i].search(/[ÄÜÖäüö]/) !== -1) {
                     umlaut = true;
                 } 
