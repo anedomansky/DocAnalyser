@@ -1407,6 +1407,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                         innerTerm = innerTerms[j];
                         if (typeof innerTerm !== "undefined" && searchBarArr.indexOf(innerTerm) === -1) {
                             // capitalize first letters
+                            // TODO: test for German Words
                             outerTerm = outerTerm.charAt(0).toUpperCase() + outerTerm.slice(1);
                             innerTerm = innerTerm.charAt(0).toUpperCase() + innerTerm.slice(1);
                             suggestionString = outerTerm + " " + innerTerm; // this is displayed to the user
@@ -1429,6 +1430,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 outerTerm = searchBarArr[i];
                 // term must be a outerKey in cooccs.
                 if (typeof outerTerm !== "undefined" && $scope.outerKeys.indexOf(outerTerm) !== -1) {
+                    // TODO: test for German words
                     innerTerms.push($scope.getSortedCooccs(outerTerm)); // all inner Terms; max 50
                 }
             }

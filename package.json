@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "all-the-german-words": "^1.1.0",
     "npm": "^6.0.1"
   },
   "devDependencies": {
