@@ -80,7 +80,7 @@ app.config(function ($translateProvider) {
         SELECT_DE: 'German',
         SELECT_EN: 'English',
         VIEWS: 'Change View',
-        ANALYZE_VIEW: 'Analyze',
+        ANALYZE_VIEW: 'Analyse',
         CHRONICLE_VIEW: 'Chronicle',
         CHAIR_COM_NETWORK: 'Chair of Communication Networks',
         COOKIE_WARNING: 'This website uses cookies. ' +
@@ -1212,18 +1212,24 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 }
                 var word = $scope.searchBarArr[i];
                 if (word[0] !== word[0].toLowerCase()) { // must be a noun or name
-                    searchBarArr.push(word.toLowerCase());
+                    searchBarArr.push(word);
+                    // searchBarArr.push(word.toLowerCase());
                 }
             }
             return searchBarArr;
         };
 
         $scope.filterEnglishWords = function () {
-            // only work with english words:
-            var doc = nlp($scope.searchBarArr);
-            var nouns = doc.nouns().out('array');
-            var topics = doc.topics().out('array'); // people, places, organizations...
-            return nouns.concat(topics);
+            var searchBarArr = [];
+            for (var i = 0, lengthI = $scope.searchBarArr.length; i < lengthI; i++) {
+                if (typeof $scope.searchBarArr[i] === "undefined") { // ignore undefined elements
+                    continue;
+                }
+                var word = $scope.searchBarArr[i];
+                searchBarArr.push(word);
+                // searchBarArr.push(word.toLowerCase());
+            }
+            return searchBarArr;
         };
 
         $scope.countFrequency = function (arr) {
@@ -1358,7 +1364,8 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             var outerTerm = "";
             var innerTerm = "";
             var suggestionString = "";
-            var searchBarArr = $scope.searchBar.input.toLowerCase().split(/\s+/); // search terms (all lower case)
+            // var searchBarArr = $scope.searchBar.input.toLowerCase().split(/\s+/); // search terms (all lower case)
+            var searchBarArr = $scope.searchBar.input.split(/\s+/); // search terms (all lower case)
             var userInput = $scope.lastWord($scope.searchBar.input); // last word of the search bar
 
             /* allow the user to execute a search with the 'enter'-key */
@@ -1379,7 +1386,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             if (userInput === "") {
                 return; // no user Input; do nothing
             }
-            userInput = userInput.toLowerCase();
+            // userInput = userInput.toLowerCase();
 
             outerTerms = $scope.outerKeys.filter(function (term) { // outerTerms must match the last word
                 if (term.lastIndexOf(userInput, 0) === 0) { // = term.startsWith(userInput)
@@ -1590,7 +1597,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                     significance = (2 * $scope.cooccs[worda][wordb]) / (frequency[worda] + frequency[wordb]);
                     significance = UtilsService.round(significance, 2);
                     $scope.cooccs[worda][wordb] = significance;
-                    //console.log('Signifikanzberechnung: cooccs[' + worda + '][' + wordb + '] = ' + $scope.cooccs[worda][wordb])
                 });
             });
 
