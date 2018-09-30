@@ -1213,7 +1213,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 var word = $scope.searchBarArr[i];
                 if (word[0] !== word[0].toLowerCase()) { // must be a noun or name
                     searchBarArr.push(word);
-                    // searchBarArr.push(word.toLowerCase());
                 }
             }
             return searchBarArr;
@@ -1227,7 +1226,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
                 }
                 var word = $scope.searchBarArr[i];
                 searchBarArr.push(word);
-                // searchBarArr.push(word.toLowerCase());
             }
             return searchBarArr;
         };
@@ -1364,8 +1362,7 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             var outerTerm = "";
             var innerTerm = "";
             var suggestionString = "";
-            // var searchBarArr = $scope.searchBar.input.toLowerCase().split(/\s+/); // search terms (all lower case)
-            var searchBarArr = $scope.searchBar.input.split(/\s+/); // search terms (all lower case)
+            var searchBarArr = $scope.searchBar.input.split(/\s+/); // search terms 
             var userInput = $scope.lastWord($scope.searchBar.input); // last word of the search bar
 
             /* allow the user to execute a search with the 'enter'-key */
@@ -1386,7 +1383,6 @@ app.controller('SearchInputCtrl', function ($scope, $rootScope, $location, Topic
             if (userInput === "") {
                 return; // no user Input; do nothing
             }
-            // userInput = userInput.toLowerCase();
 
             outerTerms = $scope.outerKeys.filter(function (term) { // outerTerms must match the last word
                 if (term.lastIndexOf(userInput, 0) === 0) { // = term.startsWith(userInput)
